@@ -7,7 +7,9 @@ import { Header } from './components/Header';
 import { Sidebar, ActiveTab } from './components/Sidebar';
 import { DashboardMain } from './views/DashboardMain';
 import { DashboardDues } from './views/DashboardDues';
+import { DashboardDuesStats } from './views/DashboardDuesStats';
 import { DashboardMaintenance } from './views/DashboardMaintenance';
+import { DashboardMaintenanceStats } from './views/DashboardMaintenanceStats';
 import { CompoundContracts } from './views/CompoundContracts';
 import { CompoundUnits } from './views/CompoundUnits';
 import { TenantsList } from './views/TenantsList';
@@ -505,21 +507,19 @@ function MainApp() {
             )}
 
             {activeTab === 'dashboard_dues' && (
-              <DashboardDues
+              <DashboardDuesStats
                 dues={dues}
                 contracts={contracts}
-                tenants={tenants}
-                onRecordPayment={handleRecordPayment}
-                selectedCompoundId="1"
+                payments={payments}
+                onNavigate={setActiveTab}
               />
             )}
 
             {activeTab === 'dashboard_maintenance' && (
-              <DashboardMaintenance
+              <DashboardMaintenanceStats
                 maintenanceRequests={maintenanceRequests}
-                onAddRequest={handleAddMaintenanceRequest}
-                onUpdateStatus={handleUpdateMaintenanceStatus}
-                selectedCompoundId="1"
+                staffMembers={staffMembers}
+                onNavigate={setActiveTab}
               />
             )}
 
