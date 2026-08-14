@@ -268,7 +268,7 @@ export interface Expense {
   notes?: string;
 }
 
-export type FacilityCategory = 'Pool' | 'Shuttle' | 'Gym' | 'SecurityPass' | 'BBQ' | 'Hall';
+export type FacilityCategory = 'Pool' | 'Shuttle' | 'Gym' | 'SecurityPass' | 'BBQ' | 'Hall' | 'WeddingHall' | 'Playground' | 'Restaurant';
 
 export interface Facility {
   id: string;
@@ -282,6 +282,28 @@ export interface Facility {
   capacityLimit?: number;
   isAvailable: boolean;
   image: string;
+}
+
+export type FacilityBookingStatus = 'Pending' | 'Approved' | 'Rejected' | 'Cancelled' | 'Completed';
+
+export interface FacilityBooking {
+  id: string;
+  bookingNo: string;
+  facilityId: string;
+  facilityName?: string;
+  tenantId: string;
+  tenantName: string;
+  unitNumber: string;
+  mobile?: string;
+  bookingDate: string;
+  startTime: string;
+  endTime: string;
+  guestsCount: number;
+  purpose: string;
+  status: FacilityBookingStatus;
+  createdAt: string;
+  adminNotes?: string;
+  approvedBy?: string;
 }
 
 export interface PaymentRecord {
@@ -353,24 +375,5 @@ export interface Notification {
   createdAt: string;
 }
 
-export type BookingStatus = 'Confirmed' | 'Pending' | 'Cancelled' | 'CheckedIn';
 
-export interface FacilityBooking {
-  id: string;
-  bookingCode: string;
-  facilityId: string;
-  facilityName: string;
-  tenantName: string;
-  tenantId?: string;
-  unitNumber: string;
-  phone: string;
-  bookingDate: string;
-  timeSlot: string;
-  guestsCount: number;
-  visitorName?: string; // For security passes
-  visitorPlate?: string; // For security passes
-  status: BookingStatus;
-  createdAt: string;
-  notes?: string;
-}
 

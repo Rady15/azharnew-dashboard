@@ -17,7 +17,9 @@ import {
   MessageSquareWarning,
   UserCheck,
   Receipt,
-  Mail
+  Mail,
+  PartyPopper,
+  Calendar
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -38,6 +40,8 @@ export type ActiveTab =
   | 'azhar_staff'
   | 'azhar_expenses'
   | 'azhar_letters'
+  | 'azhar_facilities'
+  | 'azhar_facility_bookings'
   | 'water_meters'
   | 'electricity_meters'
   | 'all_tenants'
@@ -61,6 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     dashboards: true,
     azhar_residence: true,
+    facilities_group: true,
     utilities: false,
     tenants: false
   });
@@ -313,7 +318,49 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {/* GROUP 3: WATER & ELECTRICITY */}
+          {/* GROUP 3: FACILITIES & BOOKINGS */}
+          <div className="mb-2">
+            <button
+              onClick={() => toggleGroup('facilities_group')}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50"
+            >
+              <div className="flex items-center gap-2">
+                <PartyPopper className="w-4 h-4 text-rose-300" />
+                <span>{t('group_facilities')}</span>
+              </div>
+              {isRtl ? (
+                <ChevronLeft className={`w-3.5 h-3.5 transition-transform duration-200 ${openGroups.facilities_group ? '-rotate-90' : ''}`} />
+              ) : (
+                <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${openGroups.facilities_group ? 'rotate-90' : ''}`} />
+              )}
+            </button>
+
+            {openGroups.facilities_group && (
+              <div className={`mt-1 space-y-0.5 ${isRtl ? 'pr-4 border-r-2 mr-3' : 'pl-4 border-l-2 ml-3'} border-slate-800`}>
+                <button
+                  onClick={() => handleSelect('azhar_facilities')}
+                  className={`w-full text-start px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
+                    activeTab === 'azhar_facilities' ? 'bg-[#29b4c4] text-white font-semibold' : 'hover:bg-slate-800/80 text-slate-300'
+                  }`}
+                >
+                  <PartyPopper className="w-3.5 h-3.5 text-rose-300" />
+                  <span>{t('facilities')}</span>
+                </button>
+
+                <button
+                  onClick={() => handleSelect('azhar_facility_bookings')}
+                  className={`w-full text-start px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
+                    activeTab === 'azhar_facility_bookings' ? 'bg-[#29b4c4] text-white font-semibold' : 'hover:bg-slate-800/80 text-slate-300'
+                  }`}
+                >
+                  <Calendar className="w-3.5 h-3.5 text-cyan-300" />
+                  <span>{t('facility_bookings')}</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* GROUP 4: WATER & ELECTRICITY */}
           <div className="mb-2">
             <button
               onClick={() => toggleGroup('utilities')}

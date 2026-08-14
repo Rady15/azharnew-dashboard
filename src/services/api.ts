@@ -1,4 +1,4 @@
-import { Tenant, Contract, Unit, ElectricityMeter, MaintenanceRequest, MaintenanceStatus, WaterMeter, Complaint, ComplaintStatus, ComplaintPriority, StaffMember, StaffStatus, Expense, DueItem, PaymentRecord, PaymentInstallment, Company, Letter, Announcement, RentReport, Notification } from '../types';
+import { Tenant, Contract, Unit, ElectricityMeter, MaintenanceRequest, MaintenanceStatus, WaterMeter, Complaint, ComplaintStatus, ComplaintPriority, StaffMember, StaffStatus, Expense, DueItem, PaymentRecord, PaymentInstallment, Company, Letter, Announcement, RentReport, Notification, Facility, FacilityBooking, FacilityBookingStatus } from '../types';
 
 // Allow switching backend via VITE_API_BASE (e.g. local dev server), default to the real Azhar API.
 const viteEnv = (import.meta as any).env || {};
@@ -951,10 +951,91 @@ export const apiService = {
   },
 
   // Facilities
-  async getFacilities(): Promise<any[]> {
+  async getFacilities(): Promise<Facility[]> {
     const res = await authedFetch('/Facilities');
     if (!res.ok) throw new Error('Failed to fetch facilities');
-    return asList(await res.json());
+    return asList(await res.json()).map((f: any) => ({
+      id: f.id,
+      name: f.name || f.nameAr || '',
+      nameEn: f.nameEn || f.name || '',
+      category: f.category || 'Hall',
+      iconName: f.iconName || '',
+      description: f.description || '',
+      location: f.location || '',
+      operatingHours: f.operatingHours || '',
+      capacityLimit: Number(f.capacityLimit || 0),
+      isAvailable: f.isAvailable !== false,
+      image: f.image || ''
+    }));
+  },
+
+  async createFacility(data: Omit<Facility, 'id'>): Promise<Facility> {
+    const res = await authedFetch('/Facilities', { method: 'POST', body: JSON.stringify(data) });
+    if (!res.ok) throw new Error('Failed to create facility');
+    const created = await res.json();
+    return { ...data, id: created.id || String(Date.now()) };
+  },
+
+  async updateFacility(id: string, data: Partial<Facility>): Promise<Facility> {
+    const res = await authedFetch(`/Facilities/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+    if (!res.ok) throw new Error('Failed to update facility');
+    const updated = await res.json();
+    return { ...data, id } as Facility;
+  },
+
+  async deleteFacility(id: string): Promise<void> {
+    const res = await authedFetch(`/Facilities/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete facility');
+  },
+
+  // Facility Bookings
+  async getFacilityBookings(): Promise<FacilityBooking[]> {
+    const res = await authedFetch('/FacilityBookings');
+    if (!res.ok) throw new Error('Failed to fetch facility bookings');
+    return asList(await res.json()).map((b: any) => ({
+      id: b.id,
+      bookingNo: b.bookingNo || b.bookingNumber || '',
+      facilityId: b.facilityId || '',
+      facilityName: b.facilityName || '',
+      tenantId: b.tenantId || '',
+      tenantName: b.tenantName || '',
+      unitNumber: b.unitNumber || '',
+      mobile: b.mobile || '',
+      bookingDate: dateOnly(b.bookingDate),
+      startTime: b.startTime || '',
+      endTime: b.endTime || '',
+      guestsCount: Number(b.guestsCount || 0),
+      purpose: b.purpose || '',
+      status: b.status || 'Pending',
+      createdAt: b.createdAt || '',
+      adminNotes: b.adminNotes || '',
+      approvedBy: b.approvedBy || ''
+    }));
+  },
+
+  async createFacilityBooking(data: Omit<FacilityBooking, 'id' | 'bookingNo' | 'createdAt' | 'status'> & { status?: FacilityBookingStatus }): Promise<FacilityBooking> {
+    const res = await authedFetch('/FacilityBookings', { method: 'POST', body: JSON.stringify(data) });
+    if (!res.ok) throw new Error('Failed to create facility booking');
+    const created = await res.json();
+    return {
+      ...data,
+      status: (data.status || 'Pending') as FacilityBookingStatus,
+      id: created.id || String(Date.now()),
+      bookingNo: created.bookingNo || `FBK-${Date.now()}`,
+      createdAt: created.createdAt || new Date().toISOString()
+    };
+  },
+
+  async updateFacilityBooking(id: string, data: Partial<FacilityBooking>): Promise<FacilityBooking> {
+    const res = await authedFetch(`/FacilityBookings/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+    if (!res.ok) throw new Error('Failed to update facility booking');
+    const updated = await res.json();
+    return { ...data, id } as FacilityBooking;
+  },
+
+  async deleteFacilityBooking(id: string): Promise<void> {
+    const res = await authedFetch(`/FacilityBookings/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete facility booking');
   },
 
   // Reports

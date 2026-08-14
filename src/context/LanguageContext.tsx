@@ -41,6 +41,9 @@ const translations: Record<Language, Record<string, string>> = {
     staff: 'فريق العمل والاستاف',
     expenses: 'المصروفات وسندات الصرف',
     letters: 'الخطابات والمراسلات',
+    facilities: 'المرافق',
+    facility_bookings: 'حجوزات المرافق',
+    group_facilities: 'المرافق والحجوزات',
 
     group_utilities: 'الخدمات والمرافق',
     water_meters: 'عدادات المياه',
@@ -157,6 +160,9 @@ const translations: Record<Language, Record<string, string>> = {
     staff: 'Staff & Team',
     expenses: 'Expenses & Vouchers',
     letters: 'Letters & Correspondence',
+    facilities: 'Facilities',
+    facility_bookings: 'Facility Bookings',
+    group_facilities: 'Facilities & Bookings',
 
     group_utilities: 'Utilities & Services',
     water_meters: 'Water Meters',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { User, Unit, Building, Tenant, Contract, DueItem, MaintenanceRequest, MaintenanceStatus, WaterMeter, ElectricityMeter, Complaint, StaffMember, Expense, ComplaintStatus, StaffStatus, PaymentRecord, Company, Letter, Announcement } from './types';
-import { initialUser, initialBuildings, initialContracts, initialDues, initialElectricityMeters, initialMaintenanceRequests, initialTenants, initialUnits, initialWaterMeters, initialComplaints, initialStaff, initialExpenses } from './data/initialData';
+import { User, Unit, Building, Tenant, Contract, DueItem, MaintenanceRequest, MaintenanceStatus, WaterMeter, ElectricityMeter, Complaint, StaffMember, Expense, ComplaintStatus, StaffStatus, PaymentRecord, Company, Letter, Announcement, Facility, FacilityBooking, FacilityBookingStatus } from './types';
+import { initialUser, initialBuildings, initialContracts, initialDues, initialElectricityMeters, initialMaintenanceRequests, initialTenants, initialUnits, initialWaterMeters, initialComplaints, initialStaff, initialExpenses, initialFacilities, initialFacilityBookings } from './data/initialData';
 import { apiService, ensureAuth } from './services/api';
 import { Login } from './components/Login';
 import { Header } from './components/Header';
@@ -20,6 +20,8 @@ import { StaffPortalView } from './views/StaffPortalView';
 import { TenantPortalView } from './views/TenantPortalView';
 import { ExpensesView } from './views/ExpensesView';
 import { LettersView } from './views/LettersView';
+import { FacilitiesView } from './views/FacilitiesView';
+import { FacilityBookingsView } from './views/FacilityBookingsView';
 import { PatchNotesView } from './views/PatchNotesView';
 import { LanguageProvider } from './context/LanguageContext';
 import { NotificationProvider } from './context/NotificationContext';
@@ -70,6 +72,8 @@ function MainApp() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [letters, setLetters] = useState<Letter[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [facilities, setFacilities] = useState<Facility[]>(initialFacilities);
+  const [facilityBookings, setFacilityBookings] = useState<FacilityBooking[]>(initialFacilityBookings);
   const [serverProfile, setServerProfile] = useState<any>(null);
 
   // Load state from real Azhar backend server
@@ -92,10 +96,12 @@ function MainApp() {
         apiService.getCompanies(),
         apiService.getLetters(),
         apiService.getAnnouncements(),
+        apiService.getFacilities(),
+        apiService.getFacilityBookings(),
         apiService.getProfile()
       ]);
 
-      const [tenantsRes, unitsRes, contractsRes, duesRes, maintRes, complaintsRes, staffRes, expensesRes, elecRes, waterRes, paymentsRes, companiesRes, lettersRes, announcementsRes, profileRes] = all;
+      const [tenantsRes, unitsRes, contractsRes, duesRes, maintRes, complaintsRes, staffRes, expensesRes, elecRes, waterRes, paymentsRes, companiesRes, lettersRes, announcementsRes, facilitiesRes, facilityBookingsRes, profileRes] = all;
 
       if (tenantsRes.status === 'fulfilled' && tenantsRes.value.length > 0) setTenants(tenantsRes.value);
       if (unitsRes.status === 'fulfilled' && unitsRes.value.length > 0) setUnits(unitsRes.value);
@@ -111,6 +117,8 @@ function MainApp() {
       if (companiesRes.status === 'fulfilled') setCompanies(companiesRes.value);
       if (lettersRes.status === 'fulfilled') setLetters(lettersRes.value);
       if (announcementsRes.status === 'fulfilled') setAnnouncements(announcementsRes.value);
+      if (facilitiesRes.status === 'fulfilled' && facilitiesRes.value.length > 0) setFacilities(facilitiesRes.value);
+      if (facilityBookingsRes.status === 'fulfilled' && facilityBookingsRes.value.length > 0) setFacilityBookings(facilityBookingsRes.value);
       if (profileRes.status === 'fulfilled' && profileRes.value) {
         setServerProfile(profileRes.value);
         const profileImageUrl = profileRes.value.profileImageUrl;
@@ -423,6 +431,71 @@ function MainApp() {
     setLetters(prev => prev.filter(l => l.id !== id));
   };
 
+  const handleAddFacility = async (facility: Omit<Facility, 'id'>) => {
+    try {
+      const created = await apiService.createFacility(facility);
+      setFacilities(prev => [created, ...prev.filter(f => f.name !== created.name)]);
+    } catch {
+      setFacilities(prev => [{ ...facility, id: String(Date.now()) }, ...prev]);
+    }
+  };
+
+  const handleUpdateFacility = async (updated: Facility) => {
+    try {
+      const replaced = await apiService.updateFacility(updated.id, updated);
+      setFacilities(prev => prev.map(f => f.id === updated.id ? replaced : f));
+    } catch {
+      setFacilities(prev => prev.map(f => f.id === updated.id ? updated : f));
+    }
+  };
+
+  const handleDeleteFacility = async (id: string) => {
+    try {
+      await apiService.deleteFacility(id);
+    } catch {
+      // ignore error
+    }
+    setFacilities(prev => prev.filter(f => f.id !== id));
+  };
+
+  const handleAddBooking = async (booking: Omit<FacilityBooking, 'id' | 'bookingNo' | 'createdAt'>) => {
+    try {
+      const created = await apiService.createFacilityBooking(booking);
+      setFacilityBookings(prev => [created, ...prev.filter(b => b.bookingNo !== created.bookingNo)]);
+    } catch {
+      const fallback: FacilityBooking = {
+        ...booking,
+        id: String(Date.now()),
+        bookingNo: `FBK-${Date.now()}`,
+        createdAt: new Date().toISOString()
+      };
+      setFacilityBookings(prev => [fallback, ...prev]);
+    }
+  };
+
+  const handleUpdateBookingStatus = async (id: string, status: FacilityBookingStatus, adminNotes?: string) => {
+    const adminName = currentUser?.name || 'Admin';
+    try {
+      const replaced = await apiService.updateFacilityBooking(id, {
+        status,
+        adminNotes,
+        approvedBy: status === 'Approved' ? adminName : undefined
+      });
+      setFacilityBookings(prev => prev.map(b => b.id === id ? replaced : b));
+    } catch {
+      setFacilityBookings(prev => prev.map(b => b.id === id ? { ...b, status, adminNotes, approvedBy: status === 'Approved' ? adminName : b.approvedBy } : b));
+    }
+  };
+
+  const handleDeleteBooking = async (id: string) => {
+    try {
+      await apiService.deleteFacilityBooking(id);
+    } catch {
+      // ignore error
+    }
+    setFacilityBookings(prev => prev.filter(b => b.id !== id));
+  };
+
   const handleUpdateStaffPassword = (staffId: string, newPass: string) => {
     setStaffMembers(prev => prev.map(s => s.id === staffId ? { ...s, password: newPass } : s));
   };
@@ -668,6 +741,27 @@ function MainApp() {
                 onAddLetter={handleAddLetter}
                 onUpdateLetter={handleUpdateLetter}
                 onDeleteLetter={handleDeleteLetter}
+              />
+            )}
+
+            {activeTab === 'azhar_facilities' && (
+              <FacilitiesView
+                facilities={facilities}
+                bookings={facilityBookings}
+                onAddFacility={handleAddFacility}
+                onUpdateFacility={handleUpdateFacility}
+                onDeleteFacility={handleDeleteFacility}
+              />
+            )}
+
+            {activeTab === 'azhar_facility_bookings' && (
+              <FacilityBookingsView
+                facilities={facilities}
+                bookings={facilityBookings}
+                tenants={tenants}
+                onAddBooking={handleAddBooking}
+                onUpdateBookingStatus={handleUpdateBookingStatus}
+                onDeleteBooking={handleDeleteBooking}
               />
             )}
 
