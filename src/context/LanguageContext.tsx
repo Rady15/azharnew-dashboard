@@ -116,7 +116,6 @@ const translations: Record<Language, Record<string, string>> = {
     paid_amount: 'المبلغ المدفوع',
     remaining_amount: 'المبلغ المتبقي',
     payment_method: 'طريقة الدفع',
-    verified_in_ejar: 'موثق في إيجار',
     yes: 'نعم',
     no: 'لا',
 
@@ -235,7 +234,6 @@ const translations: Record<Language, Record<string, string>> = {
     paid_amount: 'Paid Amount',
     remaining_amount: 'Remaining Amount',
     payment_method: 'Payment Method',
-    verified_in_ejar: 'Ejar Verified',
     yes: 'Yes',
     no: 'No',
 

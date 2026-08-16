@@ -37,10 +37,10 @@ const refreshTokens = new Map<string, { userId: string; expiresAt: number }>();
 const usersStore = [
   {
     id: "b88b8ee5-e721-47aa-bf7e-bb75c9a4facf",
-    username: "m.barmada",
+    username: "admin",
     email: "admin@azhar.com",
     password: process.env.ADMIN_PASSWORD || "Admin@123",
-    fullName: "Mohammed Barmada",
+    fullName: "Administrator",
     role: "Admin"
   }
 ];
@@ -155,7 +155,6 @@ let contractsStore = [
     tenantMobile: "0539111781",
     emergencyPhone: "0566027120",
     nationalId: "",
-    representativeName: "Mohammed Barmada",
     contractOf: "Mohammed Barmada",
     leaseStartDate: "2023-10-02",
     leaseEndDate: "2024-10-01",
@@ -170,10 +169,6 @@ let contractsStore = [
     paymentMethod: "Quarterly",
     paymentNumber: "PAY-1001",
     electricityMeterNumber: "482835",
-    verifiedInEjar: true,
-    transferAccountToTenant: true,
-    insurance: 1000,
-    commission: 500,
     englishNotes: "Standard residential lease contract",
     arabicNotes: "عقد إيجار سكني كمبوند أزهار",
     status: "Active",
@@ -209,8 +204,8 @@ let housesStore = [
 let staffStore = [
   {
     id: "b88b8ee5-e721-47aa-bf7e-bb75c9a4facf",
-    fullName: "Mohammed Barmada",
-    email: "m.barmada@azhar-residence.com",
+    fullName: "Administrator",
+    email: "admin@azhar-residence.com",
     phoneNumber: "0550896224",
     role: "Admin",
     isActive: true
@@ -455,7 +450,6 @@ async function startServer() {
       tenantMobile: body.tenantMobile || body.TenantMobile || "",
       emergencyPhone: body.emergencyPhone || body.EmergencyPhone || "",
       nationalId: body.nationalId || body.NationalId || "",
-      representativeName: body.representativeName || body.RepresentativeName || "Mohammed Barmada",
       contractOf: body.contractOf || body.ContractOf || "Mohammed Barmada",
       leaseStartDate: body.leaseStartDate || body.LeaseStartDate || "2024-01-01",
       leaseEndDate: body.leaseEndDate || body.LeaseEndDate || "2025-01-01",
@@ -470,10 +464,6 @@ async function startServer() {
       paymentMethod: body.paymentMethod || body.PaymentMethod || "Quarterly",
       paymentNumber: body.paymentNumber || body.PaymentNumber || "",
       electricityMeterNumber: body.electricityMeterNumber || body.ElectricityMeterNumber || "",
-      verifiedInEjar: body.verifiedInEjar !== undefined ? Boolean(body.verifiedInEjar) : true,
-      transferAccountToTenant: body.transferAccountToTenant !== undefined ? Boolean(body.transferAccountToTenant) : true,
-      insurance: Number(body.insurance || body.Insurance || 0),
-      commission: Number(body.commission || body.Commission || 0),
       englishNotes: body.englishNotes || body.EnglishNotes || "",
       arabicNotes: body.arabicNotes || body.ArabicNotes || "",
       status: body.status || "Active",
@@ -507,7 +497,6 @@ async function startServer() {
       tenantMobile: body.tenantMobile ?? existing.tenantMobile,
       emergencyPhone: body.emergencyPhone ?? existing.emergencyPhone,
       nationalId: body.nationalId ?? existing.nationalId,
-      representativeName: body.representativeName ?? existing.representativeName,
       contractOf: body.contractOf ?? existing.contractOf,
       leaseStartDate: body.leaseStartDate ?? existing.leaseStartDate,
       leaseEndDate: body.leaseEndDate ?? existing.leaseEndDate,
@@ -522,10 +511,6 @@ async function startServer() {
       paymentMethod: body.paymentMethod ?? existing.paymentMethod,
       paymentNumber: body.paymentNumber ?? existing.paymentNumber,
       electricityMeterNumber: body.electricityMeterNumber ?? existing.electricityMeterNumber,
-      verifiedInEjar: body.verifiedInEjar !== undefined ? Boolean(body.verifiedInEjar) : existing.verifiedInEjar,
-      transferAccountToTenant: body.transferAccountToTenant !== undefined ? Boolean(body.transferAccountToTenant) : existing.transferAccountToTenant,
-      insurance: body.insurance !== undefined ? Number(body.insurance) : existing.insurance,
-      commission: body.commission !== undefined ? Number(body.commission) : existing.commission,
       englishNotes: body.englishNotes ?? existing.englishNotes,
       arabicNotes: body.arabicNotes ?? existing.arabicNotes,
       status: body.status ?? existing.status,

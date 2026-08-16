@@ -41,7 +41,7 @@ export const PatchNotesView: React.FC = () => {
           </div>
           <p className="text-slate-500 font-mono">Cookie Auth: .AspNetCore.Identity</p>
           <span className="inline-block mt-2 px-2 py-0.5 bg-cyan-100 text-cyan-800 rounded font-bold text-[10px]">
-            ACTIVE SESSION (m.barmada)
+            ACTIVE SESSION (admin)
           </span>
         </div>
 

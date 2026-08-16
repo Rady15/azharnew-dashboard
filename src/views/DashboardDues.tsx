@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { 
   DollarSign, 
   Search, 
@@ -18,15 +18,14 @@ import {
   CheckCircle2, 
   CreditCard 
 } from 'lucide-react';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 import { Contract, Tenant, DueItem } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { EditTenantModal } from '../components/EditTenantModal';
 import { ContractDetailsModal } from '../components/ContractDetailsModal';
 import { ContractNotesModal } from '../components/ContractNotesModal';
+import { FloatingDropdown } from '../components/FloatingDropdown';
+import { exportExcelReport, exportPDFReport } from '../utils/reportExport';
 
 interface DashboardDuesProps {
   dues?: DueItem[];
@@ -38,7 +37,7 @@ interface DashboardDuesProps {
   selectedCompoundId?: string;
 }
 
-type SortField = 'unitNumber' | 'unitType' | 'tenantName' | 'tenantMobile' | 'representativeName' | 'annualRent' | 'remainingAmount' | 'leaseEndDate' | 'daysLeft' | 'notes';
+type SortField = 'unitNumber' | 'unitType' | 'tenantName' | 'tenantMobile' | 'annualRent' | 'remainingAmount' | 'leaseEndDate' | 'daysLeft' | 'notes';
 type SortOrder = 'asc' | 'desc' | null;
 
 export const DashboardDues: React.FC<DashboardDuesProps> = ({
@@ -61,6 +60,7 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
 
   // Dropdown open row state
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const dropdownTriggers = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   // Modals state
   const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
@@ -71,155 +71,29 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
 
   const [showNotesModal, setShowNotesModal] = useState(false);
 
-  // Derive rows matching screenshot Image 2
-  // If contracts list is provided, use contracts; otherwise fallback to default list
+  // Derive rows from real contracts
   const collectionsData = useMemo(() => {
-    // Default list matching Image 2
-    const defaultList = [
-      {
-        id: '1',
-        unitNumber: '197',
-        unitType: 'Villa',
-        tenantName: 'Muhannad Rajab Mohammed Salamah',
-        tenantMobile: '0553014805',
-        representativeName: 'Mohamed Khair',
-        annualRent: 90000,
-        remainingAmount: 45000,
-        leaseEndDate: '2024/09/29',
-        notesText: '',
-        contractNo: '20230929197'
-      },
-      {
-        id: '2',
-        unitNumber: '211',
-        unitType: 'Appartment',
-        tenantName: 'Wesam Adam Haidar',
-        tenantMobile: '0552226701',
-        representativeName: 'Mohamed Khair',
-        annualRent: 40000,
-        remainingAmount: 30000,
-        leaseEndDate: '2024/09/30',
-        notesText: '',
-        contractNo: '20230930211'
-      },
-      {
-        id: '3',
-        unitNumber: '203',
-        unitType: 'Appartment',
-        tenantName: 'ivan pugliese',
-        tenantMobile: '0550896224',
-        representativeName: 'Mohammed Barmada',
-        annualRent: 45000,
-        remainingAmount: 30000,
-        leaseEndDate: '2024/10/01',
-        notesText: '',
-        contractNo: '20231001203'
-      },
-      {
-        id: '4',
-        unitNumber: '239',
-        unitType: 'Appartment',
-        tenantName: 'Alexandros Tzouros',
-        tenantMobile: '0506302641',
-        representativeName: 'Mohammed Barmada',
-        annualRent: 45000,
-        remainingAmount: 30000,
-        leaseEndDate: '2024/10/01',
-        notesText: '',
-        contractNo: '20231001239'
-      },
-      {
-        id: '5',
-        unitNumber: '230',
-        unitType: 'Appartment',
-        tenantName: 'luke wheeler',
-        tenantMobile: '0558238013',
-        representativeName: 'Mohammed Barmada',
-        annualRent: 40000,
-        remainingAmount: 26667,
-        leaseEndDate: '2024/10/01',
-        notesText: '',
-        contractNo: '20231001230'
-      },
-      {
-        id: '6',
-        unitNumber: '198',
-        unitType: 'Villa Duplex',
-        tenantName: 'Fareed Fayez Assad',
-        tenantMobile: '0505663844',
-        representativeName: 'Mohamed Khair',
-        annualRent: 90000,
-        remainingAmount: 45000,
-        leaseEndDate: '2024/10/04',
-        notesText: '',
-        contractNo: '20231004198'
-      },
-      {
-        id: '7',
-        unitNumber: '142',
-        unitType: 'Villa Duplex',
-        tenantName: 'ali hussain',
-        tenantMobile: '0554244086',
-        representativeName: 'Mohammed Barmada',
-        annualRent: 90000,
-        remainingAmount: 67500,
-        leaseEndDate: '2024/10/14',
-        notesText: '',
-        contractNo: '20231014142'
-      }
-    ];
+    return contracts.map((c) => {
+      // calculate days left
+      const endDate = new Date(c.leaseEndDate.replace(/\//g, '-'));
+      const now = new Date();
+      const diffDays = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
+      const daysLeft = isNaN(diffDays) ? 0 : diffDays;
 
-    if (contracts.length > 0) {
-      return contracts.map((c, i) => {
-        // calculate days left
-        const endDate = new Date(c.leaseEndDate.replace(/\//g, '-'));
-        const now = new Date();
-        const diffDays = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
-        const daysLeft = isNaN(diffDays) ? -681 + i : diffDays;
-
-        return {
-          id: c.id,
-          unitNumber: c.unitNumber,
-          unitType: c.unitType || 'Appartment',
-          tenantName: c.tenantName,
-          tenantMobile: c.tenantMobile,
-          representativeName: c.representativeName || 'Mohammed Barmada',
-          annualRent: c.annualRent,
-          remainingAmount: c.remainingAmount,
-          leaseEndDate: c.leaseEndDate,
-          daysLeft,
-          notesText: c.arabicNotes || c.englishNotes || (c.notes && c.notes[0]?.text) || '',
-          rawContract: c
-        };
-      });
-    }
-
-    return defaultList.map((item, i) => ({
-      ...item,
-      daysLeft: -681 + i,
-      rawContract: {
-        id: item.id,
-        contractNo: item.contractNo,
-        compoundId: '1',
-        compoundName: 'Azhar Residence',
-        buildingNumber: '101',
-        unitNumber: item.unitNumber,
-        unitType: item.unitType,
-        tenantId: item.id,
-        tenantName: item.tenantName,
-        tenantMobile: item.tenantMobile,
-        representativeName: item.representativeName,
-        leaseStartDate: '2023/10/01',
-        leaseDurationMonths: 12,
-        leaseEndDate: item.leaseEndDate,
-        annualRent: item.annualRent,
-        discount: 0,
-        paidAmount: item.annualRent - item.remainingAmount,
-        remainingAmount: item.remainingAmount,
-        paymentFrequency: 'Quarterly',
-        status: 'Active' as const
-      }
-    }));
+      return {
+        id: c.id,
+        unitNumber: c.unitNumber,
+        unitType: c.unitType || 'Appartment',
+        tenantName: c.tenantName,
+        tenantMobile: c.tenantMobile,
+        annualRent: c.annualRent,
+        remainingAmount: c.remainingAmount,
+        leaseEndDate: c.leaseEndDate,
+        daysLeft,
+        notesText: c.arabicNotes || c.englishNotes || (c.notes && c.notes[0]?.text) || '',
+        rawContract: c
+      };
+    });
   }, [contracts]);
 
   // Search & Filter
@@ -231,8 +105,7 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
         row.unitNumber.toLowerCase().includes(q) ||
         row.unitType.toLowerCase().includes(q) ||
         row.tenantName.toLowerCase().includes(q) ||
-        row.tenantMobile.includes(q) ||
-        row.representativeName.toLowerCase().includes(q)
+        row.tenantMobile.includes(q)
       );
     });
   }, [collectionsData, searchQuery]);
@@ -271,71 +144,100 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
 
   // Export Excel
   const handleExportExcel = () => {
-    const exportData = sortedRows.map((row, idx) => ({
+    const data = sortedRows.map((row, idx) => ({
       '#': idx + 1,
       'Unit': row.unitNumber,
       'Type': row.unitType,
       'Tenant': row.tenantName,
       'Mobile': row.tenantMobile,
-      'Representative': row.representativeName,
-      'Annual Rent (SR)': row.annualRent,
-      'Remaining Amount (SR)': row.remainingAmount,
-      'Contract Expir Date': row.leaseEndDate,
-      'Notes': row.notesText || '-',
-      'Contract Expire After': row.daysLeft
+      'Annual Rent': row.annualRent,
+      'Remaining': row.remainingAmount,
+      'Expiry Date': row.leaseEndDate,
+      'Expire After': row.daysLeft,
+      'Notes': row.notesText || '-'
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Collections');
-    XLSX.writeFile(workbook, `Azhar_Residence_Collections_${new Date().toISOString().split('T')[0]}.xlsx`);
+    const totals = {
+      '#': '',
+      'Unit': '',
+      'Type': '',
+      'Tenant': '',
+      'Mobile': '',
+      'Annual Rent': data.reduce((s, r) => s + r['Annual Rent'], 0),
+      'Remaining': data.reduce((s, r) => s + r['Remaining'], 0),
+      'Expiry Date': '',
+      'Expire After': '',
+      'Notes': ''
+    };
+
+    exportExcelReport({
+      title: 'Azhar Residence — Collections & Contract Balances',
+      subtitle: 'Follow-up on remaining amounts and contract expiry dates',
+      sheetName: 'Collections',
+      filename: `Azhar_Residence_Collections_${new Date().toISOString().split('T')[0]}.xlsx`,
+      columns: [
+        { header: '#', key: '#', width: 5, type: 'number', align: 'center' },
+        { header: 'Unit', key: 'Unit', width: 9, align: 'center' },
+        { header: 'Type', key: 'Type', width: 12 },
+        { header: 'Tenant', key: 'Tenant', width: 22 },
+        { header: 'Mobile', key: 'Mobile', width: 14, align: 'center' },
+        { header: 'Annual Rent (SR)', key: 'Annual Rent', width: 13, type: 'currency' },
+        { header: 'Remaining (SR)', key: 'Remaining', width: 13, type: 'currency' },
+        { header: 'Expiry Date', key: 'Expiry Date', width: 12, type: 'date', align: 'center' },
+        { header: 'Expire After', key: 'Expire After', width: 11, type: 'number', align: 'center' },
+        { header: 'Notes', key: 'Notes', width: 18 }
+      ],
+      rows: data,
+      totals,
+      footerNote: 'Azhar Residence — Collections & Balances Report'
+    });
   };
 
   // Export PDF
   const handleExportPDF = () => {
-    const doc = new jsPDF({ orientation: 'landscape' });
-    
-    doc.setFillColor(43, 98, 175);
-    doc.rect(0, 0, 297, 20, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.text('Azhar Residence - Collections & Contract Balances Report', 14, 13);
+    const data = sortedRows.map((row, idx) => ({
+      '#': idx + 1,
+      'Unit': row.unitNumber,
+      'Type': row.unitType,
+      'Tenant Name': row.tenantName,
+      'Mobile': row.tenantMobile,
+      'Annual Rent': row.annualRent,
+      'Remaining': row.remainingAmount,
+      'Expiry Date': row.leaseEndDate,
+      'Expire After': row.daysLeft
+    }));
 
-    const headers = [
-      '#', 'Unit', 'Type', 'Tenant Name', 'Mobile', 'Representative', 'Annual Rent', 'Remaining', 'Expiry Date', 'Expire After'
-    ];
+    const totals = {
+      '#': '',
+      'Unit': '',
+      'Type': '',
+      'Tenant Name': '',
+      'Mobile': '',
+      'Annual Rent': data.reduce((s, r) => s + r['Annual Rent'], 0),
+      'Remaining': data.reduce((s, r) => s + r['Remaining'], 0),
+      'Expiry Date': '',
+      'Expire After': ''
+    };
 
-    const body = sortedRows.map((row, idx) => [
-      idx + 1,
-      row.unitNumber,
-      row.unitType,
-      row.tenantName,
-      row.tenantMobile,
-      row.representativeName,
-      `${row.annualRent.toLocaleString()} SR`,
-      `${row.remainingAmount.toLocaleString()} SR`,
-      row.leaseEndDate,
-      `${row.daysLeft} days`
-    ]);
-
-    autoTable(doc, {
-      startY: 25,
-      head: [headers],
-      body: body,
-      theme: 'grid',
-      headStyles: {
-        fillColor: [43, 98, 175],
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        fontSize: 9
-      },
-      styles: {
-        fontSize: 8,
-        cellPadding: 3
-      }
+    exportPDFReport({
+      title: 'Azhar Residence — Collections & Contract Balances',
+      subtitle: 'Follow-up on remaining amounts and contract expiry dates',
+      filename: `Azhar_Residence_Collections_${new Date().toISOString().split('T')[0]}.pdf`,
+      columns: [
+        { header: '#', key: '#', width: 5, type: 'number', align: 'center' },
+        { header: 'Unit', key: 'Unit', width: 9, align: 'center' },
+        { header: 'Type', key: 'Type', width: 12 },
+        { header: 'Tenant Name', key: 'Tenant Name', width: 22 },
+        { header: 'Mobile', key: 'Mobile', width: 14, align: 'center' },
+        { header: 'Annual Rent (SR)', key: 'Annual Rent', width: 13, type: 'currency' },
+        { header: 'Remaining (SR)', key: 'Remaining', width: 13, type: 'currency' },
+        { header: 'Expiry Date', key: 'Expiry Date', width: 12, type: 'date', align: 'center' },
+        { header: 'Expire After', key: 'Expire After', width: 11, type: 'number', align: 'center' }
+      ],
+      rows: data,
+      totals,
+      footerNote: 'Azhar Residence — Collections & Balances Report'
     });
-
-    doc.save(`Azhar_Residence_Collections_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   // Handlers for menu actions
@@ -429,7 +331,7 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
           <Search className={`w-4 h-4 absolute top-2.5 text-slate-400 ${language === 'ar' ? 'right-3' : 'left-3'}`} />
           <input
             type="text"
-            placeholder={language === 'ar' ? 'البحث بالوحدة، المستأجر، الممثل، أو رقم الجوال...' : 'Filter by unit, tenant name, representative, or mobile...'}
+            placeholder={language === 'ar' ? 'البحث بالوحدة، المستأجر، أو رقم الجوال...' : 'Filter by unit, tenant name, or mobile...'}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={`w-full py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#29b4c4] ${
@@ -482,13 +384,6 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
                 <th className="py-3 px-3 text-start border-r border-blue-600/40" onClick={() => handleSort('tenantMobile')}>
                   <div className="flex items-center gap-1 cursor-pointer select-none hover:text-cyan-200">
                     <span>{language === 'ar' ? 'الجوال' : 'Mobile'}</span>
-                    <ArrowUpDown className="w-3 h-3 text-white/70" />
-                  </div>
-                </th>
-
-                <th className="py-3 px-3 text-start border-r border-blue-600/40" onClick={() => handleSort('representativeName')}>
-                  <div className="flex items-center gap-1 cursor-pointer select-none hover:text-cyan-200">
-                    <span>{language === 'ar' ? 'الممثل' : 'Representative'}</span>
                     <ArrowUpDown className="w-3 h-3 text-white/70" />
                   </div>
                 </th>
@@ -573,11 +468,6 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
                       {row.tenantMobile}
                     </td>
 
-                    {/* Representative Column */}
-                    <td className="py-3.5 px-3 text-slate-700 border-r border-slate-100">
-                      {row.representativeName}
-                    </td>
-
                     {/* Annual Rent Column */}
                     <td className="py-3.5 px-3 font-bold text-slate-800 border-r border-slate-100">
                       {row.annualRent.toLocaleString()}
@@ -611,6 +501,7 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
                     <td className="py-3.5 px-3 text-center relative">
                       <div className="relative inline-block text-start">
                         <button
+                          ref={el => { if (el) dropdownTriggers.current.set(row.id, el); else dropdownTriggers.current.delete(row.id); }}
                           onClick={() => setOpenDropdownId(openDropdownId === row.id ? null : row.id)}
                           className="px-3 py-1.5 bg-[#586574] hover:bg-[#485360] text-white font-medium text-xs rounded-lg shadow-xs transition-colors inline-flex items-center gap-1"
                         >
@@ -619,8 +510,14 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
                         </button>
 
                         {/* Dropdown Menu matching screenshot */}
-                        {openDropdownId === row.id && (
-                          <div className="absolute right-0 mt-1 w-32 bg-white rounded-xl shadow-xl border border-slate-200 z-30 overflow-hidden py-1 text-slate-700 text-xs animate-in fade-in zoom-in-95 duration-100">
+                        <FloatingDropdown
+                          open={openDropdownId === row.id}
+                          onClose={() => setOpenDropdownId(null)}
+                          trigger={dropdownTriggers.current.get(row.id) || null}
+                          align="right"
+                          width={128}
+                        >
+                          <div className="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden py-1 text-slate-700 text-xs">
                             <button
                               onClick={() => handleOpenDetails(row)}
                               className="w-full text-start px-4 py-2 hover:bg-slate-100 flex items-center gap-2 transition-colors font-medium"
@@ -653,7 +550,7 @@ export const DashboardDues: React.FC<DashboardDuesProps> = ({
                               <span>{language === 'ar' ? 'أرشفة' : 'Archive'}</span>
                             </button>
                           </div>
-                        )}
+                        </FloatingDropdown>
                       </div>
                     </td>
                   </tr>

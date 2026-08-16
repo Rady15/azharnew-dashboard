@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { User, Unit, Building, Tenant, Contract, DueItem, MaintenanceRequest, MaintenanceStatus, WaterMeter, ElectricityMeter, Complaint, StaffMember, Expense, ComplaintStatus, StaffStatus, PaymentRecord, Company, Letter, Announcement, Facility, FacilityBooking, FacilityBookingStatus } from './types';
-import { initialUser, initialBuildings, initialContracts, initialDues, initialElectricityMeters, initialMaintenanceRequests, initialTenants, initialUnits, initialWaterMeters, initialComplaints, initialStaff, initialExpenses, initialFacilities, initialFacilityBookings } from './data/initialData';
 import { apiService, ensureAuth } from './services/api';
 import { Login } from './components/Login';
 import { Header } from './components/Header';
@@ -56,24 +55,24 @@ function MainApp() {
   const [showProfileSettings, setShowProfileSettings] = useState<boolean>(false);
   const [showAdminPermissions, setShowAdminPermissions] = useState<boolean>(false);
 
-  // Entities state initialized with initialData as fallback, loaded from server
-  const [units, setUnits] = useState<Unit[]>(initialUnits);
-  const [buildings, setBuildings] = useState<Building[]>(initialBuildings);
-  const [tenants, setTenants] = useState<Tenant[]>(initialTenants);
-  const [contracts, setContracts] = useState<Contract[]>(initialContracts);
-  const [dues, setDues] = useState<DueItem[]>(initialDues);
-  const [maintenanceRequests, setMaintenanceRequests] = useState<MaintenanceRequest[]>(initialMaintenanceRequests);
-  const [waterMeters, setWaterMeters] = useState<WaterMeter[]>(initialWaterMeters);
-  const [electricityMeters, setElectricityMeters] = useState<ElectricityMeter[]>(initialElectricityMeters);
-  const [complaints, setComplaints] = useState<Complaint[]>(initialComplaints);
-  const [staffMembers, setStaffMembers] = useState<StaffMember[]>(initialStaff);
-  const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
+  // Entities state loaded from server
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [tenants, setTenants] = useState<Tenant[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [dues, setDues] = useState<DueItem[]>([]);
+  const [maintenanceRequests, setMaintenanceRequests] = useState<MaintenanceRequest[]>([]);
+  const [waterMeters, setWaterMeters] = useState<WaterMeter[]>([]);
+  const [electricityMeters, setElectricityMeters] = useState<ElectricityMeter[]>([]);
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [letters, setLetters] = useState<Letter[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [facilities, setFacilities] = useState<Facility[]>(initialFacilities);
-  const [facilityBookings, setFacilityBookings] = useState<FacilityBooking[]>(initialFacilityBookings);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [facilityBookings, setFacilityBookings] = useState<FacilityBooking[]>([]);
   const [serverProfile, setServerProfile] = useState<any>(null);
 
   // Load state from real Azhar backend server
@@ -164,7 +163,7 @@ function MainApp() {
   }, []);
 
   const handleLogin = (user: User) => {
-    const normalized = user.role === 'Admin' ? { ...user, name: 'Admin', email: 'admin@azhar.com' } : user;
+    const normalized = user.role === 'Admin' ? { ...user, email: user.email || 'admin@azhar.com' } : user;
     setCurrentUser(normalized);
     localStorage.setItem('azhar_residence_user', JSON.stringify(normalized));
   };
@@ -277,26 +276,53 @@ function MainApp() {
     const newStatus = contract.status === 'Archived' ? 'Active' : 'Archived';
     const updated = { ...contract, status: newStatus };
     try {
-      await apiService.updateContract(id, updated);
+      if (newStatus === 'Archived') {
+        await apiService.archiveContract(id);
+      } else {
+        await apiService.unarchiveContract(id);
+      }
     } catch (err) {
       console.error('Failed to toggle archive:', err);
     }
     setContracts(prev => prev.map(c => c.id === id ? updated : c));
   };
 
-  const handleAddUnit = (unit: Omit<Unit, 'id'>) => {
-    const newU: Unit = {
-      ...unit,
-      id: String(Date.now())
-    };
-    setUnits(prev => [newU, ...prev]);
+  const handleDeleteContract = async (id: string) => {
+    try {
+      await apiService.deleteContract(id);
+    } catch {
+      // ignore error
+    }
+    setContracts(prev => prev.filter(c => c.id !== id));
+    setDues(prev => prev.filter(d => d.contractId !== id));
+    setPayments(prev => prev.filter(p => p.contractId !== id));
   };
 
-  const handleUpdateUnit = (id: string, updates: Partial<Unit>) => {
-    setUnits(prev => prev.map(u => u.id === id ? { ...u, ...updates } : u));
+  const handleAddUnit = async (unit: Omit<Unit, 'id'>) => {
+    try {
+      const created = await apiService.addUnit(unit);
+      setUnits(prev => [created, ...prev]);
+    } catch {
+      const newU: Unit = { ...unit, id: String(Date.now()) };
+      setUnits(prev => [newU, ...prev]);
+    }
   };
 
-  const handleDeleteUnit = (id: string) => {
+  const handleUpdateUnit = async (id: string, updates: Partial<Unit>) => {
+    try {
+      const updated = await apiService.updateUnit(id, updates);
+      setUnits(prev => prev.map(u => u.id === id ? { ...u, ...updated } : u));
+    } catch {
+      setUnits(prev => prev.map(u => u.id === id ? { ...u, ...updates } : u));
+    }
+  };
+
+  const handleDeleteUnit = async (id: string) => {
+    try {
+      await apiService.deleteUnit(id);
+    } catch {
+      // ignore error
+    }
     setUnits(prev => prev.filter(u => u.id !== id));
   };
 
@@ -348,12 +374,22 @@ function MainApp() {
     setPayments(prev => prev.filter(p => p.tenantId !== id));
   };
 
-  const handleAddWaterMeter = (meter: Omit<WaterMeter, 'id'>) => {
-    setWaterMeters(prev => [{ ...meter, id: String(Date.now()) }, ...prev]);
+  const handleAddWaterMeter = async (meter: Omit<WaterMeter, 'id'>) => {
+    try {
+      const created = await apiService.addWaterMeter(meter);
+      setWaterMeters(prev => [created, ...prev]);
+    } catch {
+      setWaterMeters(prev => [{ ...meter, id: String(Date.now()) }, ...prev]);
+    }
   };
 
-  const handleAddElectricityMeter = (meter: Omit<ElectricityMeter, 'id'>) => {
-    setElectricityMeters(prev => [{ ...meter, id: String(Date.now()) }, ...prev]);
+  const handleAddElectricityMeter = async (meter: Omit<ElectricityMeter, 'id'>) => {
+    try {
+      const created = await apiService.addElectricityMeter(meter);
+      setElectricityMeters(prev => [created, ...prev]);
+    } catch {
+      setElectricityMeters(prev => [{ ...meter, id: String(Date.now()) }, ...prev]);
+    }
   };
 
   const handleToggleTransfer = (id: string) => {
@@ -388,8 +424,13 @@ function MainApp() {
     setStaffMembers(prev => prev.filter(s => s.id !== id));
   };
 
-  const handleAddExpense = (expense: Omit<Expense, 'id'>) => {
-    setExpenses(prev => [{ ...expense, id: String(Date.now()) }, ...prev]);
+  const handleAddExpense = async (expense: Omit<Expense, 'id'>) => {
+    try {
+      const created = await apiService.addExpense(expense);
+      setExpenses(prev => [created, ...prev]);
+    } catch {
+      setExpenses(prev => [{ ...expense, id: String(Date.now()) }, ...prev]);
+    }
   };
 
   const handleAddLetter = async (letter: Omit<Letter, 'id' | 'sentById' | 'sentByName' | 'sentAt'>) => {
@@ -616,6 +657,7 @@ function MainApp() {
                 onAddContract={handleAddContract}
                 onUpdateContract={handleUpdateContract}
                 onToggleArchive={handleToggleArchiveContract}
+                onDeleteContract={handleDeleteContract}
                 selectedCompoundId="1"
               />
             )}
@@ -629,6 +671,7 @@ function MainApp() {
                 onAddContract={handleAddContract}
                 onUpdateContract={handleUpdateContract}
                 onToggleArchive={handleToggleArchiveContract}
+                onDeleteContract={handleDeleteContract}
                 selectedCompoundId="1"
               />
             )}
@@ -637,6 +680,8 @@ function MainApp() {
               <CompoundUnits
                 units={units}
                 buildings={buildings}
+                contracts={contracts}
+                tenants={tenants}
                 mode="non_rented"
                 onAddUnit={handleAddUnit}
                 onAddBuilding={handleAddBuilding}
@@ -660,6 +705,8 @@ function MainApp() {
             {activeTab === 'azhar_tenants' && (
               <TenantsList
                 tenants={tenants}
+                contracts={contracts}
+                units={units}
                 onAddTenant={handleAddTenant}
                 onUpdateTenant={handleUpdateTenant}
                 onToggleArchiveTenant={handleToggleArchiveTenant}
@@ -671,6 +718,8 @@ function MainApp() {
               <CompoundUnits
                 units={units}
                 buildings={buildings}
+                contracts={contracts}
+                tenants={tenants}
                 mode="buildings"
                 onAddUnit={handleAddUnit}
                 onAddBuilding={handleAddBuilding}
@@ -684,6 +733,8 @@ function MainApp() {
               <CompoundUnits
                 units={units}
                 buildings={buildings}
+                contracts={contracts}
+                tenants={tenants}
                 mode="units"
                 onAddUnit={handleAddUnit}
                 onAddBuilding={handleAddBuilding}
@@ -792,6 +843,8 @@ function MainApp() {
             {activeTab === 'all_tenants' && (
               <TenantsList
                 tenants={tenants}
+                contracts={contracts}
+                units={units}
                 onAddTenant={handleAddTenant}
                 onUpdateTenant={handleUpdateTenant}
                 onToggleArchiveTenant={handleToggleArchiveTenant}
@@ -802,6 +855,8 @@ function MainApp() {
             {activeTab === 'archived_tenants' && (
               <TenantsList
                 tenants={tenants}
+                contracts={contracts}
+                units={units}
                 showArchivedOnly
                 onAddTenant={handleAddTenant}
                 onUpdateTenant={handleUpdateTenant}

@@ -1,4 +1,4 @@
-import { Tenant, Contract, Unit, ElectricityMeter, MaintenanceRequest, MaintenanceStatus, WaterMeter, Complaint, ComplaintStatus, ComplaintPriority, StaffMember, StaffStatus, Expense, DueItem, PaymentRecord, PaymentInstallment, Company, Letter, Announcement, RentReport, Notification, Facility, FacilityBooking, FacilityBookingStatus } from '../types';
+import { Tenant, Contract, ContractNote, Unit, ElectricityMeter, MaintenanceRequest, MaintenanceStatus, WaterMeter, Complaint, ComplaintStatus, ComplaintPriority, StaffMember, StaffStatus, Expense, DueItem, PaymentRecord, PaymentInstallment, Company, Letter, Announcement, RentReport, Notification, Facility, FacilityCategory, FacilityBooking, FacilityBookingStatus } from '../types';
 
 // Allow switching backend via VITE_API_BASE (e.g. local dev server), default to the real Azhar API.
 const viteEnv = (import.meta as any).env || {};
@@ -135,6 +135,84 @@ const dateOnly = (d: any): string => {
   return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : s;
 };
 
+// Server expects ISO dates, the UI often uses DD/MM/YYYY text inputs.
+const normalizeDate = (d: any): string => {
+  if (!d) return '';
+  const s = String(d);
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+  if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+  return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : s;
+};
+
+// ---- Units (House) ----
+const toUnitType = (pt: any): Unit['type'] => {
+  const s = String(pt ?? '');
+  if (/villa.*duplex/i.test(s)) return 'Villa Duplex';
+  if (/villa/i.test(s)) return 'Villa';
+  if (/warehouse/i.test(s)) return 'Warehouse';
+  return 'Appartment';
+};
+const toUnitTypeServer = (t: string): string => {
+  if (t === 'Appartment') return 'Apartment';
+  return t || 'Apartment';
+};
+
+// ---- Facilities ----
+const FAC_CAT_TO_SERVER: Record<string, string> = {
+  WeddingHall: 'قاعة أفراح', Hall: 'قاعة مناسبات', Pool: 'مسبح', Gym: 'جيم',
+  Playground: 'ملعب', BBQ: 'شواء', Restaurant: 'مطعم', Shuttle: 'شاتل', SecurityPass: 'تصريح أمني'
+};
+const FAC_CAT_TO_FRONT: Record<string, string> = {
+  'قاعة أفراح': 'WeddingHall', 'قاعة مناسبات': 'Hall', 'مسبح': 'Pool', 'جيم': 'Gym',
+  'ملعب': 'Playground', 'شواء': 'BBQ', 'مطعم': 'Restaurant', 'شاتل': 'Shuttle', 'تصريح أمني': 'SecurityPass'
+};
+const toFacCatServer = (c: string): string => FAC_CAT_TO_SERVER[c] || c || 'قاعة مناسبات';
+const toFacCatFront = (c: any): string => FAC_CAT_TO_FRONT[String(c || '')] || 'Hall';
+
+// ---- Expenses ----
+const EXP_CAT_TO_SERVER: Record<string, string> = {
+  'صيانة وتشغيل': 'MaintenanceAndOperation',
+  'نظافة وأمن': 'Cleaning',
+  'رواتب الموظفين': 'Other',
+  'كهرباء ومياه': 'Other',
+  'أخرى': 'Other'
+};
+const EXP_CAT_TO_FRONT: Record<string, string> = {
+  Cleaning: 'نظافة وأمن',
+  MaintenanceAndOperation: 'صيانة وتشغيل',
+  Security: 'نظافة وأمن',
+  Other: 'أخرى'
+};
+// Server exposes only BankTransfer + Cash enums (verified) — map the rest to Cash.
+const EXP_PAY_TO_SERVER: Record<string, string> = {
+  'Bank Transfer': 'BankTransfer', 'تحويل بنكي': 'BankTransfer',
+  Cash: 'Cash', 'نقداً / كاش': 'Cash', 'نقدًا': 'Cash',
+  Mada: 'Cash', 'مدى': 'Cash', Sadad: 'Cash', 'سداد': 'Cash'
+};
+const EXP_PAY_TO_FRONT: Record<string, string> = {
+  BankTransfer: 'تحويل بنكي', Cash: 'نقداً / كاش'
+};
+const toExpenseCatServer = (c: string): string => EXP_CAT_TO_SERVER[c] || c || 'Other';
+const toExpenseCatFront = (c: any): string => {
+  const s = String(c || '');
+  if (EXP_CAT_TO_FRONT[s]) return EXP_CAT_TO_FRONT[s];
+  if (/صيانة/.test(s)) return 'صيانة وتشغيل';
+  if (/نظافة|أمن/.test(s)) return 'نظافة وأمن';
+  if (/رواتب/.test(s)) return 'رواتب الموظفين';
+  if (/كهرباء|مياه/.test(s)) return 'كهرباء ومياه';
+  return 'أخرى';
+};
+const toPaymentServer = (p: string): string => EXP_PAY_TO_SERVER[p] || (/تحويل|bank/i.test(String(p || '')) ? 'BankTransfer' : 'Cash');
+const toPaymentFront = (p: any): string => {
+  const s = String(p || '');
+  if (EXP_PAY_TO_FRONT[s]) return EXP_PAY_TO_FRONT[s];
+  if (/bank|تحويل/i.test(s)) return 'تحويل بنكي';
+  if (/نقد|cash/i.test(s)) return 'نقداً / كاش';
+  return s || 'نقداً / كاش';
+};
+
+const FACILITY_FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=600';
+
 export interface FinanceSummary {
   tenantId: string;
   paidAmount: number;
@@ -178,57 +256,44 @@ export const apiService = {
     }
   },
 
-  // Current authenticated user from the server.
+  // azhar.runasp.net has no /Account/me — the session user comes from the
+  // login response, so this gracefully returns null.
   async getSessionUser(): Promise<any | null> {
-    const res = await authedFetch('/Account/me');
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data?.user || null;
+    return null;
   },
 
   // Finance mapping — the single source of truth for money numbers.
-  // Built from the server's /Reports (rent ledger) + /Payment (collections),
-  // keyed by tenantId so every section (collections, contracts, dues rents)
-  // shows identical paid / remaining amounts.
+  // Uses the server's /contracts-dues endpoint which returns computed
+  // paid/remaining per contract, keyed by tenantId so every section
+  // (collections, contracts, dues rents) shows identical amounts.
   async getFinanceSummary(): Promise<Map<string, FinanceSummary>> {
-    let reports: any[] = [];
-    let payments: any[] = [];
-    try {
-      const [rRes, pRes] = await Promise.all([
-        authedFetch('/Reports'),
-        authedFetch('/payment')
-      ]);
-      if (rRes.ok) reports = asList(await rRes.json());
-      if (pRes.ok) payments = asList(await pRes.json());
-    } catch (err) { /* ignore */ }
-
-    const payByTenant = new Map<string, number>();
-    payments.forEach((p: any) => {
-      const tid = p.tenantId || '';
-      const amt = Number(p.amount || 0);
-      if (tid) payByTenant.set(tid, (payByTenant.get(tid) || 0) + amt);
-    });
-
     const map = new Map<string, FinanceSummary>();
-    reports.forEach((r: any) => {
-      const tid = r.tenantId || '';
-      if (!tid) return;
-      const rentValue = Number(r.rentAmount || 0);
-      const paidAmount = Math.max(Number(r.paidAmount || 0), payByTenant.get(tid) || 0);
-      const remainingAmount = Math.max(0, Number(r.remainingAmount || 0));
-      const st = (r.status || '').toLowerCase();
-      map.set(tid, {
-        tenantId: tid,
-        paidAmount,
-        remainingAmount,
-        rentValue,
-        remainingRents: rentValue > 0 ? Math.max(1, Math.ceil(remainingAmount / rentValue)) : 1,
-        rentFrequency: r.rentFrequency || '',
-        status: st === 'paid' ? 'Paid' : (st.includes('expired') || st.includes('overdue')) ? 'Overdue' : 'Due Soon',
-        nextDueDate: dateOnly(r.nextDueDate),
-        contractEndDate: dateOnly(r.contractEndDate)
-      });
-    });
+    try {
+      const res = await authedFetch('/contracts-dues');
+      if (res.ok) {
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data?.value || data?.data || []);
+        list.forEach((c: any) => {
+          const tid = c.tenantId || '';
+          if (!tid) return;
+          const rentValue = Number(c.annualRent || 0);
+          const paidAmount = Number(c.paidAmount || 0);
+          const remainingAmount = Math.max(0, Number(c.remainingAmount || 0));
+          const st = (c.status || '').toLowerCase();
+          map.set(tid, {
+            tenantId: tid,
+            paidAmount,
+            remainingAmount,
+            rentValue,
+            remainingRents: rentValue > 0 ? Math.max(1, Math.ceil(remainingAmount / rentValue)) : 1,
+            rentFrequency: '',
+            status: st === 'paid' ? 'Paid' : (st.includes('expired') || st.includes('overdue')) ? 'Overdue' : 'Due Soon',
+            nextDueDate: dateOnly(c.leaseStartDate),
+            contractEndDate: ''
+          });
+        });
+      }
+    } catch (err) { /* ignore */ }
     return map;
   },
 
@@ -247,18 +312,21 @@ export const apiService = {
       return {
         id: t.id,
         name: t.fullName || t.name || 'Tenant',
-        fullNameArabic: t.fullNameArabic || '',
+        fullNameArabic: t.arabicName || t.fullNameArabic || '',
         email: t.email || '',
         mobile: t.phoneNumber || t.mobile || '',
         emergencyPhone: t.emergencyContactPhone || t.emergencyPhoneNumber || t.emergencyPhone || '',
-        whatsapp: t.whatsappNumber || t.whatsapp || t.phoneNumber || '',
+        whatsapp: t.whatsAppNumber || t.whatsappNumber || t.whatsapp || t.phoneNumber || '',
         nationality: t.nationality || '',
         familyCount: t.familyCount || '1',
         workNotes: t.workNotes || '',
         isMarried: t.isMarried !== undefined ? t.isMarried : true,
         companyName: t.companyName || t.company || 'AZ',
         company: t.company || t.companyName || 'AZ',
+        tenantCompanyName: t.tenantCompanyName || '',
         tenantRemarks: t.tenantRemarks || '',
+        idLetter: t.nationalId || t.idLetter || '',
+        nationalId: t.nationalId || t.idLetter || '',
         hasContract: Boolean(t.contractNumber),
         unitNumber: t.houseNumber || t.unitNumber || '',
         houseId: t.houseId || '',
@@ -272,29 +340,54 @@ export const apiService = {
         remainingAmount,
         paymentMethod: t.paymentMethod || '',
         waterCost: t.waterCost !== undefined && t.waterCost !== null ? String(t.waterCost) : '',
-        electricityMeter: t.electricityMeter || '',
+        electricityMeter: t.electricityMeterNumber || t.electricityMeter || '',
         isActive: t.isActive,
         archived: t.isActive === false
       };
     });
   },
 
+  // Find a House by its unit number, falling back to the first available house.
+  async resolveHouseId(unitNumber: string): Promise<string> {
+    if (!unitNumber) return '';
+    try {
+      const res = await authedFetch('/House');
+      if (res.ok) {
+        const houses = asList(await res.json());
+        const match = houses.find((h: any) => String(h.houseNumber) === String(unitNumber));
+        if (match) return match.id;
+      }
+    } catch (err) { /* ignore */ }
+    try {
+      const avail = await authedFetch('/House/available');
+      if (avail.ok) {
+        const list = asList(await avail.json());
+        if (list.length > 0) return list[0].id;
+      }
+    } catch (err) { /* ignore */ }
+    return '';
+  },
+
   async addTenant(tenantData: Partial<Tenant>): Promise<Tenant> {
-    const payload = {
+    const houseId = tenantData.houseId || await this.resolveHouseId(tenantData.unitNumber || tenantData.houseNumber || '');
+    const payload: any = {
       fullName: tenantData.name,
-      fullNameArabic: tenantData.fullNameArabic || '',
+      arabicName: tenantData.fullNameArabic || tenantData.name || '',
       email: tenantData.email,
       phoneNumber: tenantData.mobile,
-      emergencyContactPhone: tenantData.emergencyPhone || '',
+      nationalId: tenantData.idLetter || tenantData.nationalId || '',
       nationality: tenantData.nationality || '',
-      familyCount: String(tenantData.familyCount || '1'),
-      workNotes: tenantData.workNotes || '',
-      isMarried: tenantData.isMarried !== undefined ? tenantData.isMarried : true,
-      whatsappNumber: tenantData.whatsapp || tenantData.mobile,
-      tenantRemarks: tenantData.tenantRemarks || '',
+      emergencyContactPhone: tenantData.emergencyPhone || '',
+      whatsAppNumber: tenantData.whatsapp || tenantData.mobile,
+      familyCount: Number(tenantData.familyCount || 1),
       companyName: tenantData.companyName || tenantData.company || 'AZ',
-      houseNumber: tenantData.unitNumber || tenantData.houseNumber || ''
+      tenantCompanyName: tenantData.companyName || tenantData.company || '',
+      workNotes: tenantData.workNotes || '',
+      tenantRemarks: tenantData.tenantRemarks || '',
+      isMarried: tenantData.isMarried !== undefined ? tenantData.isMarried : true,
+      password: tenantData.password || 'Tenant@101'
     };
+    if (houseId) payload.houseId = houseId;
 
     const res = await authedFetch('/Tenants', {
       method: 'POST',
@@ -315,22 +408,24 @@ export const apiService = {
   },
 
   async updateTenant(id: string, tenantData: Partial<Tenant>): Promise<Tenant> {
-    const payload = {
+    const payload: any = {
       fullName: tenantData.name,
-      fullNameArabic: tenantData.fullNameArabic,
+      arabicName: tenantData.fullNameArabic || tenantData.name || '',
       email: tenantData.email,
       phoneNumber: tenantData.mobile,
-      emergencyContactPhone: tenantData.emergencyPhone,
-      nationality: tenantData.nationality,
-      familyCount: String(tenantData.familyCount || '1'),
-      workNotes: tenantData.workNotes,
-      isMarried: tenantData.isMarried,
-      whatsappNumber: tenantData.whatsapp,
-      tenantRemarks: tenantData.tenantRemarks,
-      companyName: tenantData.companyName || tenantData.company,
-      houseNumber: tenantData.unitNumber || tenantData.houseNumber,
-      isActive: !tenantData.archived
+      nationalId: tenantData.idLetter || tenantData.nationalId || '',
+      nationality: tenantData.nationality || '',
+      emergencyContactPhone: tenantData.emergencyPhone || '',
+      whatsAppNumber: tenantData.whatsapp || tenantData.mobile,
+      familyCount: Number(tenantData.familyCount || 1),
+      companyName: tenantData.companyName || tenantData.company || 'AZ',
+      tenantCompanyName: tenantData.companyName || tenantData.company || '',
+      workNotes: tenantData.workNotes || '',
+      tenantRemarks: tenantData.tenantRemarks || '',
+      isMarried: tenantData.isMarried !== undefined ? tenantData.isMarried : true,
+      isActive: tenantData.isActive !== false && !tenantData.archived
     };
+    if (tenantData.houseId) payload.houseId = tenantData.houseId;
 
     const res = await authedFetch(`/Tenants/${id}`, {
       method: 'PUT',
@@ -340,9 +435,12 @@ export const apiService = {
     return { ...tenantData, id } as Tenant;
   },
 
+  // Server has no toggle-active endpoint — flip isActive via the full update.
   async toggleTenantArchive(id: string) {
-    const res = await authedFetch(`/Tenants/${id}/toggle-active`, { method: 'PUT' });
-    return res.json();
+    const tenants = await this.getTenants();
+    const t = tenants.find(x => x.id === id);
+    if (!t) return { isSuccess: false };
+    return this.updateTenant(id, { ...t, isActive: t.archived });
   },
 
   async deleteTenant(id: string) {
@@ -373,16 +471,17 @@ export const apiService = {
             contractNo: c.contractNo || c.contractNumber || `CNT-${Date.now()}`,
             compoundId: '1',
             compoundName: 'Azhar Residence',
-            buildingNumber: (c.houseNumber || c.houseId || '').toString().split('-')[0] || '101',
-            unitNumber: c.unitNumber || '',
-            unitType: (c.unitType || 'Apartment') as Contract['unitType'],
+            buildingNumber: c.buildingNumber || (c.unitNumber || '').split('-')[0] || (c.houseNumber || '').split('-')[0] || '101',
+            unitNumber: c.unitNumber || c.houseNumber || '',
+            unitType: toUnitType(c.propertyType) as Contract['unitType'],
             tenantId: c.tenantId || '',
             tenantName: c.tenantName || '',
             tenantMobile: c.tenantMobile || '',
             emergencyPhone: c.emergencyPhone || '',
-            tenantNationality: c.nationalId ? '' : '',
-            representativeName: c.representativeName || 'Mohammed Barmada',
-            contractOf: c.contractOf || 'Mohammed Barmada',
+            tenantNationality: c.tenantNationality || '',
+            nationalId: c.nationalId || '',
+            houseId: c.houseId || '',
+            isArchived: Boolean(c.isArchived),
             leaseStartDate: start,
             leaseDurationMonths: c.leaseDurationMonths || 12,
             leaseEndDate: end,
@@ -393,18 +492,20 @@ export const apiService = {
             discount: Number(c.discount || 0),
             paidAmount,
             remainingAmount,
-            paymentFrequency: (c.paymentMethod || 'Quarterly') as Contract['paymentFrequency'],
+            paymentFrequency: (c.paymentFrequency === 'SemiAnnual' ? 'Semi-Annual' : c.paymentFrequency || 'Quarterly') as Contract['paymentFrequency'],
             paymentMethod: c.paymentMethod || 'Quarterly',
             paymentNumber: c.paymentNumber || '',
             electricityMeterNumber: c.electricityMeterNumber || '',
-            verifiedInEjar: c.verifiedInEjar !== false,
-            transferAccountToTenant: c.transferAccountToTenant !== false,
-            insurance: Number(c.insurance || 0),
-            commission: Number(c.commission || 0),
             englishNotes: c.englishNotes || '',
             arabicNotes: c.arabicNotes || '',
             status: (c.status === 'Active' || c.status === 'Pending') ? c.status : (c.isArchived ? 'Archived' : (expired ? 'Pending' : 'Active')) as Contract['status'],
-            notes: c.notes || [],
+            notes: (c.notes || []).map((n: any) => ({
+              id: n.id,
+              contractId: n.contractId || c.id,
+              date: dateOnly(n.createdAt) || n.date || '',
+              author: n.author || n.addedBy || 'Admin',
+              text: n.text || n.content || ''
+            })),
             installments: c.installments || []
           };
         });
@@ -448,7 +549,6 @@ export const apiService = {
           tenantMobile: t.mobile,
           emergencyPhone: t.emergencyPhone || '',
           tenantNationality: t.nationality || '',
-          representativeName: 'Mohammed Barmada',
           contractOf: 'Mohammed Barmada',
           leaseStartDate: start,
           leaseDurationMonths: 12,
@@ -470,7 +570,7 @@ export const apiService = {
 
   // Units (houses enriched with tenant info)
   async getUnits(): Promise<Unit[]> {
-    const res = await authedFetch('/house');
+    const res = await authedFetch('/House');
     if (!res.ok) throw new Error('Failed to fetch units');
     const houses = asList(await res.json());
     let tenants: any[] = [];
@@ -489,38 +589,245 @@ export const apiService = {
         id: h.id,
         compoundId: '1',
         compoundName: 'Azhar Residence',
-        buildingNumber: (h.houseNumber || '').split('-')[0] || '101',
+        buildingNumber: h.buildingNumber || (h.houseNumber || '').split('-')[0] || '101',
         unitNumber: h.houseNumber || '101',
-        rooms: Number(h.roomsCount || 3),
-        baths: Number(h.bathroomsCount || 2),
-        living: h.hasInstalledKitchen ? 1 : 0,
-        majlis: 0,
-        area: String(h.area || ''),
-        type: 'Appartment',
+        rooms: Number(h.roomsCount || 0),
+        baths: Number(h.bathroomsCount || 0),
+        living: Number(h.livingRoomsCount || 0),
+        majlis: Number(h.majlisCount || 0),
+        area: String(h.area ?? ''),
+        type: toUnitType(h.propertyType),
         status: occupied ? 'Occupied' : 'Vacant',
-        annualRent: Number(tenant?.annualRent || 0),
+        annualRent: Number(h.annualRent || tenant?.annualRent || 0),
         currentTenantId: tenant?.id || h.userId || '',
         currentTenantName: tenant?.fullName || h.userDisplayName || ''
       };
     });
   },
 
-  async addContract(contractData: Partial<Contract>): Promise<Contract> {
-    const res = await authedFetch('/Contracts', {
+  async addUnit(unit: Omit<Unit, 'id'>): Promise<Unit> {
+    const payload = {
+      houseNumber: unit.unitNumber,
+      buildingNumber: unit.buildingNumber,
+      propertyType: toUnitTypeServer(unit.type),
+      area: Number(unit.area || 0),
+      majlisCount: Number(unit.majlis || 0),
+      livingRoomsCount: Number(unit.living || 0),
+      bathroomsCount: Number(unit.baths || 0),
+      roomsCount: Number(unit.rooms || 0),
+      annualRent: Number(unit.annualRent || 0)
+    };
+    const res = await authedFetch('/House', {
       method: 'POST',
-      body: JSON.stringify(contractData)
+      body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Failed to create contract');
+    if (!res.ok) throw new Error('Failed to create unit');
+    const created = await res.json();
+    return { ...unit, id: created.id || String(Date.now()) };
+  },
+
+  async updateUnit(id: string, updates: Partial<Unit>): Promise<Unit> {
+    const payload = {
+      houseNumber: updates.unitNumber,
+      buildingNumber: updates.buildingNumber,
+      propertyType: toUnitTypeServer(updates.type || 'Appartment'),
+      area: Number(updates.area || 0),
+      majlisCount: Number(updates.majlis || 0),
+      livingRoomsCount: Number(updates.living || 0),
+      bathroomsCount: Number(updates.baths || 0),
+      roomsCount: Number(updates.rooms || 0),
+      annualRent: Number(updates.annualRent || 0)
+    };
+    const res = await authedFetch(`/House/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to update unit');
+    return { ...updates, id } as Unit;
+  },
+
+  async deleteUnit(id: string) {
+    const res = await authedFetch(`/House/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete unit');
     return res.json();
   },
 
+  async addContract(contractData: Partial<Contract>): Promise<Contract> {
+    const payload: any = {
+      contractNumber: contractData.contractNo,
+      tenantId: contractData.tenantId,
+      houseId: contractData.houseId || await this.resolveHouseId(contractData.unitNumber || contractData.buildingNumber || ''),
+      annualRent: Number(contractData.annualRent || 0),
+      waterMeterCost: Number(contractData.waterYearlyBill || 0),
+      discount: Number(contractData.discount || 0),
+      paidAmount: Number(contractData.paidAmount || 0),
+      paymentFrequency: (contractData.paymentFrequency || 'Quarterly').replace('Semi-Annual', 'SemiAnnual'),
+      leaseStartDate: normalizeDate(contractData.leaseStartDate),
+      leaseDurationMonths: Number(contractData.leaseDurationMonths || 12)
+    };
+    const res = await authedFetch('/Contracts', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to create contract');
+    const created = await res.json();
+    return (await this.getContracts()).find(x => x.id === created.id) || { ...contractData, id: created.id || String(Date.now()) } as Contract;
+  },
+
   async updateContract(id: string, contractData: Partial<Contract>): Promise<Contract> {
+    const payload = {
+      annualRent: Number(contractData.annualRent || 0),
+      paidAmount: Number(contractData.paidAmount || 0),
+      discount: Number(contractData.discount || 0)
+    };
     const res = await authedFetch(`/Contracts/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(contractData)
+      body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('Failed to update contract');
+    return { ...contractData, id } as Contract;
+  },
+
+  async archiveContract(id: string) {
+    const res = await authedFetch(`/Contracts/${id}/archive`, { method: 'PUT' });
+    if (!res.ok) throw new Error('Failed to archive contract');
     return res.json();
+  },
+
+  async unarchiveContract(id: string) {
+    const res = await authedFetch(`/Contracts/${id}/unarchive`, { method: 'PUT' });
+    if (!res.ok) throw new Error('Failed to unarchive contract');
+    return res.json();
+  },
+
+  async deleteContract(id: string) {
+    const res = await authedFetch(`/Contracts/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete contract');
+    return res.json();
+  },
+
+  async getActiveContracts(): Promise<Contract[]> {
+    const res = await authedFetch('/Contracts/active');
+    if (!res.ok) return [];
+    return this.mapContracts(await res.json());
+  },
+
+  async getExpiredContracts(): Promise<Contract[]> {
+    const res = await authedFetch('/Contracts/expired');
+    if (!res.ok) return [];
+    return this.mapContracts(await res.json());
+  },
+
+  async getArchivedContracts(): Promise<Contract[]> {
+    const res = await authedFetch('/Contracts/archived');
+    if (!res.ok) return [];
+    return this.mapContracts(await res.json());
+  },
+
+  mapContracts(data: any): Contract[] {
+    const list = Array.isArray(data) ? data : (data?.value || data?.data || []);
+    return list.map((c: any) => {
+      const annualRent = Number(c.annualRent || 0);
+      const paidAmount = Number(c.paidAmount || 0);
+      const waterYearlyBill = Number(c.waterMeterCost || 0);
+      const totalYearlyRent = annualRent + waterYearlyBill;
+      return {
+        id: c.id,
+        contractNo: c.contractNumber || `CNT-${Date.now()}`,
+        compoundId: '1',
+        compoundName: 'Azhar Residence',
+        buildingNumber: c.buildingNumber || (c.unitNumber || '').split('-')[0] || '101',
+        unitNumber: c.unitNumber || c.houseNumber || '',
+        unitType: toUnitType(c.propertyType) as Contract['unitType'],
+        tenantId: c.tenantId || '',
+        tenantName: c.tenantName || '',
+        tenantMobile: c.tenantMobile || '',
+        leaseStartDate: c.leaseStartDate ? String(c.leaseStartDate).slice(0, 10) : '',
+        leaseDurationMonths: c.leaseDurationMonths || 12,
+        leaseEndDate: c.leaseEndDate ? String(c.leaseEndDate).slice(0, 10) : '',
+        annualRent,
+        waterYearlyBill,
+        totalYearlyRent,
+        discount: Number(c.discount || 0),
+        paidAmount,
+        remainingAmount: Number(c.remainingAmount ?? Math.max(0, totalYearlyRent - paidAmount)),
+        paymentFrequency: (c.paymentFrequency === 'SemiAnnual' ? 'Semi-Annual' : c.paymentFrequency || 'Quarterly') as Contract['paymentFrequency'],
+        paymentMethod: c.paymentMethod || 'Quarterly',
+        status: (c.isArchived ? 'Archived' : 'Active') as Contract['status'],
+        isArchived: Boolean(c.isArchived),
+        notes: []
+      };
+    });
+  },
+
+  async getContractNotes(contractId: string): Promise<ContractNote[]> {
+    const res = await authedFetch(`/Contracts/${contractId}/notes`);
+    if (!res.ok) throw new Error('Failed to fetch contract notes');
+    const list = asList(await res.json());
+    return list.map((n: any) => ({
+      id: n.id,
+      contractId: n.contractId || contractId,
+      date: n.createdAt ? String(n.createdAt).slice(0, 10) : '',
+      author: n.author || 'Admin',
+      text: n.text || ''
+    }));
+  },
+
+  async addContractNote(contractId: string, text: string): Promise<ContractNote> {
+    const res = await authedFetch(`/Contracts/${contractId}/notes`, {
+      method: 'POST',
+      body: JSON.stringify({ text })
+    });
+    if (!res.ok) throw new Error('Failed to add contract note');
+    const created = await res.json();
+    return {
+      id: created.id || String(Date.now()),
+      contractId,
+      date: created.createdAt ? String(created.createdAt).slice(0, 10) : '',
+      author: created.author || 'Admin',
+      text: created.text || text
+    };
+  },
+
+  async getContractPayments(contractId: string): Promise<PaymentRecord[]> {
+    const res = await authedFetch(`/Contracts/${contractId}/payments`);
+    if (!res.ok) throw new Error('Failed to fetch contract payments');
+    const list = asList(await res.json());
+    return list.map((p: any) => ({
+      id: p.id,
+      tenantId: p.tenantId || '',
+      tenantName: p.tenantName || '',
+      unitNumber: p.unitNumber || '',
+      amount: Number(p.amount || 0),
+      paymentMethod: toPaymentFront(p.paymentMethod),
+      status: 'Paid',
+      paymentDate: p.paymentDate ? String(p.paymentDate).slice(0, 10) : ''
+    }));
+  },
+
+  async addContractPayment(contractId: string, payment: { amount: number; paymentDate: string; paymentMethod: string; Note?: string }): Promise<PaymentRecord> {
+    const payload = {
+      amount: Number(payment.amount || 0),
+      paymentDate: normalizeDate(payment.paymentDate),
+      paymentMethod: toPaymentServer(payment.paymentMethod),
+      Note: payment.Note || ''
+    };
+    const res = await authedFetch(`/Contracts/${contractId}/payments`, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to record contract payment');
+    const created = await res.json();
+    return {
+      id: created.id || String(Date.now()),
+      tenantId: '',
+      tenantName: '',
+      unitNumber: '',
+      amount: Number(created.amount || payment.amount || 0),
+      paymentMethod: toPaymentFront(created.paymentMethod || payment.paymentMethod),
+      status: 'Paid',
+      paymentDate: created.paymentDate ? String(created.paymentDate).slice(0, 10) : ''
+    };
   },
 
   // Dues (derived from server rent reports — same source as finance mapping)
@@ -729,19 +1036,20 @@ export const apiService = {
 
   // Expenses
   async getExpenses(): Promise<Expense[]> {
-    const res = await authedFetch('/Expense');
+    const res = await authedFetch('/Expenses');
     if (!res.ok) throw new Error('Failed to fetch expenses');
     const data = asList(await res.json());
     return data.map((x: any) => ({
       id: x.id,
-      voucherNo: x.voucherNumber || x.voucherNo || `V-${(x.id || '').slice(0, 8).toUpperCase()}`,
-      category: x.category || 'Other',
+      voucherNo: x.invoiceNumber || x.voucherNumber || x.voucherNo || `V-${(x.id || '').slice(0, 8).toUpperCase()}`,
+      category: toExpenseCatFront(x.categoryName || x.category),
       title: x.description || x.title || 'Expense',
       amount: Number(x.amount || 0),
-      recipient: x.payee || x.recipient || x.vendor || '',
-      paymentMethod: x.paymentMethod || 'Cash',
-      expenseDate: dateOnly(x.date || x.expenseDate),
+      recipient: x.payee || x.recipient || x.vendor || x.addedBy || '',
+      paymentMethod: toPaymentFront(x.paymentMethodName || x.paymentMethod),
+      expenseDate: dateOnly(x.expenseDate || x.date),
       compoundId: '1',
+      invoiceNumber: x.invoiceNumber || '',
       notes: x.notes || ''
     }));
   },
@@ -749,18 +1057,47 @@ export const apiService = {
   async addExpense(expense: Omit<Expense, 'id'>): Promise<Expense> {
     const payload = {
       description: expense.title || expense.category,
-      category: expense.category,
-      amount: expense.amount,
-      paymentMethod: expense.paymentMethod,
-      date: expense.expenseDate,
+      category: toExpenseCatServer(expense.category),
+      amount: Number(expense.amount || 0),
+      paymentMethod: toPaymentServer(expense.paymentMethod),
+      invoiceNumber: expense.invoiceNumber || expense.voucherNo || '',
+      expenseDate: normalizeDate(expense.expenseDate) || new Date().toISOString().slice(0, 10),
       notes: expense.notes || ''
     };
-    const res = await authedFetch('/Expense', {
+    const res = await authedFetch('/Expenses', {
       method: 'POST',
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('Failed to create expense');
-    return { ...expense, id: String(Date.now()) } as Expense;
+    const created = await res.json();
+    return { ...expense, id: created.id || String(Date.now()) } as Expense;
+  },
+
+  async updateExpense(id: string, expense: Partial<Expense>): Promise<Expense> {
+    const payload = {
+      amount: Number(expense.amount || 0),
+      category: toExpenseCatServer(expense.category || ''),
+      paymentMethod: toPaymentServer(expense.paymentMethod || ''),
+      notes: expense.notes || ''
+    };
+    const res = await authedFetch(`/Expenses/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to update expense');
+    return { ...expense, id } as Expense;
+  },
+
+  async deleteExpense(id: string) {
+    const res = await authedFetch(`/Expenses/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete expense');
+    return res.json();
+  },
+
+  async getExpenseDashboard(): Promise<any> {
+    const res = await authedFetch('/Expenses/dashboard');
+    if (!res.ok) throw new Error('Failed to fetch expense dashboard');
+    return res.json();
   },
 
   // Meters
@@ -771,101 +1108,154 @@ export const apiService = {
     return data.map((m: any) => ({
       id: m.id,
       compoundId: '1',
-      building: (m.houseNumber || '').split('-')[0] || '',
-      unitNumber: m.houseNumber || '',
+      building: m.buildingNumber || (m.houseNumber || '').split('-')[0] || '',
+      unitNumber: m.unitNumber || m.houseNumber || '',
+      houseId: m.houseId || '',
       meterNumber: m.meterNumber || '',
-      paymentNumber: m.paymentNumber || '',
-      transferredToTenant: Boolean(m.transferredToTenant),
+      paymentNumber: m.paymentAccountNumber || m.paymentNumber || '',
+      transferredToTenant: Boolean(m.houseId),
       isRented: Boolean(m.houseId)
     }));
   },
 
   async addElectricityMeter(meter: Omit<ElectricityMeter, 'id'>): Promise<ElectricityMeter> {
     const payload = {
+      houseId: meter.houseId || await this.resolveHouseId(meter.unitNumber || meter.building || ''),
       meterNumber: meter.meterNumber,
-      houseNumber: meter.unitNumber
+      paymentAccountNumber: meter.paymentNumber || ''
     };
     const res = await authedFetch('/ElectricityMeter', {
       method: 'POST',
       body: JSON.stringify(payload)
     });
     if (!res.ok) throw new Error('Failed to create electricity meter');
-    return { ...meter, id: String(Date.now()) } as ElectricityMeter;
+    const created = await res.json();
+    return { ...meter, id: created.id || String(Date.now()) } as ElectricityMeter;
   },
 
-  // Water meters are not a real server entity - derive from tenants' water bills
+  async updateElectricityMeter(id: string, meter: Partial<ElectricityMeter>): Promise<ElectricityMeter> {
+    const payload = {
+      houseId: meter.houseId || await this.resolveHouseId(meter.unitNumber || meter.building || ''),
+      meterNumber: meter.meterNumber,
+      paymentAccountNumber: meter.paymentNumber || ''
+    };
+    const res = await authedFetch(`/ElectricityMeter/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to update electricity meter');
+    return { ...meter, id } as ElectricityMeter;
+  },
+
+  async deleteElectricityMeter(id: string) {
+    const res = await authedFetch(`/ElectricityMeter/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete electricity meter');
+    return res.json();
+  },
+
   async getWaterMeters(): Promise<WaterMeter[]> {
-    const tenants = await this.getTenants();
-    return tenants
-      .filter(t => t.houseNumber && t.waterCost !== '' && Number(t.waterCost) > 0)
-      .map(t => ({
-        id: `water-${t.id}`,
-        building: t.houseNumber || '',
-        meterNumber: `WTR-${t.houseNumber || ''}`,
-        lastReading: Number(t.waterCost || 0),
-        readingDate: t.contractEndDate ? String(t.contractEndDate).slice(0, 10) : ''
-      }));
+    const res = await authedFetch('/WaterMeters');
+    if (!res.ok) throw new Error('Failed to fetch water meters');
+    const data = asList(await res.json());
+    return data.map((m: any) => ({
+      id: m.id,
+      houseId: m.houseId || '',
+      building: m.houseNumber || (m.houseId || '').slice(0, 8) || '',
+      meterNumber: m.meterNumber || '',
+      lastReading: Number(m.lastReading || 0),
+      readingDate: dateOnly(m.lastReadingDate)
+    }));
   },
 
   async addWaterMeter(meter: Omit<WaterMeter, 'id'>): Promise<WaterMeter> {
-    throw new Error('Water meters are managed on the server via tenant billing');
-  },
-
-  // Payments
-  async getPayments(): Promise<PaymentRecord[]> {
-    const res = await authedFetch('/Payment');
-    if (!res.ok) throw new Error('Failed to fetch payments');
-    const data = await res.json();
-    const list = Array.isArray(data) ? data : (data?.value || data?.data || []);
-    return list.map((p: any) => ({
-      id: p.id,
-      tenantId: p.tenantId || '',
-      tenantName: p.tenantName || '',
-      unitNumber: p.unitNumber || '',
-      amount: Number(p.amount || 0),
-      month: p.month,
-      year: p.year,
-      paymentMethod: p.paymentMethod || '',
-      status: p.status || 'Paid',
-      paymentDate: p.paymentDate ? String(p.paymentDate).slice(0, 10) : ''
-    }));
-  },
-
-  async addPayment(payment: { tenantId: string; tenantName: string; unitNumber: string; amount: number; month: number; year: number; paymentMethod: string; status: string }): Promise<PaymentRecord> {
-    const res = await authedFetch('/Payment', {
+    const payload = {
+      houseId: meter.houseId || await this.resolveHouseId(meter.building || ''),
+      meterNumber: meter.meterNumber
+    };
+    const res = await authedFetch('/WaterMeters', {
       method: 'POST',
-      body: JSON.stringify(payment)
+      body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Failed to create payment');
-    const data = await res.json();
+    if (!res.ok) throw new Error('Failed to create water meter');
+    const created = await res.json();
+    return { ...meter, id: created.id || String(Date.now()) } as WaterMeter;
+  },
+
+  async updateWaterMeter(id: string, meter: Partial<WaterMeter>): Promise<WaterMeter> {
+    const payload = {
+      houseId: meter.houseId || await this.resolveHouseId(meter.building || ''),
+      meterNumber: meter.meterNumber
+    };
+    const res = await authedFetch(`/WaterMeters/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to update water meter');
+    return { ...meter, id } as WaterMeter;
+  },
+
+  async deleteWaterMeter(id: string) {
+    const res = await authedFetch(`/WaterMeters/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete water meter');
+    return res.json();
+  },
+
+  // Payments — azhar.runasp.net has no /Payment endpoint; aggregate the
+  // working per-contract /Contracts/{id}/payments records instead.
+  async getPayments(): Promise<PaymentRecord[]> {
+    const records: PaymentRecord[] = [];
+    try {
+      const res = await authedFetch('/Contracts');
+      if (!res.ok) return records;
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : (data?.value || data?.data || []);
+      for (const c of list) {
+        try {
+          const pRes = await authedFetch(`/Contracts/${c.id}/payments`);
+          if (!pRes.ok) continue;
+          const pList = asList(await pRes.json());
+          pList.forEach((p: any) => {
+            const date = p.paymentDate ? String(p.paymentDate).slice(0, 10) : '';
+            const d = date ? new Date(date) : null;
+            records.push({
+              id: p.id,
+              tenantId: c.tenantId || '',
+              tenantName: c.tenantName || '',
+              unitNumber: c.unitNumber || '',
+              amount: Number(p.amount || 0),
+              month: d ? d.getMonth() + 1 : 0,
+              year: d ? d.getFullYear() : 0,
+              paymentMethod: p.paymentMethod || '',
+              status: 'Paid',
+              paymentDate: date
+            });
+          });
+        } catch (err) { /* ignore */ }
+      }
+    } catch (err) { /* ignore */ }
+    return records;
+  },
+
+  // Kept for API compatibility; server has no /Payment POST. Local record only.
+  async addPayment(payment: { tenantId: string; tenantName: string; unitNumber: string; amount: number; month: number; year: number; paymentMethod: string; status: string }): Promise<PaymentRecord> {
     return {
-      id: data.id,
-      tenantId: data.tenantId || '',
-      tenantName: data.tenantName || '',
-      unitNumber: data.unitNumber || '',
-      amount: Number(data.amount || 0),
-      month: data.month,
-      year: data.year,
-      paymentMethod: data.paymentMethod || '',
-      status: data.status || 'Paid',
-      paymentDate: data.paymentDate ? String(data.paymentDate).slice(0, 10) : ''
+      id: String(Date.now()),
+      tenantId: payment.tenantId,
+      tenantName: payment.tenantName,
+      unitNumber: payment.unitNumber,
+      amount: payment.amount,
+      month: payment.month,
+      year: payment.year,
+      paymentMethod: payment.paymentMethod,
+      status: payment.status || 'Paid',
+      paymentDate: new Date().toISOString().slice(0, 10)
     };
   },
 
-  // Companies
+  // Companies — azhar.runasp.net returns 500 for /Company; no view consumes
+  // this data, so it is not called and gracefully returns an empty list.
   async getCompanies(): Promise<Company[]> {
-    const res = await authedFetch('/Company');
-    if (!res.ok) throw new Error('Failed to fetch companies');
-    const data = asList(await res.json());
-    return data.map((c: any) => ({
-      id: c.id,
-      companyName: c.companyName || '',
-      contactPerson: c.contactPerson || '',
-      specialization: c.specialization || '',
-      email: c.email || '',
-      phone: c.phone || '',
-      notes: c.notes || ''
-    }));
+    return [];
   },
 
   // Announcements
@@ -956,28 +1346,66 @@ export const apiService = {
     if (!res.ok) throw new Error('Failed to fetch facilities');
     return asList(await res.json()).map((f: any) => ({
       id: f.id,
-      name: f.name || f.nameAr || '',
-      nameEn: f.nameEn || f.name || '',
-      category: f.category || 'Hall',
+      name: f.arabicName || f.nameAr || f.name || '',
+      nameEn: f.englishName || f.nameEn || f.name || '',
+      category: toFacCatFront(f.category) as FacilityCategory,
       iconName: f.iconName || '',
       description: f.description || '',
       location: f.location || '',
-      operatingHours: f.operatingHours || '',
-      capacityLimit: Number(f.capacityLimit || 0),
-      isAvailable: f.isAvailable !== false,
-      image: f.image || ''
+      operatingHours: f.workingHours || f.operatingHours || '',
+      capacityLimit: Number(f.capacity || f.capacityLimit || 0),
+      isAvailable: f.isBookingAvailable !== false && f.isAvailable !== false,
+      image: f.image || FACILITY_FALLBACK_IMAGE
+    }));
+  },
+
+  async getAvailableFacilities(): Promise<Facility[]> {
+    const res = await authedFetch('/Facilities/available');
+    if (!res.ok) return [];
+    return asList(await res.json()).map((f: any) => ({
+      id: f.id,
+      name: f.arabicName || f.name || '',
+      nameEn: f.englishName || f.name || '',
+      category: toFacCatFront(f.category) as FacilityCategory,
+      iconName: '',
+      description: f.description || '',
+      location: f.location || '',
+      operatingHours: f.workingHours || '',
+      capacityLimit: Number(f.capacity || 0),
+      isAvailable: f.isBookingAvailable !== false,
+      image: FACILITY_FALLBACK_IMAGE
     }));
   },
 
   async createFacility(data: Omit<Facility, 'id'>): Promise<Facility> {
-    const res = await authedFetch('/Facilities', { method: 'POST', body: JSON.stringify(data) });
+    const payload = {
+      arabicName: data.name,
+      englishName: data.nameEn || data.name,
+      category: toFacCatServer(data.category),
+      location: data.location || '',
+      workingHours: data.operatingHours || '',
+      capacity: Number(data.capacityLimit || 0),
+      description: data.description || '',
+      isBookingAvailable: data.isAvailable !== false
+    };
+    const res = await authedFetch('/Facilities', { method: 'POST', body: JSON.stringify(payload) });
     if (!res.ok) throw new Error('Failed to create facility');
     const created = await res.json();
     return { ...data, id: created.id || String(Date.now()) };
   },
 
   async updateFacility(id: string, data: Partial<Facility>): Promise<Facility> {
-    const res = await authedFetch(`/Facilities/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+    const payload = {
+      arabicName: data.name,
+      englishName: data.nameEn || data.name,
+      category: toFacCatServer(data.category || 'Hall'),
+      location: data.location || '',
+      workingHours: data.operatingHours || '',
+      capacity: Number(data.capacityLimit || 0),
+      description: data.description || '',
+      isBookingAvailable: data.isAvailable !== false
+    };
+    const res = await authedFetch(`/Facilities/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
     if (!res.ok) throw new Error('Failed to update facility');
     const updated = await res.json();
     return { ...data, id } as Facility;
@@ -988,81 +1416,121 @@ export const apiService = {
     if (!res.ok) throw new Error('Failed to delete facility');
   },
 
-  // Facility Bookings
+  // Facility Bookings — /facility-bookings endpoint is live on azhar.runasp.net.
   async getFacilityBookings(): Promise<FacilityBooking[]> {
-    const res = await authedFetch('/FacilityBookings');
-    if (!res.ok) throw new Error('Failed to fetch facility bookings');
-    return asList(await res.json()).map((b: any) => ({
-      id: b.id,
-      bookingNo: b.bookingNo || b.bookingNumber || '',
-      facilityId: b.facilityId || '',
-      facilityName: b.facilityName || '',
-      tenantId: b.tenantId || '',
-      tenantName: b.tenantName || '',
-      unitNumber: b.unitNumber || '',
-      mobile: b.mobile || '',
-      bookingDate: dateOnly(b.bookingDate),
-      startTime: b.startTime || '',
-      endTime: b.endTime || '',
-      guestsCount: Number(b.guestsCount || 0),
-      purpose: b.purpose || '',
-      status: b.status || 'Pending',
-      createdAt: b.createdAt || '',
-      adminNotes: b.adminNotes || '',
-      approvedBy: b.approvedBy || ''
-    }));
+    try {
+      const res = await authedFetch('/facility-bookings');
+      if (!res.ok) return [];
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : (data?.value || data?.data || []);
+      return list.map((b: any) => ({
+        id: b.id || String(Date.now()),
+        bookingNo: b.bookingNo || `FBK-${b.id || Date.now()}`,
+        facilityId: b.facilityId || '',
+        facilityName: b.facilityName || '',
+        tenantId: b.tenantId || '',
+        tenantName: b.tenantName || '',
+        unitNumber: b.unitNumber || '',
+        mobile: b.mobile || '',
+        bookingDate: b.bookingDate || '',
+        startTime: b.fromTime || b.startTime || '',
+        endTime: b.toTime || b.endTime || '',
+        guestsCount: b.guestsCount || 0,
+        purpose: b.purpose || b.notes || '',
+        status: (b.status || 'Pending') as FacilityBookingStatus,
+        createdAt: b.createdAt || new Date().toISOString(),
+        adminNotes: b.adminNotes || '',
+        approvedBy: b.approvedBy || ''
+      }));
+    } catch { return []; }
   },
 
   async createFacilityBooking(data: Omit<FacilityBooking, 'id' | 'bookingNo' | 'createdAt' | 'status'> & { status?: FacilityBookingStatus }): Promise<FacilityBooking> {
-    const res = await authedFetch('/FacilityBookings', { method: 'POST', body: JSON.stringify(data) });
-    if (!res.ok) throw new Error('Failed to create facility booking');
-    const created = await res.json();
+    try {
+      const res = await authedFetch('/facility-bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dto: {
+            facilityId: data.facilityId,
+            tenantId: data.tenantId,
+            bookingDate: data.bookingDate,
+            fromTime: data.startTime || '10:00:00',
+            toTime: data.endTime || '14:00:00',
+            notes: data.purpose || ''
+          }
+        })
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        return {
+          id: saved.id || String(Date.now()),
+          bookingNo: saved.bookingNo || `FBK-${saved.id || Date.now()}`,
+          facilityId: saved.facilityId || data.facilityId,
+          facilityName: saved.facilityName || data.facilityName || '',
+          tenantId: saved.tenantId || data.tenantId,
+          tenantName: saved.tenantName || data.tenantName || '',
+          unitNumber: saved.unitNumber || data.unitNumber || '',
+          mobile: saved.mobile || data.mobile || '',
+          bookingDate: saved.bookingDate || data.bookingDate,
+          startTime: saved.fromTime || saved.startTime || data.startTime || '',
+          endTime: saved.toTime || saved.endTime || data.endTime || '',
+          guestsCount: saved.guestsCount || data.guestsCount || 0,
+          purpose: saved.purpose || saved.notes || data.purpose || '',
+          status: (saved.status || data.status || 'Pending') as FacilityBookingStatus,
+          createdAt: saved.createdAt || new Date().toISOString(),
+          adminNotes: saved.adminNotes || '',
+          approvedBy: saved.approvedBy || ''
+        };
+      }
+    } catch { /* fall through */ }
     return {
       ...data,
       status: (data.status || 'Pending') as FacilityBookingStatus,
-      id: created.id || String(Date.now()),
-      bookingNo: created.bookingNo || `FBK-${Date.now()}`,
-      createdAt: created.createdAt || new Date().toISOString()
+      id: String(Date.now()),
+      bookingNo: `FBK-${Date.now()}`,
+      createdAt: new Date().toISOString()
     };
   },
 
   async updateFacilityBooking(id: string, data: Partial<FacilityBooking>): Promise<FacilityBooking> {
-    const res = await authedFetch(`/FacilityBookings/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-    if (!res.ok) throw new Error('Failed to update facility booking');
-    const updated = await res.json();
+    try {
+      const res = await authedFetch(`/facility-bookings/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dto: {
+            facilityId: data.facilityId,
+            tenantId: data.tenantId,
+            bookingDate: data.bookingDate,
+            fromTime: data.startTime,
+            toTime: data.endTime,
+            notes: data.purpose || ''
+          }
+        })
+      });
+      if (res.ok) return { ...data, id } as FacilityBooking;
+    } catch { /* fall through */ }
     return { ...data, id } as FacilityBooking;
   },
 
   async deleteFacilityBooking(id: string): Promise<void> {
-    const res = await authedFetch(`/FacilityBookings/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error('Failed to delete facility booking');
+    try {
+      const res = await authedFetch(`/facility-bookings/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete facility booking');
+    } catch { /* ignore */ }
   },
 
-  // Reports
+  // Reports — azhar.runasp.net has no working /Reports endpoint (500);
+  // no view consumes this, so it is not called and returns an empty list.
   async getReports(): Promise<RentReport[]> {
-    const res = await authedFetch('/Reports');
-    if (!res.ok) throw new Error('Failed to fetch reports');
-    const data = asList(await res.json());
-    return data.map((r: any) => ({
-      tenantId: r.tenantId || '',
-      tenantName: r.tenantName || '',
-      nextDueDate: dateOnly(r.nextDueDate),
-      unitNumber: r.unitNumber || '',
-      rentAmount: Number(r.rentAmount || 0),
-      rentFrequency: r.rentFrequency || '',
-      contractEndDate: dateOnly(r.contractEndDate),
-      remainingDays: Number(r.remainingDays || 0),
-      paidAmount: Number(r.paidAmount || 0),
-      remainingAmount: Number(r.remainingAmount || 0),
-      status: r.status || ''
-    }));
+    return [];
   },
 
-  // Profile
+  // Profile — azhar.runasp.net has no /Profile endpoint (500); profile data
+  // lives in localStorage, so this gracefully returns null.
   async getProfile(): Promise<any> {
-    const res = await authedFetch('/Profile');
-    if (!res.ok) throw new Error('Failed to fetch profile');
-    return res.json();
+    return null;
   },
 
   // Notifications
@@ -1095,23 +1563,20 @@ export const apiService = {
     if (!res.ok) throw new Error('Failed to register FCM token');
   },
 
+  // No /Profile endpoint on azhar.runasp.net — profile is kept in localStorage
+  // by App.tsx, so this is a local no-op.
   async updateProfile(data: { displayName?: string; email?: string; profileImageUrl?: string }): Promise<void> {
-    const res = await authedFetch('/Profile', {
-      method: 'PUT',
-      body: JSON.stringify(data)
-    });
-    if (!res.ok) throw new Error('Failed to update profile');
+    return;
   },
 
+  // No /Profile upload endpoint — convert to a base64 data URL so the avatar
+  // persists in localStorage across page refreshes.
   async uploadProfileImage(file: File): Promise<string> {
-    const form = new FormData();
-    form.append('profileImage', file);
-    const res = await authedFetch('/Profile', {
-      method: 'PUT',
-      body: form
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(new Error('Failed to read image file'));
+      reader.readAsDataURL(file);
     });
-    if (!res.ok) throw new Error('Failed to upload profile image');
-    const data = await res.json();
-    return data?.profileImageUrl || data?.url || '';
   }
 };

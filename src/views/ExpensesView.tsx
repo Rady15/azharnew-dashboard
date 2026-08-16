@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Expense } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { exportExcelReport } from '../utils/reportExport';
 
 interface ExpensesViewProps {
   expenses: Expense[];
@@ -102,27 +103,47 @@ export const ExpensesView: React.FC<ExpensesViewProps> = ({
   };
 
   const handleExportCSV = () => {
-    const headers = ['رقم السند', 'البيان', 'الفئة', 'المبلغ (ر.س)', 'المستفيد', 'طريقة الدفع', 'التاريخ', 'ملاحظات'];
-    const rows = sortedExpenses.map(e => [
-      e.voucherNo,
-      e.title,
-      e.category,
-      e.amount,
-      e.recipient,
-      e.paymentMethod,
-      e.expenseDate,
-      e.notes || ''
-    ]);
+    const data = sortedExpenses.map(e => ({
+      'رقم السند': e.voucherNo,
+      'البيان': e.title,
+      'الفئة': e.category,
+      'المبلغ': e.amount,
+      'المستفيد': e.recipient,
+      'طريقة الدفع': e.paymentMethod,
+      'التاريخ': e.expenseDate,
+      'ملاحظات': e.notes || ''
+    }));
 
-    const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.map(cell => `"${cell}"`).join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `Expenses_Report_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const totals = {
+      'رقم السند': '',
+      'البيان': '',
+      'الفئة': '',
+      'المبلغ': data.reduce((s, r) => s + r['المبلغ'], 0),
+      'المستفيد': '',
+      'طريقة الدفع': '',
+      'التاريخ': '',
+      'ملاحظات': ''
+    };
+
+    exportExcelReport({
+      title: 'Azhar Residence — Expenses & Payment Vouchers',
+      subtitle: 'سجل المصروفات وسندات الصرف',
+      sheetName: 'Expenses',
+      filename: `Azhar_Residence_Expenses_${new Date().toISOString().split('T')[0]}.xlsx`,
+      columns: [
+        { header: 'رقم السند', key: 'رقم السند', width: 12, align: 'center' },
+        { header: 'البيان', key: 'البيان', width: 28 },
+        { header: 'الفئة', key: 'الفئة', width: 18 },
+        { header: 'المبلغ (ر.س)', key: 'المبلغ', width: 13, type: 'currency' },
+        { header: 'المستفيد', key: 'المستفيد', width: 18 },
+        { header: 'طريقة الدفع', key: 'طريقة الدفع', width: 16 },
+        { header: 'التاريخ', key: 'التاريخ', width: 12, type: 'date', align: 'center' },
+        { header: 'ملاحظات', key: 'ملاحظات', width: 24 }
+      ],
+      rows: data,
+      totals,
+      footerNote: 'Azhar Residence — Expenses & Finance Report'
+    });
   };
 
   return (
@@ -148,7 +169,7 @@ export const ExpensesView: React.FC<ExpensesViewProps> = ({
             className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300 transition-all flex items-center gap-1.5"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-            {language === 'ar' ? 'تصدير CSV' : 'Export CSV'}
+            {language === 'ar' ? 'تصدير إكسل' : 'Export Excel'}
           </button>
           <button
             onClick={() => setShowAddModal(true)}

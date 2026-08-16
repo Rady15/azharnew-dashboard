@@ -44,10 +44,6 @@ export const Login: React.FC<LoginProps> = ({ onLogin, staffMembers = [], tenant
       role: 'Admin',
       ...fields
     };
-    if (user.role === 'Admin') {
-      user.name = 'Admin';
-      user.email = 'admin@azhar.com';
-    }
     return user;
   };
 
@@ -81,11 +77,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, staffMembers = [], tenant
           return;
         }
         // Server responded but didn't give a session → fall back to demo admin credentials.
-        if ((cleanUser === 'm.barmada' || cleanUser === 'admin@azhar.com') && (cleanPass === 'mohammed123' || cleanPass === 'admin' || cleanPass === 'Admin@123')) {
+        if ((cleanUser === 'admin@azhar.com') && (cleanPass === 'Admin@123')) {
           onLogin(buildUser({
-            username: 'm.barmada',
-            name: 'Mohammed Barmada',
-            email: 'm.barmada@azhar-residence.com'
+            username: email,
+            name: email,
+            email
           }));
           return;
         }
@@ -162,9 +158,9 @@ export const Login: React.FC<LoginProps> = ({ onLogin, staffMembers = [], tenant
       const result = await apiService.login('admin@azhar.com', 'Admin@123');
       if (result.ok && result.user) {
         onLogin(buildUser({
-          username: result.user.username || 'm.barmada',
-          name: result.user.fullName || 'Mohammed Barmada',
-          email: result.user.email || 'm.barmada@azhar-residence.com'
+          username: result.user.username || 'admin@azhar.com',
+          name: result.user.fullName || 'Admin',
+          email: result.user.email || 'admin@azhar.com'
         }));
         return;
       }
@@ -175,7 +171,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, staffMembers = [], tenant
     }
     onLogin(buildUser({
       username: 'admin@azhar.com',
-      name: 'Mohammed Barmada',
+      name: 'Admin',
       email: 'admin@azhar.com'
     }));
   };

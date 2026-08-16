@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   FileText, 
   Plus, 
@@ -25,16 +25,16 @@ import {
   Clock,
   ChevronRight,
   FileSpreadsheet,
-  ArrowUpDown
+  ArrowUpDown,
+  Trash2
 } from 'lucide-react';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { Contract, Tenant, Unit, PaymentRecord } from '../types';
 import { AzharLogo } from '../components/AzharLogo';
 import { EditTenantModal } from '../components/EditTenantModal';
+import { FloatingDropdown } from '../components/FloatingDropdown';
 import { useLanguage } from '../context/LanguageContext';
 import { apiService } from '../services/api';
+import { exportExcelReport, exportPDFReport } from '../utils/reportExport';
 
 interface CompoundContractsProps {
   contracts: Contract[];
@@ -44,6 +44,7 @@ interface CompoundContractsProps {
   onAddContract: (contract: Omit<Contract, 'id'>) => void;
   onUpdateContract: (updated: Contract) => void;
   onToggleArchive: (id: string) => void;
+  onDeleteContract: (id: string) => void;
   selectedCompoundId: string;
 }
 
@@ -55,12 +56,14 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
   onAddContract,
   onUpdateContract,
   onToggleArchive,
+  onDeleteContract,
 }) => {
   const { language, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
   const [sortConfig, setSortConfig] = useState<{ field: string; direction: 'asc' | 'desc' } | null>(null);
+  const dropdownTriggers = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   const handleSort = (field: string) => {
     if (!sortConfig || sortConfig.field !== field) {
@@ -83,7 +86,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
   const [newContractNo, setNewContractNo] = useState(`2024${Math.floor(10000 + Math.random() * 90000)}`);
   const [tenantId, setTenantId] = useState(tenants[0]?.id || '');
   const [unitId, setUnitId] = useState(units[0]?.id || '');
-  const [representative, setRepresentative] = useState('Mohammed Barmada');
   const [startDate, setStartDate] = useState('01/10/2024');
   const [durationMonths, setDurationMonths] = useState(12);
   const [annualRent, setAnnualRent] = useState(45000);
@@ -95,6 +97,14 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
   const [waterMeterCost, setWaterMeterCost] = useState(0);
   const [paymentFrequency, setPaymentFrequency] = useState<'Monthly' | 'Bi-Monthly' | 'Quarterly' | 'Semi-Annual' | 'Annual'>('Quarterly');
 
+  // Sync tenantId/unitId when data loads
+  useEffect(() => {
+    if (tenants.length > 0 && !tenantId) setTenantId(tenants[0].id);
+  }, [tenants, tenantId]);
+  useEffect(() => {
+    if (units.length > 0 && !unitId) setUnitId(units[0].id);
+  }, [units, unitId]);
+
   // Edit Form state
   const [editForm, setEditForm] = useState<Partial<Contract>>({});
   const [editWaterMeterCost, setEditWaterMeterCost] = useState(0);
@@ -105,6 +115,7 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
   const [paymentYear, setPaymentYear] = useState(new Date().getFullYear());
   const [paymentMethod, setPaymentMethod] = useState('Cash');
   const [paymentStatus, setPaymentStatus] = useState('Paid');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   // Contract payments list
   const [contractPayments, setContractPayments] = useState<PaymentRecord[]>([]);
@@ -160,6 +171,15 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
     const selTenant = tenants.find(t => t.id === tenantId);
     const selUnit = units.find(u => u.id === unitId);
 
+    if (!selTenant) {
+      alert(language === 'ar' ? 'يرجى اختيار مستأجر صالح' : 'Please select a valid tenant');
+      return;
+    }
+    if (!selUnit) {
+      alert(language === 'ar' ? 'يرجى اختيار وحدة صالحة' : 'Please select a valid unit');
+      return;
+    }
+
     const rent = Number(annualRent);
     const paid = Number(paidAmount);
     const disc = Number(discount);
@@ -171,14 +191,14 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
       contractNo: newContractNo,
       compoundId: '1',
       compoundName: 'Azhar Residence',
-      buildingNumber: selUnit?.buildingNumber || '101',
-      unitNumber: selUnit?.unitNumber || '203',
-      unitType: unitType || selUnit?.type || 'Appartment',
-      tenantId: selTenant?.id || '1',
-      tenantName: selTenant?.name || 'New Tenant',
-      tenantMobile: tenantMobile || selTenant?.mobile || '',
+      buildingNumber: selUnit.buildingNumber,
+      unitNumber: selUnit.unitNumber,
+      unitType: unitType || selUnit.type || 'Appartment',
+      houseId: selUnit.id,
+      tenantId: selTenant.id,
+      tenantName: selTenant.name,
+      tenantMobile: tenantMobile || selTenant.mobile || '',
       emergencyPhone: emergencyPhone,
-      representativeName: representative,
       leaseStartDate: startDate,
       leaseDurationMonths: Number(durationMonths),
       leaseEndDate: '01/10/2025',
@@ -208,9 +228,8 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
 
   const loadContractPayments = async (contract: Contract) => {
     try {
-      const allPayments = await apiService.getPayments();
-      const filtered = allPayments.filter(p => p.tenantId === contract.tenantId || p.unitNumber === contract.unitNumber);
-      setContractPayments(filtered);
+      const payments = await apiService.getContractPayments(contract.id);
+      setContractPayments(payments);
     } catch (err) {
       console.error('Failed to load payments', err);
       setContractPayments([]);
@@ -220,18 +239,22 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
   const handleRecordPayment = async () => {
     if (!activeModal.contract || paymentAmount <= 0) return;
     try {
-      const newPayment = await apiService.addPayment({
-        tenantId: activeModal.contract.tenantId,
-        tenantName: activeModal.contract.tenantName,
-        unitNumber: activeModal.contract.unitNumber,
+      const newPayment = await apiService.addContractPayment(activeModal.contract.id, {
         amount: paymentAmount,
-        month: paymentMonth,
-        year: paymentYear,
+        paymentDate: new Date().toISOString().slice(0, 10),
         paymentMethod,
-        status: paymentStatus
+        Note: `Monthly payment - ${paymentMonth}/${paymentYear}`
       });
       setContractPayments(prev => [...prev, newPayment]);
       setPaymentAmount(0);
+      setShowPaymentForm(false);
+      const updated: Contract = {
+        ...activeModal.contract,
+        paidAmount: (activeModal.contract.paidAmount || 0) + paymentAmount,
+        remainingAmount: Math.max(0, (activeModal.contract.remainingAmount || 0) - paymentAmount)
+      };
+      setActiveModal({ type: 'payment', contract: updated });
+      onUpdateContract(updated);
       alert(language === 'ar' ? 'تم تسجيل الدفعة بنجاح' : 'Payment recorded successfully');
     } catch (err) {
       console.error('Failed to record payment', err);
@@ -285,26 +308,34 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
     setOpenDropdownId(null);
   };
 
-  const handleAddNote = (c: Contract) => {
+  const handleAddNote = async (c: Contract) => {
     if (!newNoteText.trim()) return;
-    const existingNotes = c.notes || [];
-    const newNote = {
-      id: Date.now().toString(),
-      date: new Date().toLocaleDateString('en-GB'),
-      author: 'Mohammed Barmada',
-      text: newNoteText.trim()
-    };
-    const updated = {
-      ...c,
-      notes: [newNote, ...existingNotes]
-    };
-    onUpdateContract(updated);
-    setActiveModal({ type: 'notes', contract: updated });
+    try {
+      await apiService.addContractNote(c.id, newNoteText.trim());
+      const notes = await apiService.getContractNotes(c.id);
+      const updated = { ...c, notes };
+      onUpdateContract(updated);
+      setActiveModal({ type: 'notes', contract: updated });
+    } catch {
+      const existingNotes = c.notes || [];
+      const newNote = {
+        id: Date.now().toString(),
+        date: new Date().toLocaleDateString('en-GB'),
+        author: 'Mohammed Barmada',
+        text: newNoteText.trim()
+      };
+      const updated = {
+        ...c,
+        notes: [newNote, ...existingNotes]
+      };
+      onUpdateContract(updated);
+      setActiveModal({ type: 'notes', contract: updated });
+    }
     setNewNoteText('');
   };
 
   const handleExportExcel = () => {
-    const exportData = filteredContracts.map((c, idx) => ({
+    const data = filteredContracts.map((c, idx) => ({
       '#': idx + 1,
       'Contract No': c.contractNo,
       'Unit #': c.unitNumber,
@@ -312,67 +343,106 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
       'Tenant Name': c.tenantName,
       'Mobile': c.tenantMobile || '-',
       'Emergency Phone': c.emergencyPhone || '-',
-      'Representative': c.representativeName || 'Mohammed Barmada',
-      'Annual Rent (SAR)': c.annualRent,
-      'Paid Amount (SAR)': c.paidAmount,
-      'Remaining (SAR)': c.remainingAmount,
+      'Annual Rent': c.annualRent,
+      'Paid Amount': c.paidAmount,
+      'Remaining': c.remainingAmount,
       'Start Date': c.leaseStartDate,
       'End Date': c.leaseEndDate,
-      'Duration (Months)': c.leaseDurationMonths || 12,
+      'Duration': c.leaseDurationMonths || 12,
       'Status': c.status
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Contracts');
-    XLSX.writeFile(workbook, `Azhar_Residence_Contracts_${new Date().toISOString().split('T')[0]}.xlsx`);
+    const totals = {
+      '#': '',
+      'Contract No': '',
+      'Unit #': '',
+      'Type': '',
+      'Tenant Name': '',
+      'Mobile': '',
+      'Emergency Phone': '',
+      'Annual Rent': data.reduce((s, r) => s + r['Annual Rent'], 0),
+      'Paid Amount': data.reduce((s, r) => s + r['Paid Amount'], 0),
+      'Remaining': data.reduce((s, r) => s + r['Remaining'], 0),
+      'Start Date': '',
+      'End Date': '',
+      'Duration': '',
+      'Status': ''
+    };
+
+    exportExcelReport({
+      title: 'Azhar Residence — Contracts & Editing Register',
+      subtitle: 'Compound: Azhar Residence | Contracts list',
+      sheetName: 'Contracts',
+      filename: `Azhar_Residence_Contracts_${new Date().toISOString().split('T')[0]}.xlsx`,
+      columns: [
+        { header: '#', key: '#', width: 5, type: 'number', align: 'center' },
+        { header: 'Contract No', key: 'Contract No', width: 14 },
+        { header: 'Unit #', key: 'Unit #', width: 9, align: 'center' },
+        { header: 'Type', key: 'Type', width: 12 },
+        { header: 'Tenant Name', key: 'Tenant Name', width: 22 },
+        { header: 'Mobile', key: 'Mobile', width: 14, align: 'center' },
+        { header: 'Emergency Phone', key: 'Emergency Phone', width: 14, align: 'center' },
+        { header: 'Annual Rent (SAR)', key: 'Annual Rent', width: 13, type: 'currency' },
+        { header: 'Paid Amount (SAR)', key: 'Paid Amount', width: 13, type: 'currency' },
+        { header: 'Remaining (SAR)', key: 'Remaining', width: 13, type: 'currency' },
+        { header: 'Start Date', key: 'Start Date', width: 12, type: 'date', align: 'center' },
+        { header: 'End Date', key: 'End Date', width: 12, type: 'date', align: 'center' },
+        { header: 'Duration (Months)', key: 'Duration', width: 10, type: 'number', align: 'center' },
+        { header: 'Status', key: 'Status', width: 14, align: 'center' }
+      ],
+      rows: data,
+      totals,
+      footerNote: 'Azhar Residence — Contract Management Report'
+    });
   };
 
   const handleExportPDF = () => {
-    const doc = new jsPDF({ orientation: 'landscape' });
-    
-    doc.setFillColor(43, 98, 175);
-    doc.rect(0, 0, 297, 20, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.text('Azhar Residence - Contracts & Editing Register', 14, 13);
+    const data = filteredContracts.map((c, idx) => ({
+      '#': idx + 1,
+      'Contract No': c.contractNo,
+      'Unit #': c.unitNumber,
+      'Type': c.unitType || 'Appartment',
+      'Tenant Name': c.tenantName,
+      'Mobile': c.tenantMobile || '-',
+      'Annual Rent': c.annualRent,
+      'Paid': c.paidAmount,
+      'Remaining': c.remainingAmount,
+      'End Date': c.leaseEndDate
+    }));
 
-    const headers = [
-      '#', 'Contract No', 'Unit #', 'Type', 'Tenant Name', 'Mobile', 'Representative', 'Annual Rent', 'Paid', 'Remaining', 'End Date'
-    ];
+    const totals = {
+      '#': '',
+      'Contract No': '',
+      'Unit #': '',
+      'Type': '',
+      'Tenant Name': '',
+      'Mobile': '',
+      'Annual Rent': data.reduce((s, r) => s + r['Annual Rent'], 0),
+      'Paid': data.reduce((s, r) => s + r['Paid'], 0),
+      'Remaining': data.reduce((s, r) => s + r['Remaining'], 0),
+      'End Date': ''
+    };
 
-    const body = filteredContracts.map((c, idx) => [
-      idx + 1,
-      c.contractNo,
-      c.unitNumber,
-      c.unitType || 'Appartment',
-      c.tenantName,
-      c.tenantMobile || '-',
-      c.representativeName || 'Mohammed Barmada',
-      `${c.annualRent.toLocaleString()} SAR`,
-      `${c.paidAmount.toLocaleString()} SAR`,
-      `${c.remainingAmount.toLocaleString()} SAR`,
-      c.leaseEndDate
-    ]);
-
-    autoTable(doc, {
-      startY: 25,
-      head: [headers],
-      body: body,
-      theme: 'grid',
-      headStyles: {
-        fillColor: [43, 98, 175],
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        fontSize: 9
-      },
-      styles: {
-        fontSize: 8,
-        cellPadding: 3
-      }
+    exportPDFReport({
+      title: 'Azhar Residence — Contracts & Editing Register',
+      subtitle: 'Compound: Azhar Residence | Contracts list',
+      filename: `Azhar_Residence_Contracts_${new Date().toISOString().split('T')[0]}.pdf`,
+      columns: [
+        { header: '#', key: '#', width: 5, type: 'number', align: 'center' },
+        { header: 'Contract No', key: 'Contract No', width: 14 },
+        { header: 'Unit #', key: 'Unit #', width: 9, align: 'center' },
+        { header: 'Type', key: 'Type', width: 12 },
+        { header: 'Tenant Name', key: 'Tenant Name', width: 22 },
+        { header: 'Mobile', key: 'Mobile', width: 14, align: 'center' },
+        { header: 'Annual Rent (SAR)', key: 'Annual Rent', width: 13, type: 'currency' },
+        { header: 'Paid (SAR)', key: 'Paid', width: 12, type: 'currency' },
+        { header: 'Remaining (SAR)', key: 'Remaining', width: 13, type: 'currency' },
+        { header: 'End Date', key: 'End Date', width: 12, type: 'date', align: 'center' }
+      ],
+      rows: data,
+      totals,
+      footerNote: 'Azhar Residence — Contract Management Report'
     });
-
-    doc.save(`Azhar_Residence_Contracts_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   return (
@@ -532,13 +602,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                   </div>
                 </th>
 
-                <th className="py-3 px-3 border-r border-blue-600/40" onClick={() => handleSort('representativeName')}>
-                  <div className="flex items-center gap-1 cursor-pointer select-none hover:text-cyan-200">
-                    <span>{language === 'ar' ? 'اسم الممثل' : 'Representative Name'}</span>
-                    <ArrowUpDown className="w-3 h-3 text-white/70" />
-                  </div>
-                </th>
-
                 <th className="py-3 px-3 border-r border-blue-600/40 font-mono" onClick={() => handleSort('leaseStartDate')}>
                   <div className="flex items-center gap-1 cursor-pointer select-none hover:text-cyan-200">
                     <span>{language === 'ar' ? 'تاريخ البداية' : 'Start Date'}</span>
@@ -647,11 +710,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                           {c.emergencyPhone || '-'}
                         </td>
 
-                        {/* Representative Name */}
-                        <td className="py-2.5 px-3 text-slate-700 border-l border-slate-100 whitespace-nowrap">
-                          {c.representativeName || 'Mohammed Barmada'}
-                        </td>
-
                         {/* Start Date */}
                         <td className="py-2.5 px-3 font-mono text-slate-700 border-l border-slate-100 whitespace-nowrap">
                           {c.leaseStartDate}
@@ -667,6 +725,7 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                           <div className="flex items-center justify-center gap-1.5">
                             <button
                               onClick={() => {
+                                setShowPaymentForm(true);
                                 setActiveModal({ type: 'payment', contract: c });
                                 loadContractPayments(c);
                                 setOpenDropdownId(null);
@@ -677,6 +736,7 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                               <span>{language === 'ar' ? 'دفع' : 'Pay'}</span>
                             </button>
                             <button
+                              ref={el => { if (el) dropdownTriggers.current.set(c.id, el); else dropdownTriggers.current.delete(c.id); }}
                               onClick={() => setOpenDropdownId(openDropdownId === c.id ? null : c.id)}
                               className="px-3 py-1 bg-[#475569] hover:bg-[#334155] text-white text-[11px] font-bold rounded-md shadow-sm transition-all flex items-center justify-center gap-1"
                             >
@@ -686,11 +746,14 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                           </div>
 
                           {/* EXACT OPERATIONS DROPDOWN FROM SCREENSHOT (IMAGE 2) */}
-                          {openDropdownId === c.id && (
-                            <div 
-                              className="absolute left-1/2 -translate-x-1/2 mt-1 w-44 bg-white border border-slate-200 rounded-lg shadow-2xl py-1 z-50 text-right text-xs font-medium text-slate-700"
-                              onMouseLeave={() => setOpenDropdownId(null)}
-                            >
+                          <FloatingDropdown
+                            open={openDropdownId === c.id}
+                            onClose={() => setOpenDropdownId(null)}
+                            trigger={dropdownTriggers.current.get(c.id) || null}
+                            align="center"
+                            width={176}
+                          >
+                            <div className="bg-white border border-slate-200 rounded-lg shadow-2xl py-1 text-right text-xs font-medium text-slate-700">
                               <button
                                 onClick={() => {
                                   setActiveModal({ type: 'details', contract: c });
@@ -712,6 +775,7 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
 
                               <button
                                 onClick={() => {
+                                  setShowPaymentForm(true);
                                   setActiveModal({ type: 'payment', contract: c });
                                   loadContractPayments(c);
                                   setOpenDropdownId(null);
@@ -786,6 +850,19 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
 
                               <button
                                 onClick={() => {
+                                  if (window.confirm(language === 'ar' ? 'هل أنت متأكد من حذف هذا العقد؟' : 'Are you sure you want to delete this contract?')) {
+                                    onDeleteContract(c.id);
+                                  }
+                                  setOpenDropdownId(null);
+                                }}
+                                className="w-full text-right px-4 py-2 hover:bg-red-50 flex items-center justify-between font-bold text-red-600"
+                              >
+                                <span>{language === 'ar' ? 'حذف العقد' : 'Delete Contract'}</span>
+                                <Trash2 className="w-3.5 h-3.5 text-red-600" />
+                              </button>
+
+                              <button
+                                onClick={() => {
                                   setActiveModal({ type: 'print', contract: c });
                                   setOpenDropdownId(null);
                                 }}
@@ -794,142 +871,8 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                                 <span>{language === 'ar' ? 'طباعة العقد' : 'Print'}</span>
                                 <Printer className="w-3.5 h-3.5 text-slate-700" />
                               </button>
-        </div>
-      )}
-
-      {/* PAYMENT MODAL */}
-      {activeModal.type === 'payment' && activeModal.contract && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-[#29b4c4]" />
-                <h3 className="text-base font-bold text-slate-900">
-                  {language === 'ar' ? 'تسجيل دفعة' : 'Record Payment'} - {activeModal.contract.contractNo}
-                </h3>
-              </div>
-              <button 
-                onClick={() => setActiveModal({ type: null, contract: null })}
-                className="text-slate-400 hover:text-slate-600 font-bold text-xl"
-              >
-                &times;
-              </button>
             </div>
-
-            {/* Payment Recording Form */}
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-              <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">
-                {language === 'ar' ? 'تسجيل دفعة جديدة' : 'Record New Payment'}
-              </h4>
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Amount (SAR)</label>
-                  <input
-                    type="number"
-                    value={paymentAmount}
-                    onChange={(e) => setPaymentAmount(Number(e.target.value))}
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono font-bold"
-                    placeholder="0.00"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Month</label>
-                  <select
-                    value={paymentMonth}
-                    onChange={(e) => setPaymentMonth(Number(e.target.value))}
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
-                  >
-                    {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Year</label>
-                  <input
-                    type="number"
-                    value={paymentYear}
-                    onChange={(e) => setPaymentYear(Number(e.target.value))}
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Payment Method</label>
-                  <select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
-                  >
-                    <option value="Cash">Cash (نقدي)</option>
-                    <option value="Card">Card (بطاقة)</option>
-                    <option value="BankTransfer">Bank Transfer (تحويل بنكي)</option>
-                    <option value="Check">Check (شيك)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Status</label>
-                  <select
-                    value={paymentStatus}
-                    onChange={(e) => setPaymentStatus(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
-                  >
-                    <option value="Paid">Paid</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Partial">Partial</option>
-                  </select>
-                </div>
-              </div>
-
-              <button
-                onClick={handleRecordPayment}
-                disabled={paymentAmount <= 0}
-                className="w-full py-2.5 bg-[#29b4c4] hover:bg-[#229ca9] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                {language === 'ar' ? 'تسجيل الدفعة' : 'Record Payment'}
-              </button>
-            </div>
-
-            {/* Payments List */}
-            <div className="space-y-2">
-              <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">
-                {language === 'ar' ? 'سجل الدفعات' : 'Payment History'}
-              </h4>
-              {contractPayments.length === 0 ? (
-                <p className="text-xs text-slate-400 text-center py-4">
-                  {language === 'ar' ? 'لا توجد دفعات مسجلة' : 'No payments recorded'}
-                </p>
-              ) : (
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {contractPayments.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
-                      <div>
-                        <p className="font-bold text-slate-900 text-sm">{p.amount.toLocaleString()} SAR</p>
-                        <p className="text-[10px] text-slate-500">
-                          {p.paymentDate || `${p.month}/${p.year}`} · {p.paymentMethod} · {p.status}
-                        </p>
-                      </div>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                        p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
-                        p.status === 'Pending' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                        'bg-rose-100 text-rose-800 border border-rose-200'
-                      }`}>
-                        {p.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+          </FloatingDropdown>
                         </td>
                       </tr>
 
@@ -942,7 +885,7 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                                 <span className="text-slate-400 font-semibold block mb-1">تفاصيل العقد:</span>
                                 <p className="font-bold text-slate-900">كمبوند أزهار (Azhar Residence)</p>
                                 <p className="text-slate-600">الوحدة: {c.unitNumber} ({c.unitType})</p>
-                                <p className="text-slate-600">ممثل المالك: {c.representativeName}</p>
+                                <p className="text-slate-600">Contract: {c.contractNo}</p>
                               </div>
                               <div>
                                 <span className="text-slate-400 font-semibold block mb-1">بيانات المستأجر:</span>
@@ -1093,16 +1036,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                     <option value="Villa">Villa</option>
                     <option value="Warehouse">Warehouse</option>
                   </select>
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">اسم الممثل</label>
-                  <input
-                    type="text"
-                    value={representative}
-                    onChange={(e) => setRepresentative(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl"
-                  />
                 </div>
               </div>
 
@@ -1314,16 +1247,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                       <option value="Warehouse">Warehouse</option>
                     </select>
                   </div>
-
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Representative Name</label>
-                    <input
-                      type="text"
-                      value={editForm.representativeName || ''}
-                      onChange={(e) => setEditForm({ ...editForm, representativeName: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl"
-                    />
-                  </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
@@ -1473,50 +1396,9 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-bold"
                     />
                   </div>
-
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Insurance</label>
-                    <input
-                      type="number"
-                      value={editForm.insurance || 0}
-                      onChange={(e) => setEditForm({ ...editForm, insurance: Number(e.target.value) })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Commission</label>
-                    <input
-                      type="number"
-                      value={editForm.commission || 0}
-                      onChange={(e) => setEditForm({ ...editForm, commission: Number(e.target.value) })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-mono"
-                    />
-                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={editForm.verifiedInEjar !== false}
-                        onChange={(e) => setEditForm({ ...editForm, verifiedInEjar: e.target.checked })}
-                        className="w-4 h-4 text-[#29b4c4]"
-                      />
-                      <span className="font-semibold text-slate-700">Verified in Ejar</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={editForm.transferAccountToTenant !== false}
-                        onChange={(e) => setEditForm({ ...editForm, transferAccountToTenant: e.target.checked })}
-                        className="w-4 h-4 text-[#29b4c4]"
-                      />
-                      <span className="font-semibold text-slate-700">Transfer Account</span>
-                    </label>
-                  </div>
-
                   <div>
                     <label className="block font-semibold text-slate-700 mb-1">Status</label>
                     <select
@@ -1651,10 +1533,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                   <span className="font-mono">{activeModal.contract.emergencyPhone || '-'}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="text-slate-500">اسم الممثل:</span>
-                  <span className="font-bold">{activeModal.contract.representativeName}</span>
-                </div>
-                <div className="flex justify-between border-b border-slate-200 pb-2">
                   <span className="text-slate-500">تاريخ البداية والمدة:</span>
                   <span>{activeModal.contract.leaseStartDate} ({activeModal.contract.leaseDurationMonths} شهر)</span>
                 </div>
@@ -1758,15 +1636,87 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
                 {/* Record Payment */}
                 <div className="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200">
                   <button
-                    onClick={() => {
-                      setActiveModal({ type: 'payment', contract: c });
-                      loadContractPayments(c);
-                    }}
+                    onClick={() => setShowPaymentForm(!showPaymentForm)}
                     className="w-full py-2.5 bg-[#29b4c4] hover:bg-[#229ca9] text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"
                   >
                     <CreditCard className="w-4 h-4" />
-                    {language === 'ar' ? 'تسجيل دفعة جديدة' : 'Record New Payment'}
+                    {showPaymentForm
+                      ? (language === 'ar' ? 'إخفاء نموذج الدفع' : 'Hide Payment Form')
+                      : (language === 'ar' ? 'تسجيل دفعة جديدة' : 'Record New Payment')}
                   </button>
+
+                  {showPaymentForm && (
+                    <div className="mt-4 bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div>
+                          <label className="block font-semibold text-slate-700 mb-1">Amount (SAR)</label>
+                          <input
+                            type="number"
+                            value={paymentAmount}
+                            onChange={(e) => setPaymentAmount(Number(e.target.value))}
+                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono font-bold"
+                            placeholder="0.00"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-semibold text-slate-700 mb-1">Month</label>
+                          <select
+                            value={paymentMonth}
+                            onChange={(e) => setPaymentMonth(Number(e.target.value))}
+                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
+                          >
+                            {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                              <option key={m} value={m}>{m}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block font-semibold text-slate-700 mb-1">Year</label>
+                          <input
+                            type="number"
+                            value={paymentYear}
+                            onChange={(e) => setPaymentYear(Number(e.target.value))}
+                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block font-semibold text-slate-700 mb-1">Payment Method</label>
+                          <select
+                            value={paymentMethod}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
+                          >
+                            <option value="Cash">Cash (نقدي)</option>
+                            <option value="Card">Card (بطاقة)</option>
+                            <option value="BankTransfer">Bank Transfer (تحويل بنكي)</option>
+                            <option value="Check">Check (شيك)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block font-semibold text-slate-700 mb-1">Status</label>
+                          <select
+                            value={paymentStatus}
+                            onChange={(e) => setPaymentStatus(e.target.value)}
+                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl"
+                          >
+                            <option value="Paid">Paid</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Partial">Partial</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleRecordPayment}
+                        disabled={paymentAmount <= 0}
+                        className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        {language === 'ar' ? 'تسجيل الدفعة' : 'Record Payment'}
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Due Payments Table like attachment */}
@@ -2118,7 +2068,6 @@ export const CompoundContracts: React.FC<CompoundContractsProps> = ({
               <div>
                 <p className="mb-8">توقيع الطرف الأول (إدارة كمبوند أزهار)</p>
                 <p className="text-slate-400 font-normal">___________________________</p>
-                <p className="mt-1 text-[10px] text-slate-500">{activeModal.contract.representativeName}</p>
               </div>
               <div>
                 <p className="mb-8">توقيع الطرف الثاني (المستأجر)</p>

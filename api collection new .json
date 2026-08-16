@@ -1,0 +1,3944 @@
+{
+  "apidogProject": "1.0.0",
+  "$schema": {
+    "app": "apidog",
+    "type": "project",
+    "version": "1.2.0"
+  },
+  "info": {
+    "name": "Authentication",
+    "description": "",
+    "mockRule": {
+      "rules": [],
+      "enableSystemRule": true
+    }
+  },
+  "projectSetting": {
+    "id": "1323476",
+    "auth": {},
+    "securityScheme": {},
+    "gateway": [],
+    "language": "en-US",
+    "apiStatuses": [
+      "developing",
+      "testing",
+      "released",
+      "deprecated"
+    ],
+    "mockSettings": {},
+    "preProcessors": [],
+    "postProcessors": [],
+    "advancedSettings": {
+      "allowAutomationWriteAutomationCreatedSprintBranch": true,
+      "enableJsonc": false,
+      "enableBigint": false,
+      "responseValidate": true,
+      "enableTestScenarioSetting": false,
+      "enableYAPICompatScript": false,
+      "isDefaultUrlEncoding": 3,
+      "publishedDocUrlRules": {
+        "defaultRule": "SLUGIFY_WITH_RESOURCE_KEY",
+        "resourceKeyStandard": "NEW"
+      }
+    },
+    "initialDisabledMockIds": [],
+    "servers": [
+      {
+        "id": "default",
+        "name": "Default Server",
+        "moduleId": 1332802
+      },
+      {
+        "id": "1332803",
+        "name": "Default Server",
+        "moduleId": 1332803
+      },
+      {
+        "id": "1332805",
+        "name": "Default Server",
+        "moduleId": 1332805
+      },
+      {
+        "id": "1332808",
+        "name": "Default Server",
+        "moduleId": 1332808
+      },
+      {
+        "id": "1332809",
+        "name": "Default Server",
+        "moduleId": 1332809
+      },
+      {
+        "id": "1346100",
+        "name": "Default Server",
+        "moduleId": 1346100
+      },
+      {
+        "id": "1347645",
+        "name": "Default Server",
+        "moduleId": 1347645
+      },
+      {
+        "id": "1355484",
+        "name": "Default Server",
+        "moduleId": 1355484
+      },
+      {
+        "id": "1415386",
+        "name": "Default Server",
+        "moduleId": 1415386
+      }
+    ],
+    "cloudMock": {
+      "enable": false,
+      "security": "free",
+      "tokenKey": "apidogToken",
+      "isCreatedAutomaticallyByDefaultConfigFromAdmin": true
+    }
+  },
+  "apiCollection": [
+    {
+      "name": "Root",
+      "id": 10079647,
+      "auth": {
+        "type": "noauth"
+      },
+      "securityScheme": {},
+      "parentId": 0,
+      "serverId": "",
+      "description": "",
+      "identityPattern": {
+        "httpApi": {
+          "type": "methodAndPath",
+          "bodyType": "",
+          "fields": []
+        }
+      },
+      "shareSettings": {},
+      "visibility": "SHARED",
+      "moduleId": 1415386,
+      "preProcessors": [
+        {
+          "id": "inheritProcessors",
+          "type": "inheritProcessors",
+          "data": {}
+        }
+      ],
+      "postProcessors": [
+        {
+          "id": "inheritProcessors",
+          "type": "inheritProcessors",
+          "data": {}
+        }
+      ],
+      "inheritPostProcessors": {},
+      "inheritPreProcessors": {},
+      "items": [
+        {
+          "name": "Add House",
+          "api": {
+            "id": "41811562",
+            "method": "post",
+            "path": "/api/House",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "117102736",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[]",
+                "responseId": "117102736"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseNumber\": \"143\",\r\n  \"buildingNumber\": \"101\",\r\n  \"propertyType\": \"Apartment\",\r\n  \"area\": 250.5,\r\n  \"majlisCount\": 2,\r\n  \"livingRoomsCount\": 3,\r\n  \"bathroomsCount\": 4,\r\n  \"roomsCount\": 5,\r\n  \"annualRent\": 90000\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 710,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All house",
+          "api": {
+            "id": "41811574",
+            "method": "get",
+            "path": "/api/House",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "165038679",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"e2b26802-12e6-41c5-aa34-4365c0dcd197\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null},{\"id\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null},{\"id\":\"8de35143-7863-4db6-8507-a13358d38157\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null}]",
+                "responseId": "165038679"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 720,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Avaliale house",
+          "api": {
+            "id": "41811582",
+            "method": "get",
+            "path": "/api/House/available",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "193927500",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"e2b26802-12e6-41c5-aa34-4365c0dcd197\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null},{\"id\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null},{\"id\":\"8de35143-7863-4db6-8507-a13358d38157\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null}]",
+                "responseId": "193927500"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 730,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get House  by id",
+          "api": {
+            "id": "41811585",
+            "method": "get",
+            "path": "/api/House/e2b26802-12e6-41c5-aa34-4365c0dcd197",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "105311767",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"e2b26802-12e6-41c5-aa34-4365c0dcd197\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null}",
+                "responseId": "105311767"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 740,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update house",
+          "api": {
+            "id": "41811593",
+            "method": "put",
+            "path": "/api/House/e2b26802-12e6-41c5-aa34-4365c0dcd197",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "191923004",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"e2b26802-12e6-41c5-aa34-4365c0dcd197\",\"houseNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":0,\"area\":250.50,\"majlisCount\":2,\"livingRoomsCount\":3,\"bathroomsCount\":4,\"roomsCount\":5,\"annualRent\":90000.00,\"userId\":null,\"userDisplayName\":null,\"userEmail\":null}",
+                "responseId": "191923004"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseNumber\": \"143\",\r\n  \"buildingNumber\": \"150\",\r\n  \"propertyType\": 1,\r\n  \"area\": 400,\r\n  \"majlisCount\": 3,\r\n  \"livingRoomsCount\": 4,\r\n  \"bathroomsCount\": 5,\r\n  \"roomsCount\": 6,\r\n  \"annualRent\": 135000\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 750,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete house",
+          "api": {
+            "id": "41811606",
+            "method": "delete",
+            "path": "/api/House/e2b26802-12e6-41c5-aa34-4365c0dcd197",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "185074054",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "House deleted successfully",
+                "responseId": "185074054"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 760,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": " Create Electricity Meter",
+          "api": {
+            "id": "41811849",
+            "method": "post",
+            "path": "/api/ElectricityMeter",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "182480254",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"afd75658-0297-4dac-8199-b6cfd819d650\",\"buildingNumber\":\"101\",\"unitNumber\":\"143\",\"meterNumber\":\"482990\",\"paymentAccountNumber\":\"10001899990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\"}",
+                "responseId": "182480254"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\r\n  \"meterNumber\": \"482990\",\r\n  \"paymentAccountNumber\": \"10001899990\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 770,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Electricity Meter",
+          "api": {
+            "id": "41811871",
+            "method": "get",
+            "path": "/api/ElectricityMeter",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "168629209",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"afd75658-0297-4dac-8199-b6cfd819d650\",\"buildingNumber\":\"101\",\"unitNumber\":\"143\",\"meterNumber\":\"482990\",\"paymentAccountNumber\":\"10001899990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\"}]",
+                "responseId": "168629209"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 780,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": " Get Electricity Meter By ID",
+          "api": {
+            "id": "41811906",
+            "method": "get",
+            "path": "/api/ElectricityMeter/afd75658-0297-4dac-8199-b6cfd819d650",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "103189489",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"afd75658-0297-4dac-8199-b6cfd819d650\",\"buildingNumber\":\"101\",\"unitNumber\":\"143\",\"meterNumber\":\"482990\",\"paymentAccountNumber\":\"10001899990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\"}",
+                "responseId": "103189489"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 790,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Electricity Meter",
+          "api": {
+            "id": "41811968",
+            "method": "put",
+            "path": "/api/ElectricityMeter/afd75658-0297-4dac-8199-b6cfd819d650",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "158606462",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"afd75658-0297-4dac-8199-b6cfd819d650\",\"buildingNumber\":\"101\",\"unitNumber\":\"143\",\"meterNumber\":\"500123\",\"paymentAccountNumber\":\"10001987654\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\"}",
+                "responseId": "158606462"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\r\n  \"meterNumber\": \"500123\",\r\n  \"paymentAccountNumber\": \"10001987654\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 800,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete Electricity Meter",
+          "api": {
+            "id": "41811994",
+            "method": "delete",
+            "path": "/api/ElectricityMeter/afd75658-0297-4dac-8199-b6cfd819d650",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTg3NzZjNDktMjE3My00N2Y2LWIyYzQtZWMzYzkzM2UwMTE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3Mzg3MTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.9QnScScpftjc669dMs6kuzJbHvcnTuhgCkWpHARYwyo"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "196406598",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"isSuccess\":true,\"message\":\"Electricity meter deleted successfully\"}",
+                "responseId": "196406598"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 810,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create Water Meter",
+          "api": {
+            "id": "41812352",
+            "method": "post",
+            "path": "/api/WaterMeters",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZTJmOGI5YmEtYjY4NS00NzY0LWIyNWEtYTA2Mjk5MGMwMDBlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NDA0ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.3OOu6EayqAcI31fuplKBI86dv0QNTJXdM5wI0pucL1I"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "111255290",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"645725a4-6bb2-4f43-9af4-51e891184ba1\",\"meterNumber\":\"482990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\"}",
+                "responseId": "111255290"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\r\n  \"meterNumber\": \"482990\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 820,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All Water Meters",
+          "api": {
+            "id": "41812360",
+            "method": "get",
+            "path": "/api/WaterMeters",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZTJmOGI5YmEtYjY4NS00NzY0LWIyNWEtYTA2Mjk5MGMwMDBlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NDA0ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.3OOu6EayqAcI31fuplKBI86dv0QNTJXdM5wI0pucL1I"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "159595076",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"645725a4-6bb2-4f43-9af4-51e891184ba1\",\"meterNumber\":\"482990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\"}]",
+                "responseId": "159595076"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 830,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Water Meter By ID",
+          "api": {
+            "id": "41812362",
+            "method": "get",
+            "path": "/api/WaterMeters/645725a4-6bb2-4f43-9af4-51e891184ba1",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZTJmOGI5YmEtYjY4NS00NzY0LWIyNWEtYTA2Mjk5MGMwMDBlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NDA0ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.3OOu6EayqAcI31fuplKBI86dv0QNTJXdM5wI0pucL1I"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "123462237",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"645725a4-6bb2-4f43-9af4-51e891184ba1\",\"meterNumber\":\"482990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\"}",
+                "responseId": "123462237"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 840,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Water Meter",
+          "api": {
+            "id": "41812365",
+            "method": "get",
+            "path": "/api/WaterMeters/645725a4-6bb2-4f43-9af4-51e891184ba1",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZTJmOGI5YmEtYjY4NS00NzY0LWIyNWEtYTA2Mjk5MGMwMDBlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NDA0ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.3OOu6EayqAcI31fuplKBI86dv0QNTJXdM5wI0pucL1I"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "152145279",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"645725a4-6bb2-4f43-9af4-51e891184ba1\",\"meterNumber\":\"482990\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\"}",
+                "responseId": "152145279"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\r\n  \"meterNumber\": \"500123\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 850,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete Water Meter",
+          "api": {
+            "id": "41812398",
+            "method": "delete",
+            "path": "/api/WaterMeters/645725a4-6bb2-4f43-9af4-51e891184ba1",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZTJmOGI5YmEtYjY4NS00NzY0LWIyNWEtYTA2Mjk5MGMwMDBlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NDA0ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.3OOu6EayqAcI31fuplKBI86dv0QNTJXdM5wI0pucL1I"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "145844554",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"message\":\"Water meter deleted successfully\"}",
+                "responseId": "145844554"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 860,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create Tanent ",
+          "api": {
+            "id": "41820990",
+            "method": "post",
+            "path": "/api/Tenants",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "145745248",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"fullName\":\"Mohamed Khair\",\"arabicName\":\"محمد خير\",\"email\":\"mohamed.khair1@example.com\",\"phoneNumber\":\"0553014805\",\"nationalId\":\"2391029381\",\"nationality\":\"Saudi\",\"emergencyContactPhone\":\"0551234567\",\"whatsAppNumber\":\"0553014805\",\"familyCount\":3,\"companyName\":\"Azhar Company\",\"tenantCompanyName\":\"Mohamed Khair Company\",\"workNotes\":\"Works in Riyadh\",\"tenantRemarks\":\"Good tenant\",\"isMarried\":true,\"isActive\":true,\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\",\"electricityMeterNumber\":null}",
+                "responseId": "145745248"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"fullName\": \"Mohamed Khair\",\r\n  \"arabicName\": \"محمد خير\",\r\n  \"email\": \"mohamed.khair1@example.com\",\r\n  \"phoneNumber\": \"0553014805\",\r\n  \"nationalId\": \"2391029381\",\r\n  \"nationality\": \"Saudi\",\r\n  \"emergencyContactPhone\": \"0551234567\",\r\n  \"whatsAppNumber\": \"0553014805\",\r\n  \"familyCount\": 3,\r\n  \"companyName\": \"Azhar Company\",\r\n  \"tenantCompanyName\": \"Mohamed Khair Company\",\r\n  \"workNotes\": \"Works in Riyadh\",\r\n  \"tenantRemarks\": \"Good tenant\",\r\n  \"isMarried\": true,\r\n  \"password\": \"Test@12345\",\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 910,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All Tanent",
+          "api": {
+            "id": "41820970",
+            "method": "get",
+            "path": "/api/Tenants",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "177810707",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"afcb9b1f-b389-41f2-8c4a-1ed47a877222\",\"fullName\":\"Mohamed Khair\",\"arabicName\":\"محمد خير\",\"email\":\"mohamed.khair@example.com\",\"phoneNumber\":\"0553014805\",\"nationalId\":\"2391029381\",\"nationality\":\"Saudi\",\"emergencyContactPhone\":\"0551234567\",\"whatsAppNumber\":\"0553014805\",\"familyCount\":3,\"companyName\":\"Azhar Company\",\"tenantCompanyName\":\"Mohamed Khair Company\",\"workNotes\":\"Works in Riyadh\",\"tenantRemarks\":\"Good tenant\",\"isMarried\":true,\"isActive\":true,\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\",\"electricityMeterNumber\":null}]",
+                "responseId": "177810707"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 880,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Tanent",
+          "api": {
+            "id": "41820975",
+            "method": "put",
+            "path": "/api/Tenants/afcb9b1f-b389-41f2-8c4a-1ed47a877222",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "179153177",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"afcb9b1f-b389-41f2-8c4a-1ed47a877222\",\"fullName\":\"Mohamed Khair Updated\",\"arabicName\":\"محمد خير\",\"email\":\"mohamed.khair@example.com\",\"phoneNumber\":\"0553019999\",\"nationalId\":\"2391029381\",\"nationality\":\"Saudi\",\"emergencyContactPhone\":\"0551234567\",\"whatsAppNumber\":\"0553019999\",\"familyCount\":4,\"companyName\":\"New Company\",\"tenantCompanyName\":\"New Tenant Company\",\"workNotes\":\"Updated work notes\",\"tenantRemarks\":\"Updated remarks\",\"isMarried\":true,\"isActive\":true,\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"houseNumber\":\"143\",\"electricityMeterNumber\":null}",
+                "responseId": "179153177"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"fullName\": \"Mohamed Khair Updated\",\r\n  \"arabicName\": \"محمد خير\",\r\n  \"phoneNumber\": \"0553019999\",\r\n  \"nationalId\": \"2391029381\",\r\n  \"nationality\": \"Saudi\",\r\n  \"emergencyContactPhone\": \"0551234567\",\r\n  \"whatsAppNumber\": \"0553019999\",\r\n  \"familyCount\": 4,\r\n  \"companyName\": \"New Company\",\r\n  \"tenantCompanyName\": \"New Tenant Company\",\r\n  \"workNotes\": \"Updated work notes\",\r\n  \"tenantRemarks\": \"Updated remarks\",\r\n  \"isMarried\": true,\r\n  \"isActive\": true\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 890,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete Tanent ",
+          "api": {
+            "id": "41820989",
+            "method": "delete",
+            "path": "/api/Tenants/afcb9b1f-b389-41f2-8c4a-1ed47a877222",
+            "parameters": {
+              "path": []
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "192754517",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"message\":\"Tenant deleted successfully\"}",
+                "responseId": "192754517"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 900,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create Contract",
+          "api": {
+            "id": "41820998",
+            "method": "post",
+            "path": "/api/Contracts",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "189427715",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"contractNumber\":\"20260815001\",\"tenantId\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"tenantName\":\"Mohamed Khair\",\"tenantMobile\":\"0553014805\",\"nationalId\":\"2391029381\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"unitNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":\"0\",\"annualRent\":90000,\"waterMeterCost\":5000,\"discount\":0,\"paidAmount\":45000,\"remainingAmount\":50000,\"paymentFrequency\":\"SemiAnnual\",\"leaseStartDate\":\"2026-08-15T00:00:00\",\"leaseEndDate\":\"2027-08-15T00:00:00\",\"leaseDurationMonths\":12,\"status\":\"Active\",\"isArchived\":false,\"notes\":[]}",
+                "responseId": "189427715"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"contractNumber\": \"20260815001\",\r\n  \"tenantId\": \"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\r\n  \"houseId\": \"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\r\n  \"annualRent\": 90000,\r\n  \"waterMeterCost\": 5000,\r\n  \"discount\": 0,\r\n  \"paidAmount\": 45000,\r\n  \"paymentFrequency\": \"SemiAnnual\",\r\n  \"leaseStartDate\": \"2026-08-15\",\r\n  \"leaseDurationMonths\": 12\r\n\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 920,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All Contracts",
+          "api": {
+            "id": "41821032",
+            "method": "get",
+            "path": "/api/Contracts",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZmFlNDIzMjUtZjhhOC00Mzc3LTlhMjctMjhhOTJlZmY1NWI3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODEzOTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.vJaPSO96d-CuDHUADzzp164H9qPd3i-wJfKayoaLiok"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "138672249",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"contractNumber\":\"20260815001\",\"tenantId\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"tenantName\":\"Mohamed Khair\",\"tenantMobile\":\"0553014805\",\"nationalId\":\"2391029381\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"unitNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":\"0\",\"annualRent\":90000.00,\"waterMeterCost\":5000.00,\"discount\":0.00,\"paidAmount\":45000.00,\"remainingAmount\":50000.00,\"paymentFrequency\":\"SemiAnnual\",\"leaseStartDate\":\"2026-08-15T00:00:00\",\"leaseEndDate\":\"2027-08-15T00:00:00\",\"leaseDurationMonths\":12,\"status\":\"Active\",\"isArchived\":false,\"notes\":[]}]",
+                "responseId": "138672249"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 930,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Active Contracts",
+          "api": {
+            "id": "41821045",
+            "method": "get",
+            "path": "/api/Contracts/active",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "173670817",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"contractNumber\":\"20260815001\",\"tenantId\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"tenantName\":\"Mohamed Khair\",\"tenantMobile\":\"0553014805\",\"nationalId\":\"2391029381\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"unitNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":\"0\",\"annualRent\":90000.00,\"waterMeterCost\":5000.00,\"discount\":0.00,\"paidAmount\":45000.00,\"remainingAmount\":50000.00,\"paymentFrequency\":\"SemiAnnual\",\"leaseStartDate\":\"2026-08-15T00:00:00\",\"leaseEndDate\":\"2027-08-15T00:00:00\",\"leaseDurationMonths\":12,\"status\":\"Active\",\"isArchived\":false,\"notes\":[]}]",
+                "responseId": "173670817"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 940,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Expired Contracts",
+          "api": {
+            "id": "41821048",
+            "method": "get",
+            "path": "/api/Contracts/expired",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiOTdmZGRjYmItNTQ3Ny00MmViLTkyMmQtMjgwYWM0YjcwMzBmIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzY3ODgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.izY_DV3hycmoKiCyCDi24EoGS9syRGjGYbgsg4_qoDk"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "170851997",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[]",
+                "responseId": "170851997"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 950,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Archived Contracts",
+          "api": {
+            "id": "41821050",
+            "method": "get",
+            "path": "/api/Contracts/archived",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiMDI3YjIzNmQtZDM1Ny00NWU3LTgyYjEtNGUyMGJmMDFjZTdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzgzMzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.I68ugFTCXv8pWY5oCuEf5R_VsKL8JJ6QGi7g73c5QY8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "128298772",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[]",
+                "responseId": "128298772"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 960,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Contract By ID",
+          "api": {
+            "id": "41821053",
+            "method": "get",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiMDI3YjIzNmQtZDM1Ny00NWU3LTgyYjEtNGUyMGJmMDFjZTdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzgzMzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.I68ugFTCXv8pWY5oCuEf5R_VsKL8JJ6QGi7g73c5QY8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "120792798",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"contractNumber\":\"20260815001\",\"tenantId\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"tenantName\":\"Mohamed Khair\",\"tenantMobile\":\"0553014805\",\"nationalId\":\"2391029381\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"unitNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":\"0\",\"annualRent\":90000.00,\"waterMeterCost\":5000.00,\"discount\":0.00,\"paidAmount\":45000.00,\"remainingAmount\":50000.00,\"paymentFrequency\":\"SemiAnnual\",\"leaseStartDate\":\"2026-08-15T00:00:00\",\"leaseEndDate\":\"2027-08-15T00:00:00\",\"leaseDurationMonths\":12,\"status\":\"Active\",\"isArchived\":false,\"notes\":[]}",
+                "responseId": "120792798"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 970,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Contract",
+          "api": {
+            "id": "41821057",
+            "method": "put",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiMDI3YjIzNmQtZDM1Ny00NWU3LTgyYjEtNGUyMGJmMDFjZTdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzgzMzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.I68ugFTCXv8pWY5oCuEf5R_VsKL8JJ6QGi7g73c5QY8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "175861608",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"contractNumber\":\"20260815001\",\"tenantId\":\"5004f004-298a-484c-9f7b-ab65ed8e5d85\",\"tenantName\":\"Mohamed Khair\",\"tenantMobile\":\"0553014805\",\"nationalId\":\"2391029381\",\"houseId\":\"8cc386b7-4daf-470f-9f5e-604a96946f8e\",\"unitNumber\":\"143\",\"buildingNumber\":\"101\",\"propertyType\":\"0\",\"annualRent\":100000,\"waterMeterCost\":5000.00,\"discount\":5000,\"paidAmount\":50000,\"remainingAmount\":50000.00,\"paymentFrequency\":\"SemiAnnual\",\"leaseStartDate\":\"2026-08-15T00:00:00\",\"leaseEndDate\":\"2027-08-15T00:00:00\",\"leaseDurationMonths\":12,\"status\":\"Active\",\"isArchived\":false,\"notes\":[]}",
+                "responseId": "175861608"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"annualRent\": 100000,\r\n  \"paidAmount\": 50000,\r\n  \"discount\": 5000\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 980,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Archive Contract",
+          "api": {
+            "id": "41821139",
+            "method": "put",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/archive",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiMDI3YjIzNmQtZDM1Ny00NWU3LTgyYjEtNGUyMGJmMDFjZTdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzgzMzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.I68ugFTCXv8pWY5oCuEf5R_VsKL8JJ6QGi7g73c5QY8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "116016607",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"message\":\"Contract archived successfully\"}",
+                "responseId": "116016607"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 990,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Unarchive Contract",
+          "api": {
+            "id": "41821144",
+            "method": "put",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/unarchive",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiMDI3YjIzNmQtZDM1Ny00NWU3LTgyYjEtNGUyMGJmMDFjZTdlIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3NzgzMzcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.I68ugFTCXv8pWY5oCuEf5R_VsKL8JJ6QGi7g73c5QY8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "139452094",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"message\":\"Contract unarchived successfully\"}",
+                "responseId": "139452094"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1000,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete Contract",
+          "api": {
+            "id": "41821145",
+            "method": "delete",
+            "path": "/api/Contracts/7f9a6e5c-1234-4567-89ab-123456789abc",
+            "parameters": {},
+            "auth": {},
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "197530212",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1010,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create note for contract ",
+          "api": {
+            "id": "41821303",
+            "method": "post",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/notes",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZmFlNDIzMjUtZjhhOC00Mzc3LTlhMjctMjhhOTJlZmY1NWI3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODEzOTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.vJaPSO96d-CuDHUADzzp164H9qPd3i-wJfKayoaLiok"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "151692904",
+                "code": 200,
+                "name": "Success",
+                "headers": [],
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "description": "",
+                "contentType": "json",
+                "mediaType": ""
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"22eb0791-61a6-471f-83a2-4e0fda10527a\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"text\":\"Tenant requested contract renewal.\",\"author\":\"Admin\",\"createdAt\":\"2026-08-15T07:11:23.070742Z\"}",
+                "responseId": "151692904"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"text\": \"استلام دفعه  جديده.\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1020,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Contract Notes",
+          "api": {
+            "id": "41821308",
+            "method": "get",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/notes",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZmFlNDIzMjUtZjhhOC00Mzc3LTlhMjctMjhhOTJlZmY1NWI3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODEzOTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.vJaPSO96d-CuDHUADzzp164H9qPd3i-wJfKayoaLiok"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "104510197",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"6fffd41f-212a-4f63-962d-23ecae5b886e\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"text\":\"استلام دفعه  جديده.\",\"author\":\"Admin\",\"createdAt\":\"2026-08-15T07:11:42.8988478\"},{\"id\":\"22eb0791-61a6-471f-83a2-4e0fda10527a\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"text\":\"Tenant requested contract renewal.\",\"author\":\"Admin\",\"createdAt\":\"2026-08-15T07:11:23.070742\"}]",
+                "responseId": "104510197"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1030,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "create Financial entitlements",
+          "api": {
+            "id": "41821500",
+            "method": "post",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/payments",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZmFlNDIzMjUtZjhhOC00Mzc3LTlhMjctMjhhOTJlZmY1NWI3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODEzOTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.vJaPSO96d-CuDHUADzzp164H9qPd3i-wJfKayoaLiok"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "183680475",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"40adeef6-c145-433a-b077-b5387ddb4429\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"amount\":5000,\"paymentDate\":\"2026-08-15T00:00:00\",\"paymentMethod\":\"Cash\",\"notes\":null,\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}",
+                "responseId": "183680475"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"amount\": 5000,\r\n  \"paymentDate\": \"2026-08-15\",\r\n  \"paymentMethod\": \"Cash\",\r\n  \"Note\": \"دفعة أولى من الإيجار\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1040,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Financial entitlements",
+          "api": {
+            "id": "41821502",
+            "method": "get",
+            "path": "/api/Contracts/e68e32fd-f28f-4a8d-934b-390bda13f112/payments",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiZmFlNDIzMjUtZjhhOC00Mzc3LTlhMjctMjhhOTJlZmY1NWI3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODEzOTcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.vJaPSO96d-CuDHUADzzp164H9qPd3i-wJfKayoaLiok"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "122897910",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"40adeef6-c145-433a-b077-b5387ddb4429\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"amount\":5000.00,\"paymentDate\":\"2026-08-15T00:00:00\",\"paymentMethod\":\"Cash\",\"notes\":null,\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"},{\"id\":\"69894ecc-7bdd-440d-8fe6-c62840ff55dc\",\"contractId\":\"e68e32fd-f28f-4a8d-934b-390bda13f112\",\"amount\":5000.00,\"paymentDate\":\"2026-08-15T00:00:00\",\"paymentMethod\":\"Cash\",\"notes\":\"دفعة أولى من الإيجار\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}]",
+                "responseId": "122897910"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1050,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create Expenses",
+          "api": {
+            "id": "41822150",
+            "method": "post",
+            "path": "/api/Expenses",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiN2RmZDA0MWEtZmU2Yy00NDY0LWExOTEtM2I2YjBjOGNhZTExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODMwNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.ndCKQw3kIawks2xVGK6xpASCyKdeTOBo8P_AqRgJFDs"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "150335653",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"75e88d54-5d10-4015-b2b5-f8bea8228bdb\",\"description\":\"إصلاح تسريب مياه في الدور الثالث\",\"amount\":1500,\"category\":\"Cleaning\",\"categoryName\":\"نظافة\",\"paymentMethod\":\"Cash\",\"paymentMethodName\":\"نقدًا\",\"invoiceNumber\":\"INV-2026-001\",\"expenseDate\":\"2026-08-15T10:00:00\",\"notes\":\"تم الإصلاح بواسطة الفني\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}",
+                "responseId": "150335653"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"description\": \"إصلاح تسريب مياه في الدور الثالث\",\r\n  \"amount\": 1500,\r\n  \"category\": \"Cleaning\",\r\n  \"paymentMethod\": 2,\r\n  \"invoiceNumber\": \"INV-2026-001\",\r\n  \"expenseDate\": \"2026-08-15T10:00:00\",\r\n  \"notes\": \"تم الإصلاح بواسطة الفني\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1060,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All Expenses",
+          "api": {
+            "id": "41822342",
+            "method": "get",
+            "path": "/api/Expenses",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiN2RmZDA0MWEtZmU2Yy00NDY0LWExOTEtM2I2YjBjOGNhZTExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODMwNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.ndCKQw3kIawks2xVGK6xpASCyKdeTOBo8P_AqRgJFDs"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "183295451",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"75e88d54-5d10-4015-b2b5-f8bea8228bdb\",\"description\":\"إصلاح تسريب مياه في الدور الثالث\",\"amount\":1500.00,\"category\":\"Cleaning\",\"categoryName\":\"نظافة\",\"paymentMethod\":\"Cash\",\"paymentMethodName\":\"نقدًا\",\"invoiceNumber\":\"INV-2026-001\",\"expenseDate\":\"2026-08-15T10:00:00\",\"notes\":\"تم الإصلاح بواسطة الفني\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}]",
+                "responseId": "183295451"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1070,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Expenses By Id",
+          "api": {
+            "id": "41822343",
+            "method": "get",
+            "path": "/api/Expenses/75e88d54-5d10-4015-b2b5-f8bea8228bdb",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiN2RmZDA0MWEtZmU2Yy00NDY0LWExOTEtM2I2YjBjOGNhZTExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODMwNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.ndCKQw3kIawks2xVGK6xpASCyKdeTOBo8P_AqRgJFDs"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "139337392",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"75e88d54-5d10-4015-b2b5-f8bea8228bdb\",\"description\":\"إصلاح تسريب مياه في الدور الثالث\",\"amount\":1500.00,\"category\":\"Cleaning\",\"categoryName\":\"نظافة\",\"paymentMethod\":\"Cash\",\"paymentMethodName\":\"نقدًا\",\"invoiceNumber\":\"INV-2026-001\",\"expenseDate\":\"2026-08-15T10:00:00\",\"notes\":\"تم الإصلاح بواسطة الفني\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}",
+                "responseId": "139337392"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1080,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Expenses",
+          "api": {
+            "id": "41822344",
+            "method": "put",
+            "path": "/api/Expenses/75e88d54-5d10-4015-b2b5-f8bea8228bdb",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiN2RmZDA0MWEtZmU2Yy00NDY0LWExOTEtM2I2YjBjOGNhZTExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODMwNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.ndCKQw3kIawks2xVGK6xpASCyKdeTOBo8P_AqRgJFDs"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "191701154",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"75e88d54-5d10-4015-b2b5-f8bea8228bdb\",\"description\":\"إصلاح تسريب مياه في الدور الثالث\",\"amount\":3000,\"category\":\"MaintenanceAndOperation\",\"categoryName\":\"صيانة وتشغيل\",\"paymentMethod\":\"Cash\",\"paymentMethodName\":\"نقدًا\",\"invoiceNumber\":\"INV-2026-001\",\"expenseDate\":\"2026-08-15T10:00:00\",\"notes\":\"تم تعديل قيمة المصروف\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}",
+                "responseId": "191701154"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"amount\": 3000,\r\n  \"category\": 1,\r\n  \"paymentMethod\": 2,\r\n  \"notes\": \"تم تعديل قيمة المصروف\"\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1090,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete Expenses",
+          "api": {
+            "id": "41822345",
+            "method": "delete",
+            "path": "/api/Expenses/7c9b3c4a-3c2f-4c91-8b1a-123456789abc",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiN2RmZDA0MWEtZmU2Yy00NDY0LWExOTEtM2I2YjBjOGNhZTExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODMwNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.ndCKQw3kIawks2xVGK6xpASCyKdeTOBo8P_AqRgJFDs"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "115006173",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1100,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Expenses Dashboard",
+          "api": {
+            "id": "41822606",
+            "method": "get",
+            "path": "/api/Expenses/dashboard",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "184407917",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"totalExpenses\":3000.00,\"totalExpenseCount\":1,\"currentMonthExpenses\":3000.00,\"todayExpenses\":3000.00,\"averageExpense\":3000.00,\"byCategory\":[{\"category\":1,\"categoryName\":\"صيانة وتشغيل\",\"totalAmount\":3000.00,\"count\":1}],\"byPaymentMethod\":[{\"paymentMethod\":2,\"paymentMethodName\":\"نقدًا\",\"totalAmount\":3000.00,\"count\":1}],\"monthlyExpenses\":[{\"year\":2026,\"month\":8,\"monthName\":\"August\",\"totalAmount\":3000.00,\"count\":1}],\"recentExpenses\":[{\"id\":\"75e88d54-5d10-4015-b2b5-f8bea8228bdb\",\"description\":\"إصلاح تسريب مياه في الدور الثالث\",\"amount\":3000.00,\"category\":\"MaintenanceAndOperation\",\"categoryName\":\"صيانة وتشغيل\",\"paymentMethod\":\"Cash\",\"paymentMethodName\":\"نقدًا\",\"invoiceNumber\":\"INV-2026-001\",\"expenseDate\":\"2026-08-15T10:00:00\",\"notes\":\"تم تعديل قيمة المصروف\",\"addedBy\":\"827f4c7a-4033-47b0-9efe-aa1aa2966a67\"}]}",
+                "responseId": "184407917"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1110,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Create Facilities",
+          "api": {
+            "id": "41822659",
+            "method": "post",
+            "path": "/api/Facilities",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "121876747",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"a47bf185-ffbf-421e-a616-496e7f604a1f\",\"arabicName\":\"قاعة المناسبات الرئيسية\",\"englishName\":\"Main Events Hall\",\"category\":\"قاعة مناسبات\",\"location\":\"المبنى الرئيسي - الدور الأرضي\",\"workingHours\":\"10:00 - 22:00\",\"capacity\":50,\"description\":\"قاعة مناسبة لإقامة المناسبات والفعاليات\",\"isBookingAvailable\":true}",
+                "responseId": "121876747"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"arabicName\": \"قاعة المناسبات الرئيسية\",\r\n  \"englishName\": \"Main Events Hall\",\r\n  \"category\": \"قاعة مناسبات\",\r\n  \"location\": \"المبنى الرئيسي - الدور الأرضي\",\r\n  \"workingHours\": \"10:00 - 22:00\",\r\n  \"capacity\": 50,\r\n  \"description\": \"قاعة مناسبة لإقامة المناسبات والفعاليات\",\r\n  \"isBookingAvailable\": true\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1120,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get All Facilities",
+          "api": {
+            "id": "41822660",
+            "method": "get",
+            "path": "/api/Facilities",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "195515430",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"a47bf185-ffbf-421e-a616-496e7f604a1f\",\"arabicName\":\"قاعة المناسبات الرئيسية\",\"englishName\":\"Main Events Hall\",\"category\":\"قاعة مناسبات\",\"location\":\"المبنى الرئيسي - الدور الأرضي\",\"workingHours\":\"10:00 - 22:00\",\"capacity\":50,\"description\":\"قاعة مناسبة لإقامة المناسبات والفعاليات\",\"isBookingAvailable\":true}]",
+                "responseId": "195515430"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1130,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Avaliable Facilties",
+          "api": {
+            "id": "41822661",
+            "method": "get",
+            "path": "/api/Facilities/available",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "116838343",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "[{\"id\":\"a47bf185-ffbf-421e-a616-496e7f604a1f\",\"arabicName\":\"قاعة المناسبات الرئيسية\",\"englishName\":\"Main Events Hall\",\"category\":\"قاعة مناسبات\",\"location\":\"المبنى الرئيسي - الدور الأرضي\",\"workingHours\":\"10:00 - 22:00\",\"capacity\":50,\"description\":\"قاعة مناسبة لإقامة المناسبات والفعاليات\",\"isBookingAvailable\":true}]",
+                "responseId": "116838343"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1140,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Get Facilties By Id",
+          "api": {
+            "id": "41822663",
+            "method": "get",
+            "path": "/api/Facilities/a47bf185-ffbf-421e-a616-496e7f604a1f",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "126235322",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"a47bf185-ffbf-421e-a616-496e7f604a1f\",\"arabicName\":\"قاعة المناسبات الرئيسية\",\"englishName\":\"Main Events Hall\",\"category\":\"قاعة مناسبات\",\"location\":\"المبنى الرئيسي - الدور الأرضي\",\"workingHours\":\"10:00 - 22:00\",\"capacity\":50,\"description\":\"قاعة مناسبة لإقامة المناسبات والفعاليات\",\"isBookingAvailable\":true}",
+                "responseId": "126235322"
+              }
+            ],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1150,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Update Facility",
+          "api": {
+            "id": "41822700",
+            "method": "put",
+            "path": "/api/Facilities/a47bf185-ffbf-421e-a616-496e7f604a1f",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "184438502",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [
+              {
+                "name": "OK",
+                "data": "{\"id\":\"a47bf185-ffbf-421e-a616-496e7f604a1f\",\"arabicName\":\"قاعة المناسبات الكبرى\",\"englishName\":\"Main Events Hall\",\"category\":\"قاعة مناسبات\",\"location\":\"المبنى الرئيسي - الدور الأرضي\",\"workingHours\":\"09:00 - 23:00\",\"capacity\":100,\"description\":\"قاعة مناسبة لإقامة المناسبات والفعاليات\",\"isBookingAvailable\":false}",
+                "responseId": "184438502"
+              }
+            ],
+            "requestBody": {
+              "type": "application/json",
+              "parameters": [],
+              "jsonSchema": {
+                "type": "object",
+                "properties": {}
+              },
+              "required": true,
+              "mediaType": "",
+              "examples": [
+                {
+                  "mediaType": "application/json",
+                  "value": "{\r\n  \"arabicName\": \"قاعة المناسبات الكبرى\",\r\n  \"capacity\": 100,\r\n  \"workingHours\": \"09:00 - 23:00\",\r\n  \"isBookingAvailable\": false\r\n}"
+                }
+              ],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1160,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        },
+        {
+          "name": "Delete facilities",
+          "api": {
+            "id": "41822706",
+            "method": "delete",
+            "path": "/api/Facilities/a47bf185-ffbf-421e-a616-496e7f604a1f",
+            "parameters": {},
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgyN2Y0YzdhLTQwMzMtNDdiMC05ZWZlLWFhMWFhMjk2NmE2NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6IkFkbWluIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiYWRtaW5AYXpoYXIuY29tIiwianRpIjoiNzQwMDAwMTUtMmQ1Ny00N2MwLTk5NjgtNzY2MTUzNWJkMjY5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3ODY3ODUxMTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNDAiLCJhdWQiOiJNeVNlY3VpcmVkQXBpVXNlcnMifQ.MB8bCTz0cOaiRSnfOPVmm9B7Pg0GbiZbtL7x7WX8Oq8"
+              }
+            },
+            "securityScheme": {},
+            "commonParameters": {
+              "query": [],
+              "body": [],
+              "cookie": [],
+              "header": []
+            },
+            "responses": [
+              {
+                "id": "194123605",
+                "code": 200,
+                "name": "Success",
+                "jsonSchema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "itemSchema": {},
+                "contentType": "json"
+              }
+            ],
+            "responseExamples": [],
+            "requestBody": {
+              "type": "none",
+              "parameters": [],
+              "required": true,
+              "mediaType": "",
+              "examples": [],
+              "oasExtensions": ""
+            },
+            "description": "",
+            "tags": [],
+            "status": "developing",
+            "serverId": "",
+            "operationId": "",
+            "sourceUrl": "",
+            "ordering": 1170,
+            "cases": [],
+            "mocks": [],
+            "customApiFields": "{}",
+            "advancedSettings": {
+              "disabledSystemHeaders": {}
+            },
+            "mockScript": {},
+            "codeSamples": [],
+            "commonResponseStatus": {},
+            "responseChildren": [],
+            "visibility": "INHERITED",
+            "moduleId": 1415386,
+            "oasExtensions": "",
+            "type": "http",
+            "preProcessors": [],
+            "postProcessors": [],
+            "inheritPostProcessors": {},
+            "inheritPreProcessors": {}
+          }
+        }
+      ]
+    }
+  ],
+  "socketCollection": [],
+  "docCollection": [],
+  "webSocketCollection": [],
+  "socketIOCollection": [],
+  "mcpClientCollection": [],
+  "responseCollection": [],
+  "schemaCollection": [],
+  "securitySchemeCollection": [],
+  "oasComponentCollection": [],
+  "requestCollection": [
+    {
+      "name": "Root",
+      "children": [],
+      "ordering": [
+        "requestFolder.10764341"
+      ],
+      "items": []
+    }
+  ],
+  "environments": [],
+  "commonScripts": [],
+  "globalVariables": [
+    {
+      "id": "1323405",
+      "variables": []
+    }
+  ],
+  "commonParameters": null,
+  "customFunctions": [],
+  "projectTestCaseCategories": [
+    {
+      "id": 1553299,
+      "name": "Positive",
+      "description": "Valid inputs and correct expected results, representing typical usage."
+    },
+    {
+      "id": 1553300,
+      "name": "Negative",
+      "description": "Negative, invalid inputs such as missing fields, wrong types, unsupported methods, etc."
+    },
+    {
+      "id": 1553301,
+      "name": "Boundary",
+      "description": "Extreme or edge conditions, such as maximum string length, empty values, zero, null, etc."
+    },
+    {
+      "id": 1553302,
+      "name": "Security",
+      "description": "Test cases that may expose API security risks."
+    },
+    {
+      "id": 1553303,
+      "name": "Other",
+      "description": "Test cases not classified under existing categories."
+    }
+  ],
+  "projectTestCaseTags": [
+    {
+      "id": 7273361,
+      "name": "Required Fields Only",
+      "description": "Send only the required fields with valid values, omitting all optional fields, to test minimal valid requests."
+    },
+    {
+      "id": 7273362,
+      "name": "Valid Semantic",
+      "description": "Use values that are syntactically correct and also make sense in the business logic or domain context."
+    },
+    {
+      "id": 7273363,
+      "name": "Enum Combination Coverage",
+      "description": "For all enum-type parameters, apply orthogonal design to systematically construct test case combinations of parameters and their enum values, dedicated to testing enum coverage."
+    },
+    {
+      "id": 7273364,
+      "name": "Other Positive Case",
+      "description": "Provide realistic and valid inputs that match the API specification, producing the correct and expected result."
+    },
+    {
+      "id": 7273365,
+      "name": "Missing Required Fields",
+      "description": "Omit one or more required fields in the request body or parameters."
+    },
+    {
+      "id": 7273366,
+      "name": "Invalid Values",
+      "description": "Provide values that are within the correct type and format, but logically invalid for the field."
+    },
+    {
+      "id": 7273367,
+      "name": "Type Errors",
+      "description": "Use values with incorrect data types, such as sending a string instead of an integer."
+    },
+    {
+      "id": 7273368,
+      "name": "Format Errors",
+      "description": "Provide values in an incorrect format, e.g., wrong date pattern, malformed email address."
+    },
+    {
+      "id": 7273369,
+      "name": "Semantic Errors",
+      "description": "Use syntactically correct and properly formatted values that are logically impossible or violate domain rules."
+    },
+    {
+      "id": 7273370,
+      "name": "Other Negative Case",
+      "description": "Provide invalid or unexpected inputs that should trigger error handling or rejection by the API."
+    },
+    {
+      "id": 7273371,
+      "name": "Null",
+      "description": "Must be the JSON literal `null` (not empty, not \"null\")."
+    },
+    {
+      "id": 7273372,
+      "name": "Zero",
+      "description": "Must be the numeric literal 0."
+    },
+    {
+      "id": 7273373,
+      "name": "Empty Values",
+      "description": "Must be \"\"."
+    },
+    {
+      "id": 7273374,
+      "name": "Max Values",
+      "description": "Provide the exact minimum and maximum allowed values for numeric or date fields."
+    },
+    {
+      "id": 7273375,
+      "name": "Min Values",
+      "description": "Provide the exact minimum and maximum allowed values for numeric or date fields."
+    },
+    {
+      "id": 7273376,
+      "name": "Overflow",
+      "description": "Provide values just beyond the allowed minimum or maximum boundaries."
+    },
+    {
+      "id": 7273377,
+      "name": "Underflow",
+      "description": "Provide values just beyond the allowed minimum or maximum boundaries."
+    },
+    {
+      "id": 7273378,
+      "name": "Overly Long Strings",
+      "description": "Provide strings longer than the maximum allowed length, or shorter than the minimum required length."
+    },
+    {
+      "id": 7273379,
+      "name": "Overly Short Strings",
+      "description": "Provide strings longer than the maximum allowed length, or shorter than the minimum required length."
+    },
+    {
+      "id": 7273380,
+      "name": "Broken Object Level Authorization",
+      "description": "Users access or manipulate data objects without proper authorization."
+    },
+    {
+      "id": 7273381,
+      "name": "Access Control",
+      "description": "Restricting resources and actions users can access based on roles, permissions, or attributes."
+    },
+    {
+      "id": 7273382,
+      "name": "Auth Failures",
+      "description": "Authentication is weak, misconfigured, or bypassed, allowing unauthorized access."
+    },
+    {
+      "id": 7273383,
+      "name": "SQL Injection",
+      "description": "Insert malicious SQL code into input fields to test for SQL injection vulnerabilities."
+    },
+    {
+      "id": 7273384,
+      "name": "XSS Injection",
+      "description": "Inject JavaScript or HTML tags to test for cross-site scripting vulnerabilities."
+    },
+    {
+      "id": 7273385,
+      "name": "Fuzzy Input",
+      "description": "Send large or randomly generated payloads to test input validation and stability."
+    },
+    {
+      "id": 7273386,
+      "name": "Command Injection",
+      "description": "Insert shell commands into inputs to test for command execution vulnerabilities."
+    },
+    {
+      "id": 7273387,
+      "name": "JSON Injection",
+      "description": "Insert malicious or unexpected JSON structures to test parsing and validation."
+    },
+    {
+      "id": 7273388,
+      "name": "NoSQL Injection",
+      "description": "Provide NoSQL-specific malicious queries or operators to test for injection vulnerabilities."
+    },
+    {
+      "id": 7273389,
+      "name": "Other",
+      "description": "Test cases not classified under existing categories."
+    }
+  ],
+  "projectAssociations": [],
+  "moduleSettings": [
+    {
+      "id": "1415386",
+      "name": "New Admin",
+      "description": "",
+      "moduleVariables": [],
+      "openApiInfo": {}
+    }
+  ]
+}

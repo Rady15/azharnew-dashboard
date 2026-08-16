@@ -98,11 +98,11 @@ export const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
             </div>
           </div>
 
-          {/* Section 1: Tenant & Representative Info */}
+          {/* Section 1: Tenant Info */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
             <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-2 text-xs uppercase tracking-wider flex items-center gap-1.5 text-start">
               <User className="w-4 h-4 text-[#2b62af]" />
-              {language === 'ar' ? 'بيانات المستأجر والممثل' : 'Tenant & Representative Info'}
+              {language === 'ar' ? 'بيانات المستأجر' : 'Tenant Info'}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-start">
@@ -117,10 +117,6 @@ export const ContractDetailsModal: React.FC<ContractDetailsModalProps> = ({
               <div>
                 <span className="block text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'رقم الإقامة / الهوية' : 'Iqama / ID No.'}</span>
                 <span className="font-mono text-slate-700">{contract.tenantIdOrIqama || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="block text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'ممثل الكمبوند' : 'Compound Representative'}</span>
-                <span className="font-semibold text-slate-800">{contract.representativeName}</span>
               </div>
               <div>
                 <span className="block text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'حالة العقد' : 'Contract Status'}</span>

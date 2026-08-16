@@ -37,10 +37,9 @@ export const DashboardMain: React.FC<DashboardMainProps> = ({
   const maintenanceUnits = units.filter(u => u.status === 'Maintenance' || u.status === 'Blocked').length;
   const occupancyRate = Math.round((occupiedUnits / (totalUnits || 1)) * 100);
 
-  // Revenue math
-  const totalAnnualRevenue = units
-    .filter(u => u.status === 'Occupied')
-    .reduce((sum, u) => sum + (u.annualRent || 0), 0);
+  // Revenue math — total = annualRent + waterYearlyBill - discount for all contracts
+  const totalAnnualRevenue = contracts
+    .reduce((sum, c) => sum + (c.annualRent || 0) + (c.waterYearlyBill || 0) - (c.discount || 0), 0);
 
   const totalOverdueDues = dues
     .filter(d => d.status === 'Overdue')
@@ -66,32 +65,20 @@ export const DashboardMain: React.FC<DashboardMainProps> = ({
     { name: isAr ? 'صيانة' : 'Maintenance', value: maintenanceUnits, color: '#f59e0b' }
   ].filter(entry => entry.value > 0);
 
-  // Monthly Revenue collection chart (real payments when available)
+  // Monthly Revenue collection chart (from real payments)
   const monthLabels = isAr
     ? ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
     : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const demoMonthlyData = [
-    { month: monthLabels[0], Collected: 180000, Projected: 210000 },
-    { month: monthLabels[1], Collected: 195000, Projected: 210000 },
-    { month: monthLabels[2], Collected: 205000, Projected: 210000 },
-    { month: monthLabels[3], Collected: 175000, Projected: 220000 },
-    { month: monthLabels[4], Collected: 220000, Projected: 220000 },
-    { month: monthLabels[5], Collected: 210000, Projected: 220000 },
-    { month: monthLabels[6], Collected: 190000, Projected: 230000 },
-    { month: monthLabels[7], Collected: 165000, Projected: 230000 }
-  ];
-  const monthlyData = payments.length > 0
-    ? monthLabels.map((month, idx) => {
-        const collected = payments
-          .filter(p => p.month === idx + 1)
-          .reduce((sum, p) => sum + p.amount, 0);
-        return {
-          month,
-          Collected: collected,
-          Projected: Math.round(totalAnnualRevenue / 12)
-        };
-      })
-    : demoMonthlyData;
+  const monthlyData = monthLabels.map((month, idx) => {
+    const collected = payments
+      .filter(p => p.month === idx + 1)
+      .reduce((sum, p) => sum + p.amount, 0);
+    return {
+      month,
+      Collected: collected,
+      Projected: Math.round(totalAnnualRevenue / 12)
+    };
+  });
 
   return (
     <div className="space-y-6">

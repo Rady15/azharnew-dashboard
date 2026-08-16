@@ -91,13 +91,13 @@ export const DashboardMaintenance: React.FC<DashboardMaintenanceProps> = ({
     });
   }, [filteredRequests, sortConfig]);
 
-  // Calculate live counts matching AZ System
-  const newCount = maintenanceRequests.filter(r => r.status === 'New').length + 57;
-  const supervisorCount = maintenanceRequests.filter(r => r.status === 'Awaiting Supervisor Approval').length + 8;
-  const managerCount = maintenanceRequests.filter(r => r.status === 'Awaiting Manager Approval').length + 8;
-  const progressCount = maintenanceRequests.filter(r => r.status === 'In Progress').length + 3;
-  const doneCount = maintenanceRequests.filter(r => r.status === 'Done').length + 64;
-  const totalCount = newCount + supervisorCount + managerCount + progressCount + doneCount;
+  // Calculate live counts from real maintenance requests
+  const newCount = maintenanceRequests.filter(r => r.status === 'New').length;
+  const supervisorCount = maintenanceRequests.filter(r => r.status === 'Awaiting Supervisor Approval').length;
+  const managerCount = maintenanceRequests.filter(r => r.status === 'Awaiting Manager Approval').length;
+  const progressCount = maintenanceRequests.filter(r => r.status === 'In Progress').length;
+  const doneCount = maintenanceRequests.filter(r => r.status === 'Done').length;
+  const totalCount = maintenanceRequests.length;
 
   const handleCreateNew = (e: React.FormEvent) => {
     e.preventDefault();

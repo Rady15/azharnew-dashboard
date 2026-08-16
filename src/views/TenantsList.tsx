@@ -11,13 +11,17 @@ import {
   Edit3,
   X,
   Trash2,
-  ArrowUpDown
+  ArrowUpDown,
+  Eye
 } from 'lucide-react';
-import { Tenant } from '../types';
+import { Tenant, Contract, Unit } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { TenantDetailsModal } from '../components/TenantDetailsModal';
 
 interface TenantsListProps {
   tenants: Tenant[];
+  contracts?: Contract[];
+  units?: Unit[];
   showArchivedOnly?: boolean;
   onAddTenant: (tenant: Omit<Tenant, 'id'>) => void;
   onUpdateTenant?: (tenant: Tenant) => void;
@@ -27,6 +31,8 @@ interface TenantsListProps {
 
 export const TenantsList: React.FC<TenantsListProps> = ({
   tenants,
+  contracts = [],
+  units = [],
   showArchivedOnly = false,
   onAddTenant,
   onUpdateTenant,
@@ -37,6 +43,7 @@ export const TenantsList: React.FC<TenantsListProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingTenant, setEditingTenant] = useState<Tenant | null>(null);
+  const [viewingTenant, setViewingTenant] = useState<Tenant | null>(null);
   const [sortConfig, setSortConfig] = useState<{ field: string; direction: 'asc' | 'desc' } | null>(null);
 
   const handleSort = (field: string) => {
@@ -345,6 +352,13 @@ export const TenantsList: React.FC<TenantsListProps> = ({
                     <td className="py-3 px-3 text-center">
                       <div className="flex items-center justify-center gap-1.5">
                         <button
+                          onClick={() => setViewingTenant(tenantItem)}
+                          className="px-3 py-1 bg-[#2b62af] hover:bg-[#1e4d8c] text-white text-[11px] font-bold rounded-md shadow-sm transition-all flex items-center gap-1"
+                        >
+                          <Eye className="w-3 h-3" />
+                          <span>{language === 'ar' ? 'عرض' : 'View'}</span>
+                        </button>
+                        <button
                           onClick={() => openEdit(tenantItem)}
                           className="px-3 py-1 bg-[#475569] hover:bg-[#334155] text-white text-[11px] font-bold rounded-md shadow-sm transition-all flex items-center gap-1"
                         >
@@ -578,6 +592,14 @@ export const TenantsList: React.FC<TenantsListProps> = ({
           </div>
         </div>
       )}
+
+      <TenantDetailsModal
+        tenant={viewingTenant}
+        contracts={contracts}
+        units={units}
+        isOpen={!!viewingTenant}
+        onClose={() => setViewingTenant(null)}
+      />
     </div>
   );
 };

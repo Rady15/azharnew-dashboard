@@ -19,12 +19,14 @@ import {
   MapPin,
   X
 } from 'lucide-react';
-import { Building, Unit } from '../types';
+import { Building, Unit, Contract, Tenant } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
 interface CompoundUnitsProps {
   units: Unit[];
   buildings: Building[];
+  contracts?: Contract[];
+  tenants?: Tenant[];
   mode?: 'units' | 'non_rented' | 'buildings';
   onAddUnit: (unit: Omit<Unit, 'id'>) => void;
   onAddBuilding: (building: Omit<Building, 'id'>) => void;
@@ -36,6 +38,8 @@ interface CompoundUnitsProps {
 export const CompoundUnits: React.FC<CompoundUnitsProps> = ({
   units,
   buildings,
+  contracts = [],
+  tenants = [],
   mode = 'units',
   onAddUnit,
   onAddBuilding,
@@ -676,79 +680,156 @@ export const CompoundUnits: React.FC<CompoundUnitsProps> = ({
       )}
 
       {/* Details Modal */}
-      {viewingUnit && (
+      {viewingUnit && (() => {
+        const unitContracts = contracts.filter(c => c.unitNumber === viewingUnit.unitNumber);
+        const unitTenant = viewingUnit.currentTenantId ? tenants.find(t => t.id === viewingUnit.currentTenantId) : null;
+        return (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setViewingUnit(null)}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-[#2b3038] px-6 py-4 flex items-center justify-between text-white">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-[#2b3038] px-6 py-4 flex items-center justify-between text-white sticky top-0 z-10">
               <div className="flex items-center gap-2">
                 <Eye className="w-5 h-5 text-[#29b4c4]" />
                 <h3 className="text-base font-bold">
-                  {language === 'ar' ? 'تفاصيل الوحدة' : 'Unit Details'}
+                  {language === 'ar' ? `تفاصيل الوحدة ${viewingUnit.unitNumber}` : `Unit Details ${viewingUnit.unitNumber}`}
                 </h3>
               </div>
               <button onClick={() => setViewingUnit(null)} className="text-slate-300 hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-6 space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'المجمع' : 'Compound'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.compoundName}</p>
+            <div className="p-6 space-y-4 text-xs">
+
+              {/* Unit Info */}
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-3">
+                <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider border-b border-slate-200 pb-2">
+                  {language === 'ar' ? 'بيانات الوحدة' : 'Unit Information'}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'المجمع' : 'Compound'}</p>
+                    <p className="font-bold text-slate-900">{viewingUnit.compoundName}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'المبنى' : 'Building'}</p>
+                    <p className="font-bold text-slate-900">{viewingUnit.buildingNumber}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'رقم الوحدة' : 'Unit #'}</p>
+                    <p className="font-mono font-bold text-[#1a7f8b] text-lg">{viewingUnit.unitNumber}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'النوع' : 'Type'}</p>
+                    <p className="font-bold text-slate-900">{viewingUnit.type}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'الحالة' : 'Status'}</p>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${viewingUnit.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : viewingUnit.status === 'Vacant' ? 'bg-rose-100 text-rose-800 border border-rose-200' : 'bg-amber-100 text-amber-800 border border-amber-200'}`}>
+                      {viewingUnit.status === 'Occupied' ? (language === 'ar' ? 'مؤجرة' : 'Occupied') : viewingUnit.status === 'Vacant' ? (language === 'ar' ? 'شاغرة' : 'Vacant') : viewingUnit.status}
+                    </span>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'المساحة' : 'Area'}</p>
+                    <p className="font-bold text-slate-900">{viewingUnit.area || '—'} {language === 'ar' ? 'م²' : 'm²'}</p>
+                  </div>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'رقم المبنى' : 'Building No'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.buildingNumber}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'رقم الوحدة' : 'Unit Number'}</p>
-                  <p className="font-mono font-bold text-[#1a7f8b] text-lg">{viewingUnit.unitNumber}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'النوع' : 'Type'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.type}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'الحالة' : 'Status'}</p>
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${viewingUnit.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}`}>
-                    {viewingUnit.status === 'Occupied' ? (language === 'ar' ? 'مؤجرة' : 'Occupied') : (language === 'ar' ? 'شاغرة' : 'Vacant')}
-                  </span>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'المساحة' : 'Area'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.area} {language === 'ar' ? 'م²' : 'm²'}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'الإيجار السنوي' : 'Annual Rent'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.annualRent.toLocaleString()} {language === 'ar' ? 'ر.س' : 'SAR'}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'المستأجر الحالي' : 'Current Tenant'}</p>
-                  <p className="font-bold text-slate-900">{viewingUnit.currentTenantName || (language === 'ar' ? 'لا يوجد' : 'None')}</p>
+                <div className="grid grid-cols-4 gap-2">
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100 text-center">
+                    <p className="text-slate-400 text-[10px]">{language === 'ar' ? 'غرف' : 'Rooms'}</p>
+                    <p className="font-bold text-slate-900 text-lg">{viewingUnit.rooms}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100 text-center">
+                    <p className="text-slate-400 text-[10px]">{language === 'ar' ? 'حمامات' : 'Baths'}</p>
+                    <p className="font-bold text-slate-900 text-lg">{viewingUnit.baths}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100 text-center">
+                    <p className="text-slate-400 text-[10px]">{language === 'ar' ? 'صالة' : 'Living'}</p>
+                    <p className="font-bold text-slate-900 text-lg">{viewingUnit.living}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100 text-center">
+                    <p className="text-slate-400 text-[10px]">{language === 'ar' ? 'مجلس' : 'Majlis'}</p>
+                    <p className="font-bold text-slate-900 text-lg">{viewingUnit.majlis}</p>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-2 pt-2">
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-center">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'غرف' : 'Rooms'}</p>
-                  <p className="font-bold text-slate-900 text-lg">{viewingUnit.rooms}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-center">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'حمامات' : 'Baths'}</p>
-                  <p className="font-bold text-slate-900 text-lg">{viewingUnit.baths}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-center">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'صالة' : 'Living'}</p>
-                  <p className="font-bold text-slate-900 text-lg">{viewingUnit.living}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-center">
-                  <p className="text-slate-500 mb-1">{language === 'ar' ? 'مجلس' : 'Majlis'}</p>
-                  <p className="font-bold text-slate-900 text-lg">{viewingUnit.majlis}</p>
+
+              {/* Rental Info */}
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-3">
+                <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider border-b border-slate-200 pb-2">
+                  {language === 'ar' ? 'بيانات الإيجار' : 'Rental Information'}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'الإيجار السنوي' : 'Annual Rent'}</p>
+                    <p className="font-bold text-slate-900 font-mono">{viewingUnit.annualRent.toLocaleString()} {language === 'ar' ? 'ر.س' : 'SAR'}</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                    <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'المستأجر' : 'Tenant'}</p>
+                    <p className="font-bold text-slate-900">{viewingUnit.currentTenantName || (language === 'ar' ? 'لا يوجد' : 'None')}</p>
+                  </div>
+                  {unitTenant && (
+                    <>
+                      <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                        <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'الجوال' : 'Mobile'}</p>
+                        <p className="font-mono font-bold text-slate-900">{unitTenant.mobile}</p>
+                      </div>
+                      <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                        <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'البريد' : 'Email'}</p>
+                        <p className="font-mono text-slate-800 truncate">{unitTenant.email}</p>
+                      </div>
+                      {unitTenant.nationalId && (
+                        <div className="bg-white rounded-xl p-2.5 border border-slate-100">
+                          <p className="text-slate-400 text-[10px] uppercase">{language === 'ar' ? 'الهوية' : 'National ID'}</p>
+                          <p className="font-mono text-slate-800">{unitTenant.nationalId}</p>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
+
+              {/* Related Contracts */}
+              {unitContracts.length > 0 && (
+                <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-3">
+                  <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider border-b border-slate-200 pb-2">
+                    {language === 'ar' ? `العقود المرتبطة (${unitContracts.length})` : `Related Contracts (${unitContracts.length})`}
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-[11px]">
+                      <thead>
+                        <tr className="bg-white border-b border-slate-200">
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'رقم العقد' : 'Contract #'}</th>
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'المستأجر' : 'Tenant'}</th>
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'الإيجار' : 'Rent'}</th>
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'المدفوع' : 'Paid'}</th>
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'المتبقي' : 'Remaining'}</th>
+                          <th className="py-2 px-2 text-start font-semibold text-slate-600">{language === 'ar' ? 'الحالة' : 'Status'}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {unitContracts.map(c => (
+                          <tr key={c.id} className="border-b border-slate-100 bg-white hover:bg-slate-50/50">
+                            <td className="py-2 px-2 font-mono font-bold text-slate-900">{c.contractNo}</td>
+                            <td className="py-2 px-2 text-slate-700">{c.tenantName}</td>
+                            <td className="py-2 px-2 font-mono text-slate-800">{c.annualRent.toLocaleString()}</td>
+                            <td className="py-2 px-2 font-mono text-emerald-700">{c.paidAmount.toLocaleString()}</td>
+                            <td className="py-2 px-2 font-mono text-rose-600">{c.remainingAmount.toLocaleString()}</td>
+                            <td className="py-2 px-2">
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${c.status === 'Active' ? 'bg-emerald-100 text-emerald-800' : c.status === 'Archived' ? 'bg-slate-100 text-slate-600' : 'bg-rose-100 text-rose-800'}`}>
+                                {c.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
 
       {/* Edit Modal */}
       {editingUnit && (

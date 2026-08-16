@@ -113,7 +113,6 @@ export const MetersView: React.FC<MetersViewProps> = ({
         building: building,
         unitNumber: unitNo,
         type: 'Villa Duplex',
-        representativeName: 'Mohamed Khair',
         isRented: true,
         transferredToTenant: false,
         meterNumber: meterNo,
@@ -257,12 +256,6 @@ export const MetersView: React.FC<MetersViewProps> = ({
                       <ArrowUpDown className="w-3 h-3 text-white/70" />
                     </div>
                   </th>
-                  <th className="py-3 px-3 border-r border-blue-600/40" onClick={() => handleSort('representativeName')}>
-                    <div className="flex items-center gap-1 cursor-pointer select-none hover:text-cyan-200">
-                      <span>{language === 'ar' ? 'الممثل' : 'Representative'}</span>
-                      <ArrowUpDown className="w-3 h-3 text-white/70" />
-                    </div>
-                  </th>
                   <th className="py-3 px-3 border-r border-blue-600/40 text-center" onClick={() => handleSort('transferredToTenant')}>
                     <div className="flex items-center justify-center gap-1 cursor-pointer select-none hover:text-cyan-200">
                       <span>{language === 'ar' ? 'محول باسم المستأجر' : 'Transferred To Tenant'}</span>
@@ -300,7 +293,6 @@ export const MetersView: React.FC<MetersViewProps> = ({
                       <td className="py-3 px-3 font-bold text-slate-900 border-l border-slate-100">{m.building}</td>
                       <td className="py-3 px-3 font-bold text-slate-800 border-l border-slate-100">{language === 'ar' ? `وحدة ${m.unitNumber}` : `Unit ${m.unitNumber}`}</td>
                       <td className="py-3 px-3 text-slate-600 border-l border-slate-100">{m.type || 'فيلا دوبلكس'}</td>
-                      <td className="py-3 px-3 text-slate-600 border-l border-slate-100">{m.representativeName || 'محمد خير'}</td>
                       <td className="py-3 px-3 text-center border-l border-slate-100">
                         {m.transferredToTenant ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">

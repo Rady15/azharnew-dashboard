@@ -65,6 +65,8 @@ export interface Tenant {
   tenantRemarks?: string;
   company?: string; // Company / Sponsor
   idLetter?: string;
+  nationalId?: string;
+  tenantCompanyName?: string;
   hasContract: boolean;
   compoundId?: string;
   compoundName?: string;
@@ -101,6 +103,7 @@ export interface PaymentInstallment {
 
 export interface ContractNote {
   id: string;
+  contractId?: string;
   date: string;
   author: string;
   text: string;
@@ -122,11 +125,13 @@ export interface Contract {
   tenantMobile: string;
   emergencyPhone?: string;
   tenantNationality?: string;
+  nationalId?: string;
+  houseId?: string;
+  isArchived?: boolean;
   companyPhone?: string;
   workNotes?: string;
   tenantIdOrIqama?: string;
   sponsorPhone?: string;
-  representativeName: string;
   contractOf?: string;
   leaseStartDate: string;
   leaseDurationMonths: number;
@@ -140,13 +145,9 @@ export interface Contract {
   paymentFrequency: 'Annual' | 'Semi-Annual' | 'Quarterly' | 'Monthly' | string;
   paymentMethod?: string;
   paymentNumber?: string;
-  verifiedInEjar?: boolean;
   reason?: string;
   electricityMeterNumber?: string;
   meterStartReading?: string;
-  transferAccountToTenant?: boolean;
-  insurance?: number;
-  commission?: number;
   unitIncluded?: string;
   contractImage?: string;
   englishNotes?: string;
@@ -202,6 +203,7 @@ export interface MaintenanceRequest {
 export interface WaterMeter {
   id: string;
   building: string;
+  houseId?: string;
   meterNumber: string;
   lastReading?: number;
   readingDate?: string;
@@ -212,8 +214,8 @@ export interface ElectricityMeter {
   compoundId?: string;
   building: string;
   unitNumber: string;
+  houseId?: string;
   type?: string;
-  representativeName?: string;
   isRented?: boolean;
   transferredToTenant: boolean;
   meterNumber: string;
@@ -265,6 +267,7 @@ export interface Expense {
   paymentMethod: string;
   expenseDate: string;
   compoundId?: string;
+  invoiceNumber?: string;
   notes?: string;
 }
 

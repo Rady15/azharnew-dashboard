@@ -246,8 +246,11 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             className="flex items-center gap-2 p-1.5 hover:bg-slate-700/60 rounded-xl transition-colors text-left"
           >
-            <button
+            <span
+              role="button"
+              tabIndex={0}
               onClick={(e) => { e.stopPropagation(); setShowAvatarPreview(true); }}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); setShowAvatarPreview(true); } }}
               className="block focus:outline-none"
             >
               <img
@@ -256,10 +259,10 @@ export const Header: React.FC<HeaderProps> = ({
                 className="w-8 h-8 rounded-full object-cover border border-[#29b4c4] cursor-pointer hover:opacity-80 transition-opacity"
                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name || user.username) + '&background=29b4c4&color=fff'; }}
               />
-            </button>
+            </span>
             <div className="hidden lg:block">
               <div className="text-xs font-semibold text-white leading-tight">
-                {user.username}
+                {user.name || user.username}
               </div>
               <div className="text-[10px] text-slate-400">{user.role}</div>
             </div>
