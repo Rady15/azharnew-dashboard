@@ -156,6 +156,10 @@ const toUnitTypeServer = (t: string): string => {
   if (t === 'Appartment') return 'Apartment';
   return t || 'Apartment';
 };
+const fromUnitTypeServer = (t: string): string => {
+  if (t === 'Apartment') return 'Appartment';
+  return t || 'Appartment';
+};
 
 // ---- Facilities ----
 const FAC_CAT_TO_SERVER: Record<string, string> = {
@@ -623,7 +627,21 @@ export const apiService = {
     });
     if (!res.ok) throw new Error('Failed to create unit');
     const created = await res.json();
-    return { ...unit, id: created.id || String(Date.now()) };
+    return {
+      id: created.id || String(Date.now()),
+      compoundId: unit.compoundId || '4',
+      compoundName: unit.compoundName || 'Daar Residence',
+      buildingNumber: String(created.buildingNumber || unit.buildingNumber),
+      unitNumber: String(created.houseNumber || unit.unitNumber),
+      rooms: Number(created.roomsCount || unit.rooms),
+      baths: Number(created.bathroomsCount || unit.baths),
+      living: Number(created.livingRoomsCount || unit.living),
+      majlis: Number(created.majlisCount || unit.majlis),
+      area: String(created.area || unit.area),
+      type: fromUnitTypeServer(created.propertyType) || unit.type,
+      status: 'Vacant' as const,
+      annualRent: Number(created.annualRent || unit.annualRent)
+    };
   },
 
   async updateUnit(id: string, updates: Partial<Unit>): Promise<Unit> {

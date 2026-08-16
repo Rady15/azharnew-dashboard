@@ -67,15 +67,15 @@ export const CompoundUnits: React.FC<CompoundUnitsProps> = ({
   };
 
   // Form states
-  const [bldNumber, setBldNumber] = useState('143');
-  const [unitNumber, setUnitNumber] = useState('144');
-  const [rooms, setRooms] = useState(4);
-  const [baths, setBaths] = useState(5);
-  const [living, setLiving] = useState(3);
-  const [majlis, setMajlis] = useState(2);
-  const [area, setArea] = useState('650');
-  const [unitType, setUnitType] = useState('Villa Duplex');
-  const [annualRent, setAnnualRent] = useState(105000);
+  const [bldNumber, setBldNumber] = useState('');
+  const [unitNumber, setUnitNumber] = useState('');
+  const [rooms, setRooms] = useState(0);
+  const [baths, setBaths] = useState(0);
+  const [living, setLiving] = useState(0);
+  const [majlis, setMajlis] = useState(0);
+  const [area, setArea] = useState('');
+  const [unitType, setUnitType] = useState('');
+  const [annualRent, setAnnualRent] = useState(0);
 
   // Building form states
   const [newBldNo, setNewBldNo] = useState('220');
@@ -167,6 +167,15 @@ export const CompoundUnits: React.FC<CompoundUnitsProps> = ({
       status: 'Vacant',
       annualRent: Number(annualRent)
     });
+    setBldNumber('');
+    setUnitNumber('');
+    setRooms(0);
+    setBaths(0);
+    setLiving(0);
+    setMajlis(0);
+    setArea('');
+    setUnitType('');
+    setAnnualRent(0);
     setShowAddModal(false);
   };
 
