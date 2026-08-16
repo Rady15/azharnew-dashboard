@@ -466,7 +466,7 @@ export const apiService = {
           const expired = end && new Date(end).getTime() < Date.now();
           const annualRent = Number(c.annualRent || 0);
           const monthlyRent = Number(c.monthlyRent || 0);
-          const waterYearlyBill = Number(c.waterYearlyBill || 0);
+          const waterYearlyBill = Number(c.waterMeterCost || c.waterYearlyBill || 0);
           const totalYearlyRent = annualRent + waterYearlyBill;
           const paidAmount = Number(c.paidAmount || 0);
           const remainingAmount = Number(c.remainingAmount || Math.max(0, totalYearlyRent - paidAmount));
@@ -696,7 +696,23 @@ export const apiService = {
     const payload = {
       annualRent: Number(contractData.annualRent || 0),
       paidAmount: Number(contractData.paidAmount || 0),
-      discount: Number(contractData.discount || 0)
+      discount: Number(contractData.discount || 0),
+      waterMeterCost: Number(contractData.waterYearlyBill || 0),
+      paymentFrequency: contractData.paymentFrequency || 'Quarterly',
+      tenantName: contractData.tenantName || '',
+      tenantMobile: contractData.tenantMobile || '',
+      nationalId: contractData.nationalId || '',
+      unitNumber: contractData.unitNumber || '',
+      propertyType: contractData.unitType || '',
+      leaseStartDate: contractData.leaseStartDate || '',
+      leaseEndDate: contractData.leaseEndDate || '',
+      leaseDurationMonths: Number(contractData.leaseDurationMonths || 12),
+      status: contractData.status || 'Active',
+      electricityMeterNumber: contractData.electricityMeterNumber || '',
+      paymentNumber: contractData.paymentNumber || '',
+      englishNotes: contractData.englishNotes || '',
+      arabicNotes: contractData.arabicNotes || '',
+      emergencyPhone: contractData.emergencyPhone || ''
     };
     const res = await authedFetch(`/Contracts/${id}`, {
       method: 'PUT',
