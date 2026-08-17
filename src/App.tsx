@@ -547,7 +547,7 @@ function MainApp() {
 
   // If unauthenticated, render Login Screen
   if (!currentUser) {
-    return <Login onLogin={handleLogin} staffMembers={staffMembers} tenants={tenants} />;
+    return <Login onLogin={handleLogin} />;
   }
 
   // Render Staff Portal
